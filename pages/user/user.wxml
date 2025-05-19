@@ -1,0 +1,26 @@
+<view class="container">
+  <!-- 已登录状态 -->
+  <view wx:if="{{isLoggedIn}}">
+    <view class="user-info">
+      <image class="avatar" src="{{avatarUrl || '/images/default-avatar.png'}}"></image>
+      <view class="info">
+        <text class="username">{{username}}</text>
+        <text class="role">角色：{{role}}</text>
+      </view>
+    </view>
+
+    <button class="logout-btn" type="warn" bindtap="handleLogout">退出登录</button>
+  </view>
+
+  <!-- 未登录状态 -->
+  <view wx:else class="not-login">
+    <image class="login-icon" src="/images/login-icon.png"></image>
+    <text class="tips">您尚未登录</text>
+    <button class="login-btn" type="primary" bindtap="navigateToLogin">立即登录</button>
+  </view>
+
+  <view wx:if="{{showGuestTips}}" class="guest-tips">
+    <text>当前为游客模式，部分功能受限\n</text>
+    <text class="highlight">立即登录解锁完整功能</text>
+  </view>
+</view>

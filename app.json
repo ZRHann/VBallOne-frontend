@@ -1,12 +1,34 @@
 {
   "pages": [
+    "pages/login/login",
+    "pages/register/register",
+    "pages/match/match",
+    "pages/user/user",
     "pages/index/index",
     "pages/newMatch/newMatch",
     "pages/logs/logs"
   ],
+  "tabBar": {
+    "color": "#666",
+    "selectedColor": "#5588cc",  
+    "list": [
+      {
+        "pagePath": "pages/match/match",
+        "text": "比赛",
+        "iconPath": "/images/tabbar/match.png",        
+        "selectedIconPath": "/images/tabbar/match_active.png" 
+      },
+      {
+        "pagePath": "pages/user/user",
+        "text": "我的",
+        "iconPath": "/images/tabbar/user.png",
+        "selectedIconPath": "/images/tabbar/user_active.png"
+      }
+    ]
+  },
   "window": {
     "navigationBarTextStyle": "black",
-    "navigationBarTitleText": "Weixin",
+    "navigationBarTitleText": "排球e件全",
     "navigationBarBackgroundColor": "#ffffff"
   },
   "style": "v2",

@@ -1,0 +1,45 @@
+<view class="container">
+  <image class="logo" src="/images/login-logo.png"></image>
+  
+  <form bindsubmit="handleLogin">
+    <view class="form-item">
+      <input 
+        name="username" 
+        placeholder="请输入账号" 
+        focus 
+      />
+    </view>
+    
+    <view class="form-item">
+      <input 
+        name="password" 
+        password 
+        placeholder="请输入密码" 
+      />
+    </view>
+
+    <!-- 在表单下方添加 -->
+    <view class="register-section">
+      <navigator 
+        url="/pages/register/register" 
+        class="register-link"
+      >没有账号？立即注册</navigator>
+    </view>
+
+    <button 
+      formType="submit" 
+      type="primary" 
+      class="submit-btn"
+    >登录</button>
+
+    
+
+    <view class="guest-section">
+      <button 
+        class="guest-btn" 
+        bindtap="enterGuestMode"
+        plain
+      >游客体验</button>
+    </view>
+  </form>
+</view>
