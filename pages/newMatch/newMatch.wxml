@@ -1,0 +1,8 @@
+<view class="form">
+  <input placeholder="比赛名称" bindinput="onInput" data-field="name"/>
+  <input placeholder="比赛地点" bindinput="onInput" data-field="location"/>
+  <input placeholder="比赛时间 (YYYY-MM-DDTHH:MM)" bindinput="onInput" data-field="match_date"/>
+  <input placeholder="裁判用户名" bindinput="onInput" data-field="referee_username"/>
+
+  <button type="primary" bindtap="createMatch">新建比赛</button>
+</view>
