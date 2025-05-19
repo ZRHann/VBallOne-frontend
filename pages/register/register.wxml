@@ -26,13 +26,6 @@
       />
     </view>
 
-    <view class="form-item">
-      <input 
-        name="email" 
-        placeholder="请输入有效邮箱" 
-        type="email"
-      />
-    </view>
 
     <button 
       formType="submit" 

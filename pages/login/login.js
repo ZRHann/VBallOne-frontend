@@ -5,6 +5,13 @@ Page({
     password: ''
   },
 
+  onUsernameInput(e) {
+    this.setData({ username: e.detail.value });
+  },
+
+  onPasswordInput(e) {
+    this.setData({ password: e.detail.value });
+  },
   // 登录处理
   handleLogin() {
     wx.request({
@@ -39,18 +46,5 @@ Page({
       url: '/pages/match/match'
     })
     
-    // 可选：收集匿名设备信息
-    wx.getSystemInfo({
-      success: res => {
-        wx.request({
-          url: 'https://vballone.zrhan.top/api/guest',
-          method: 'POST',
-          data: {
-            model: res.model,
-            platform: res.platform
-          }
-        })
-      }
-    })
   }
 });

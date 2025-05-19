@@ -4,10 +4,10 @@ Page({
   },
 
   handleRegister(e) {
-    const { username, password, confirmPassword, email } = e.detail.value;
+    const { username, password, confirmPassword} = e.detail.value;
 
     // 前端验证
-    if (!this.validateForm(username, password, confirmPassword, email)) return;
+    if (!this.validateForm(username, password, confirmPassword)) return;
 
     this.setData({ isLoading: true });
     
@@ -15,7 +15,7 @@ Page({
       url: 'https://vballone.zrhan.top/api/register',
       method: 'POST',
       header: { 'Content-Type': 'application/json' },
-      data: { username, password, email },
+      data: { username, password },
       success: (res) => {
         if (res.data.success) {
           wx.showToast({ 
@@ -41,10 +41,9 @@ Page({
   },
 
   // 表单验证
-  validateForm(username, password, confirmPassword, email) {
+  validateForm(username, password, confirmPassword) {
     const usernameRegex = /^[a-zA-Z0-9]{4,16}$/;
     const passwordRegex = /^.{6,}$/;
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
     if (!usernameRegex.test(username)) {
       wx.showToast({ title: '用户名需为4-16位字母/数字', icon: 'none' });
@@ -58,11 +57,6 @@ Page({
 
     if (password !== confirmPassword) {
       wx.showToast({ title: '两次输入密码不一致', icon: 'none' });
-      return false;
-    }
-
-    if (!emailRegex.test(email)) {
-      wx.showToast({ title: '请输入有效邮箱地址', icon: 'none' });
       return false;
     }
 

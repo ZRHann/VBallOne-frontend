@@ -6,7 +6,9 @@
       <input 
         name="username" 
         placeholder="请输入账号" 
+        value="{{username}}"
         focus 
+        bindinput="onUsernameInput"
       />
     </view>
     
@@ -14,7 +16,9 @@
       <input 
         name="password" 
         password 
+        value="{{password}}"
         placeholder="请输入密码" 
+        bindinput="onPasswordInput"
       />
     </view>
 
