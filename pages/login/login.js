@@ -29,7 +29,9 @@ Page({
             avatarUrl: res.data.avatarUrl,
             token: res.data.token
           });
-          wx.navigateBack();
+          wx.switchTab({
+            url: '/pages/match/match'
+          });
         } else {
           wx.showToast({ title: res.data.error, icon: 'none' });
         }
@@ -38,8 +40,6 @@ Page({
   },
 
   enterGuestMode() {
-    // 设置游客标识
-    wx.setStorageSync('isGuest', true)
     
     // 跳转到首页（根据实际页面调整）
     wx.switchTab({

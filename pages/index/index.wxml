@@ -1,9 +1,2 @@
-<view class="container">
-  <view wx:for="{{matches}}" wx:key="id" class="match-card" bindtap="goToDetail" data-id="{{item.id}}">
-    <view class="name">{{item.name}}</view>
-    <view class="info">📍 {{item.location}}</view>
-    <view class="info">🕒 {{item.match_date}}</view>
-  </view>
-
-  <button type="primary" bindtap="goToNewMatch">➕ 新增比赛</button>
-</view>
+<!--pages/index/index.wxml-->
+<text>pages/index/index.wxml</text>

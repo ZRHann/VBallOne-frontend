@@ -1,3 +1,4 @@
+const getAuthHeader = require("../../utils/getAuthHeader");
 Page({
     data: {
       name: '',
@@ -20,11 +21,11 @@ Page({
         return wx.showToast({ title: '请填写完整', icon: 'none' });
       }
   
-      wx.request({
+    wx.request({
         url: 'https://vballone.zrhan.top/api/matches',
         method: 'POST',
-        header: { 'Content-Type': 'application/json' },
         data: { name, location, match_date, referee_username },
+        header: getAuthHeader(),
         success: res => {
           if (res.data.success) {
             wx.showToast({ title: '创建成功' });
