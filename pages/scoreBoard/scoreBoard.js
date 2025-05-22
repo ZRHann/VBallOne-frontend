@@ -6,7 +6,8 @@ Page({
     startY: 0,       // 改为记录 Y 轴起始位置
     currentTeam: null,
     isSliding: false,
-  hintDirection: ''
+    isToolbarExpanded: false, // 新增工具栏状态
+    hintDirection: ''
   },
 
   // 触摸开始
@@ -64,6 +65,24 @@ Page({
       [field]: newScore
     })
     wx.vibrateShort()
+  },
+
+  // 切换工具栏状态
+  toggleToolbar() {
+    this.setData({
+      isToolbarExpanded: !this.data.isToolbarExpanded
+    })
+    wx.vibrateShort({ type: 'light' })
+  },
+
+  exchangePlace(e) {
+    const temp = this.data['scoreA']
+    this.setData({
+      scoreA: this.data['scoreB'],
+      scoreB: temp
+    })
+    dataset.scoreA = dataset.scoreB
+    dataset.scoreB =temp
   },
 
   navigateBack() {

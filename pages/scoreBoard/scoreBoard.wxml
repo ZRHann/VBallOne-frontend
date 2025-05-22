@@ -1,5 +1,20 @@
 <!-- 原左右滑动布局不变，仅修改事件绑定 -->
 <view class="container">
+  <!-- 工具栏 -->
+  <view class="toolbar {{isToolbarExpanded ? 'expanded' : ''}}">
+    <!-- 触发按钮 -->
+    <view class="toggle-btn" bindtap="toggleToolbar">
+      <text class="icon">{{isToolbarExpanded ? '▶' : '◀'}}</text>
+    </view>
+
+    <!-- 功能按钮 -->
+    <view class="toolbar-buttons">
+      <button class="toolbar-btn" bindtap="exchangePlace">⇄</button>
+      <button class="toolbar-btn" bindtap="resetScores">轮次</button>
+      <button class="toolbar-btn" bindtap="navigateBack">暂停</button>
+      <button class="toolbar-btn" bindtap="navigateBack">换人</button>
+    </view>
+  </view>
   <!-- 返回按钮（右上角） -->
   <view class="back-btn" bindtap="navigateBack">
       <text class="icon">←</text>
