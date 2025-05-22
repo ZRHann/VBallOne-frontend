@@ -1,0 +1,69 @@
+/* 强制横屏全屏 */
+page {
+  background: #1a1a1a;
+  width: 100vw !important;
+  height: 100vh !important;
+}
+
+/* 容器布局 */
+.container {
+  display: flex;
+  flex-direction: row; /* 横向布局 */
+  width: 100%;
+  height: 100%;
+}
+
+/* 返回按钮样式 */
+.back-btn {
+  position: fixed;
+  top: 10rpx;
+  left: 10rpx;
+  z-index: 999;
+  width: 40rpx;
+  height: 40rpx;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.2);
+  backdrop-filter: blur(10rpx);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.back-btn .icon {
+  font-size: 33rpx;
+  color: white;
+  transform: translateY(0rpx);
+}
+
+/* 左侧队伍样式 */
+.left-team {
+  flex: 1;
+  background: linear-gradient(135deg, #ff4b4b, #ff7676);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 右侧队伍样式 */
+.right-team {
+  flex: 1;
+  background: linear-gradient(135deg, #4b6cff, #76b9ff);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 分数显示样式 */
+.score {
+  font-size: 120rpx;
+  color: white;
+  text-shadow: 0 4rpx 12rpx rgba(0,0,0,0.3);
+}
+
+.team-name {
+  font-size: 48rpx;
+  color: rgba(255,255,255,0.9);
+  margin-bottom: 40rpx;
+}

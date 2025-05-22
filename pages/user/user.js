@@ -29,7 +29,7 @@ Page({
                 username: '',
                 role: '',
                 avatarUrl: '',
-                showGuestTips: false
+                showGuestTips: true
             });
             return;
         }

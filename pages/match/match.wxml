@@ -1,9 +1,16 @@
 <view class="container">
-  <view wx:for="{{matches}}" wx:key="id" class="match-card" bindtap="goToDetail" data-id="{{item.id}}">
+  <view wx:for="{{matches}}" wx:key="id" class="match-card" bindtap="goToDetail" data-id="{{item.id}}" data-name="{{item.name}}" data-location="{{item.location}}" data-match_date="{{item.match_date}}">
+    <view class="status-badge {{item.status}}">
+      <text class="status-text">
+        {{item.status === 'pending' ? '未开始' : item.status === 'ongoing' ? '进行中' : '已结束'}}
+      </text>
+    </view>
     <view class="name">{{item.name}}</view>
     <view class="info">📍 {{item.location}}</view>
     <view class="info">🕒 {{item.match_date}}</view>
   </view>
 
   <button type="primary" bindtap="goToNewMatch">➕ 新增比赛</button>
+
+  <button type="primary" bindtap="goToScoreBoard">➕ 快速开始</button>
 </view>

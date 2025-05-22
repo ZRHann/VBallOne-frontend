@@ -5,7 +5,10 @@
     "pages/match/match",
     "pages/user/user",
     "pages/index/index",
+    "pages/matchInfo/matchInfo",
     "pages/newMatch/newMatch",
+    "pages/editMatch/editMatch",
+    "pages/scoreBoard/scoreBoard",
     "pages/logs/logs"
   ],
   "tabBar": {

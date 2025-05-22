@@ -1,0 +1,103 @@
+.container {
+  padding: 60rpx;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 40rpx;
+}
+
+.title {
+  font-size: 40rpx;
+  font-weight: bold;
+  color: #333;
+}
+
+.status {
+  font-size: 28rpx;
+  padding: 8rpx 16rpx;
+  border-radius: 8rpx;
+}
+
+.status.pending {
+  background: #ffe58f;
+  color: #d48806;
+}
+
+.status.ongoing {
+  background: #b7eb8f;
+  color: #389e0d;
+}
+
+.status.completed {
+  background: #ffccc7;
+  color: #cf1322;
+}
+
+.info-card {
+  background: #fff;
+  border-radius: 16rpx;
+  padding: 32rpx;
+  box-shadow: 0 4rpx 12rpx rgba(0,0,0,0.1);
+}
+
+.info-item {
+  margin-bottom: 32rpx;
+}
+
+.label {
+  display: block;
+  color: #666;
+  font-size: 40rpx;
+  margin-bottom: 8rpx;
+}
+
+.value {
+  font-size: 32rpx;
+  color: #333;
+}
+
+/* 添加按钮动画效果 */
+.action-btn[type="primary"] {
+  transition: all 0.3s ease;
+}
+
+.action-btn[type="primary"]:active {
+  transform: scale(0.96);
+  opacity: 0.9;
+}
+
+/* 当存在多个按钮时的排列 */
+.action-btn {
+  margin-top: 40rpx;
+  width: 80%;
+  line-height: 1.8;
+}
+
+/* 修改按钮样式 */
+.edit-btn {
+  position: flex;
+  top: 5rpx;
+  right: 15rpx;
+  padding: 8rpx 20rpx;
+  font-size: 24rpx;
+  line-height: 1.2;
+  border-radius: 8rpx;
+  background: #f0f0f0;
+  color: #666;
+  border: 1rpx solid #ddd;
+  z-index: 1;
+}
+
+.edit-btn:active {
+  background: #e0e0e0;
+}
+
+/* 调整 info-card 容器定位 */
+.info-card {
+  position: relative; /* 新增 */
+  padding-top: 80rpx; /* 给按钮留出空间 */
+}
+

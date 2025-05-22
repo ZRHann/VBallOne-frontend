@@ -1,0 +1,28 @@
+<!-- 原左右滑动布局不变，仅修改事件绑定 -->
+<view class="container">
+  <!-- 返回按钮（右上角） -->
+  <view class="back-btn" bindtap="navigateBack">
+      <text class="icon">←</text>
+  </view>
+  <!-- 左侧红队 -->
+  <view 
+    class="left-team"
+    catchtouchstart="handleTouchStart"
+    catchtouchmove="handleTouchMove"
+    catchtouchend="handleTouchEnd"
+    data-team="A"
+  >
+    <text class="score">{{scoreA}}</text>
+  </view>
+
+  <!-- 右侧蓝队 -->
+  <view 
+    class="right-team"
+    catchtouchstart="handleTouchStart"
+    catchtouchmove="handleTouchMove"
+    catchtouchend="handleTouchEnd"
+    data-team="B"
+  >
+    <text class="score">{{scoreB}}</text>
+  </view>
+</view>

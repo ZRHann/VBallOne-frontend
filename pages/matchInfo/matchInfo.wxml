@@ -1,0 +1,41 @@
+<!-- pages/detail/detail.wxml -->
+<view class="container">
+  <!-- 头部信息 -->
+  <view class="header">
+    <text class="title">{{matchName}}</text>
+    <text class="status {{matchInfo.status}}">
+      {{statusMapping[matchInfo.status]}}
+    </text>
+  </view>
+
+  <!-- 详细信息卡片 -->
+  <view class="info-card">
+    <view class="info-item">
+      <text class="label">📍 地点</text>
+      <text class="value">{{matchLocation || '待定'}}</text>
+    </view>
+    
+    <view class="info-item">
+      <text class="label">⏰ 时间</text>
+      <text class="value">{{match_date}}</text>
+    </view>
+
+    <button 
+      class="edit-btn"
+      bindtap="handleEditMatch"
+      data-id="{{matchId}}"
+      data-name="{{matchName}}"
+      data-location="{{matchLocation}}"
+      data-date="{{match_date}}"
+    >
+      ✎ 修改
+    </button>
+
+  </view>
+
+  
+
+  <!-- 操作按钮 -->
+  <button class="action-btn" type="primary" bindtap="handleStartMatch">🏐 开始比赛</button>
+  
+</view>
