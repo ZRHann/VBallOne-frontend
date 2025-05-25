@@ -11,7 +11,24 @@
     <view class="toolbar-buttons">
       <button class="toolbar-btn" bindtap="exchangePlace">⇄</button>
       <button class="toolbar-btn" bindtap="resetScores">轮次</button>
-      <button class="toolbar-btn" bindtap="navigateBack">暂停</button>
+      <button class="toolbar-btn" bindtap="handleShowTeamSelect">暂停</button>
+      <!-- 队伍选择浮层 -->
+      <view wx:if="{{ showTeamSelect }}" class="team-select-layer">
+        <view class="title">选择请求暂停的队伍</view>
+        <view class="team-buttons">
+          <button 
+            class="team-btn team-a" 
+            bindtap="handleTeamSelect" 
+            data-team="A"
+          >A队暂停</button>
+          <button 
+            class="team-btn team-b" 
+            bindtap="handleTeamSelect" 
+            data-team="B"
+          >B队暂停</button>
+        </view>
+        <view class="cancel-btn" bindtap="handleCloseTeamSelect">取消</view>
+      </view>
       <button class="toolbar-btn" bindtap="navigateBack">换人</button>
     </view>
   </view>
@@ -40,4 +57,11 @@
   >
     <text class="score">{{scoreB}}</text>
   </view>
+</view>
+
+<!-- 灰幕和倒计时 -->
+<view wx:if="{{ showPause }}" class="pause-mask">
+  <view class="close-btn" bindtap="handleCancelPause">×</view>
+  <view class="team-tag {{ selectedTeam }}">{{ selectedTeam }}队暂停中</view>
+  <view class="countdown-text">{{ countdown }}秒</view>
 </view>

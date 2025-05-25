@@ -6,6 +6,12 @@ Page({
     startY: 0,       // 改为记录 Y 轴起始位置
     currentTeam: null,
     isSliding: false,
+    showTeamSelect: false,
+    selectedTeam: null,
+    showPause: false,
+    countdown: 0,
+    timer: null,
+    timeoutLogs: '' ,
     isToolbarExpanded: false, // 新增工具栏状态
     hintDirection: ''
   },
@@ -85,10 +91,85 @@ Page({
     dataset.scoreB =temp
   },
 
+  // 点击暂停按钮
+  handleShowTeamSelect() {
+    this.setData({ showTeamSelect: true });
+  },
+
+  handleCloseTeamSelect() {
+    this.setData({ showTeamSelect: false });
+  },
+
+  // 选择队伍
+  handleTeamSelect(e) {
+    const team = e.currentTarget.dataset.team;
+    this.setData({ 
+      selectedTeam: team,
+      showTeamSelect: false,
+      showPause: true,
+      countdown: 30
+    });
+    this.startCountdown();
+    this.logTimeout(team);
+  },
+
+  // 记录暂停历史
+  logTimeout(team) {
+    const newLog = {
+      time: new Date().toLocaleTimeString(),
+      team: team,
+      duration: 30
+    };
+    this.setData({
+      timeoutLogs: [...this.data.timeoutLogs, newLog]
+    });
+  },
+
+  handleCancelPause() {
+    wx.showModal({
+      title: '提前结束暂停',
+      content: '确定要结束暂停吗？',
+      confirmColor: '#ff4444',
+      success: (res) => {
+        if (res.confirm) {
+          this.clearTimer();
+          wx.vibrateShort(); // 振动反馈
+        }
+      }
+    })
+  },
+
+  // 开始倒计时
+  startCountdown() {
+    this.data.timer = setInterval(() => {
+      if (this.data.countdown <= 1) {
+        this.clearTimer();
+        return;
+      }
+      this.setData({ countdown: this.data.countdown - 1 });
+    }, 1000);
+  },
+
+  // 清除定时器
+  clearTimer() {
+    clearInterval(this.data.timer);
+    this.setData({ 
+      showPause: false,
+      countdown: 0,
+      selectedTeam: null  // 重置选择
+    });
+    this.data.timer = null;
+  },
+
   navigateBack() {
     wx.navigateBack({
       delta: 1 // 返回上一页
     })
     wx.vibrateShort({ type: 'light' }) // 可选震动反馈
+  },
+
+  // 页面卸载时清理
+  onUnload() {
+    this.clearTimer();
   }
 })

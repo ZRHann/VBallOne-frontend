@@ -131,3 +131,115 @@ page {
   background: rgba(255,255,255,0.9);
   box-shadow: 0 2rpx 12rpx rgba(0,0,0,0.1);
 }
+
+/* 阻止事件穿透 */
+.prevent {
+  pointer-events: none;
+}
+
+/* 取消按钮 */
+.cancel-btn {
+  margin-top: 20rpx;
+  text-align: center;
+  color: #666;
+  font-size: 20rpx;
+  padding: 0rpx;
+  border-top: 0rpx solid #eee;
+}
+
+/* 队伍选择浮层 */
+.team-select-layer {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80%;
+  background: #fff;
+  border-radius: 20rpx;
+  z-index: 1000;
+  box-shadow: 0 10rpx 30rpx rgba(0,0,0,0.2);
+  padding: 40rpx;
+}
+
+.title {
+  font-size: 36rpx;
+  text-align: center;
+  margin-bottom: 60rpx;
+}
+
+.team-buttons {
+  display: flex;
+  justify-content: space-between;
+}
+
+.team-btn {
+  width: 45%;
+  font-size: 32rpx;
+  border-radius: 12rpx;
+}
+
+.team-a {
+  background: #FF5722;
+  color: white;
+}
+
+.team-b {
+  background: #2196F3;
+  color: white;
+}
+
+/* 灰幕样式 */
+.pause-mask {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+/* 倒计时文字 */
+.countdown-text {
+  color: white;
+  font-size: 100rpx;
+  font-weight: bold;
+}
+
+/* 关闭按钮 */
+.close-btn {
+  position: absolute;
+  top: 40rpx;
+  right: 40rpx;
+  width: 30rpx;
+  height: 30rpx;
+  line-height: 22rpx;
+  text-align: center;
+  font-size: 45rpx;
+  color: #fff;
+  border: 2rpx solid #fff;
+  border-radius: 50%;
+  opacity: 0.9;
+  transition: transform 0.3s;
+}
+
+/* 按钮点击效果 */
+.close-btn:active {
+  transform: scale(0.9);
+  opacity: 1;
+}
+
+/* 暂停蒙层新增样式 */
+.team-tag {
+  position: absolute;
+  top: 18%;
+  font-size: 48rpx;
+  color: white;
+  text-shadow: 2rpx 2rpx 4rpx rgba(0,0,0,0.3);
+}
+
+.team-tag.A { color: #FF5722; }
+.team-tag.B { color: #2196F3; }
