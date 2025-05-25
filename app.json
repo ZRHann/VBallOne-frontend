@@ -9,6 +9,7 @@
     "pages/newMatch/newMatch",
     "pages/editMatch/editMatch",
     "pages/scoreBoard/scoreBoard",
+    "pages/roundRecord/roundRecord",
     "pages/logs/logs"
   ],
   "tabBar": {

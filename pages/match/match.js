@@ -35,7 +35,7 @@ Page({
 
   goToScoreBoard(){
     wx.navigateTo({
-      url: '/pages/scoreBoard/scoreBoard'
+      url: '/pages/roundRecord/roundRecord'
     });
   }
 });

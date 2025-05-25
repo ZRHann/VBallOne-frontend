@@ -1,0 +1,59 @@
+<!-- 局数选择 -->
+<view class="set-selector">
+  <text>当前局数：</text>
+  <picker range="{{[1,2,3]}}" value="{{currentSet-1}}" bindchange="changeSet">
+    <text class="set-num">第{{currentSet}}局</text>
+  </picker>
+</view>
+
+<view class="back-btn" bindtap="navigateBack">
+    <text class="icon">←</text>
+</view>
+
+<!-- 队伍轮次显示 -->
+<view class="court-container">
+  <!-- A队 -->
+  <view class="team-rotation">
+    <text class="team-name">A队</text>
+    <view class="court">
+      <block wx:for="{{teamA.rotation}}" wx:key="index">
+        <view class="position">
+          <input 
+            value="{{teamA.players[index]}}" 
+            placeholder="球衣号"
+            bindinput="bindInput" 
+            data-team="A" 
+            data-index="{{index}}"
+          />
+          <text class="pos-num">{{item}}</text>
+        </view>
+      </block>
+    </view>
+  </view>
+
+  <!-- B队 -->
+  <view class="team-rotation">
+    <text class="team-name">B队</text>
+    <view class="court">
+      <block wx:for="{{teamA.rotation}}" wx:key="index">
+        <view class="position">
+          <input 
+            value="{{teamA.players[index]}}" 
+            placeholder="球衣号"
+            bindinput="bindInput" 
+            data-team="A" 
+            data-index="{{index}}"
+          />
+          <text class="pos-num">{{item}}</text>
+        </view>
+      </block>
+    </view>
+  </view>
+</view>
+
+<!-- 操作按钮 -->
+<view class="footer">
+  <button class="save-btn" bindtap="saveData">保存当前局数据</button>
+  <button class="start-btn" bindtap="startGame">开始比赛</button>
+  <button class="reset-btn" bindtap="reset">重置</button>
+</view>

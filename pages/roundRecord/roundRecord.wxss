@@ -1,0 +1,142 @@
+/* 强制横屏全屏 */
+page {
+  background: #ffffff;
+  width: 100vw !important;
+  height: 100vh !important;
+}
+
+/* 局数选择器容器 */
+.set-selector {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 36rpx;
+  background: #2196F3;
+  box-shadow: 0 4rpx 12rpx rgba(0,0,0,0.1);
+  z-index: 999;
+}
+
+/* 局数文本 */
+.set-selector text {
+  color: white;
+  font-size: 20rpx;
+  margin-right: 0rpx;
+}
+
+/* 局数数字样式 */
+.set-num {
+  color: #FFEB3B;
+  font-size: 36rpx;
+  font-weight: bold;
+  padding: 4rpx 17rpx;
+  background: rgba(255,255,255,0.1);
+  border-radius: 48rpx;
+  transition: all 0.3s;
+}
+
+/* 点击反馈效果 */
+.set-num:active {
+  background: rgba(255,255,255,0.2);
+  transform: scale(0.95);
+}
+
+/* 容器布局 */
+.court-container {
+  display: flex;
+  flex-direction: row; /* 横向布局 */
+  width: 100vw;
+  height: 50vh;
+}
+
+/* 返回按钮样式 */
+.back-btn {
+  position: fixed;
+  top: 10rpx;
+  left: 10rpx;
+  z-index: 999;
+  width: 40rpx;
+  height: 40rpx;
+  border-radius: 50%;
+  background: rgba(65, 64, 64, 0.288);
+  backdrop-filter: blur(10rpx);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.back-btn .icon {
+  font-size: 33rpx;
+  color: white;
+  transform: translateY(0rpx);
+}
+
+.team-name {
+  top: 10 px;
+  font-size: 24rpx;
+  color: #FF5722;
+  margin-bottom: 40rpx;
+}
+
+/* 排球场地布局 */
+.court {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10rpx;
+  width: 30%;
+  padding: 10rpx;
+  background: #4CAF50;
+  border-radius: 10rpx;
+  position: relative;
+}
+
+.position {
+  position: relative;
+  height: 50rpx;
+  background: #fff;
+  border-radius: 6rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.pos-num {
+  position: absolute;
+  bottom: 10rpx;
+  right: 10rpx;
+  font-size: 15rpx;
+  color: #666;
+}
+
+input {
+  width: 80%;
+  text-align: center;
+  font-size: 25rpx;
+}
+
+/* 保存按钮 */
+.save-btn {
+  background: #2196F3;
+  color: white;
+  margin: 40rpx;
+}
+
+.start-btn{
+  background: #4CAF50;
+  color: white;
+  margin: 40rpx;
+}
+
+
+
+
+
+
+
+
+
+

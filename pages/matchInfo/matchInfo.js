@@ -46,7 +46,7 @@ Page({
   handleStartMatch(){
     // 需要添加权限认证
     wx.navigateTo({
-      url: `/pages/scoreBoard/scoreBoard`
+      url: `/pages/roundRecord/roundRecord`
     });
   }
 });

@@ -1,0 +1,7 @@
+{
+  "usingComponents": {},
+  "navigationBarTitleText": "赛事计分牌",
+  "pageOrientation": "landscape",
+  "navigationStyle": "custom",
+  "disableScroll": true  
+}
