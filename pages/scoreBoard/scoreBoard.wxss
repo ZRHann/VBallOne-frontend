@@ -19,8 +19,8 @@ page {
   top: 10rpx;
   left: 10rpx;
   z-index: 999;
-  width: 40rpx;
-  height: 40rpx;
+  width: 33rpx;
+  height: 33rpx;
   border-radius: 50%;
   background: rgba(65, 64, 64, 0.288);
   backdrop-filter: blur(10rpx);
@@ -30,7 +30,7 @@ page {
 }
 
 .back-btn .icon {
-  font-size: 33rpx;
+  font-size: 27rpx;
   color: white;
   transform: translateY(0rpx);
 }

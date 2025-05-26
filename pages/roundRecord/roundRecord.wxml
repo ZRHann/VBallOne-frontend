@@ -13,37 +13,54 @@
 <!-- 队伍轮次显示 -->
 <view class="court-container">
   <!-- A队 -->
+  <text class="team-name">A队</text>
   <view class="team-rotation">
-    <text class="team-name">A队</text>
     <view class="court">
-      <block wx:for="{{teamA.rotation}}" wx:key="index">
+      <block wx:for="{{rotationA}}" wx:key="index">
         <view class="position">
           <input 
-            value="{{teamA.players[index]}}" 
-            placeholder="球衣号"
+            value="{{playersA[item-1]}}" 
+            placeholder="号码"
             bindinput="bindInput" 
             data-team="A" 
-            data-index="{{index}}"
+            data-index="{{item-1}}"
           />
           <text class="pos-num">{{item}}</text>
         </view>
       </block>
     </view>
+    <view class="court">
+      <block wx:for="{{rotationA}}" wx:key="index">
+        <view class="position" >
+          <text class="pos-players">{{playersA[(serveA+item-1)%7-1]}}</text>
+          <text class="pos-num">{{item}}</text>
+        </view>
+      </block>
+    </view>
+    
   </view>
 
   <!-- B队 -->
+  <text class="team-name">B队</text>
   <view class="team-rotation">
-    <text class="team-name">B队</text>
     <view class="court">
-      <block wx:for="{{teamA.rotation}}" wx:key="index">
+      <block wx:for="{{rotationB}}" wx:key="index">
         <view class="position">
           <input 
-            value="{{teamA.players[index]}}" 
-            placeholder="球衣号"
+            value="{{playersB[item-1]}}" 
+            placeholder="号码"
             bindinput="bindInput" 
-            data-team="A" 
-            data-index="{{index}}"
+            data-team="B" 
+            data-index="{{item-1}}"
           />
+          <text class="pos-num">{{item}}</text>
+        </view>
+      </block>
+    </view>
+    <view class="court">
+      <block wx:for="{{rotationB}}" wx:key="index">
+        <view class="position">
+          <text class="pos-players">{{playersB[(serveB+item-1)%7-1]}}</text>
           <text class="pos-num">{{item}}</text>
         </view>
       </block>
@@ -51,9 +68,36 @@
   </view>
 </view>
 
+<view class="serve-container">
+  <!-- A队 -->
+  <view 
+    class="serve-item {{serveteam === 'A' ? 'active' : ''}}" 
+    bindtap="setServeTeam" 
+    data-team="A"
+  >
+    <image 
+      class="team-icon" 
+      src="{{serveteam === 'A' ? '/images/tabbar/serve_active.png' : '/images/tabbar/match.png'}}" 
+      mode="widthFix"
+    />
+  </view>
+
+  <!-- B队 -->
+  <view 
+    class="serve-item {{serveteam === 'B' ? 'active' : ''}}" 
+    bindtap="setServeTeam" 
+    data-team="B"
+  >
+    <image 
+      class="team-icon" 
+      src="{{serveteam === 'B' ? '/images/tabbar/serve_active.png' : '/images/tabbar/match.png'}}" 
+      mode="widthFix"
+    />
+  </view>
+</view>
+
 <!-- 操作按钮 -->
 <view class="footer">
   <button class="save-btn" bindtap="saveData">保存当前局数据</button>
   <button class="start-btn" bindtap="startGame">开始比赛</button>
-  <button class="reset-btn" bindtap="reset">重置</button>
 </view>

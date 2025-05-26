@@ -1,6 +1,6 @@
 /* 强制横屏全屏 */
 page {
-  background: #ffffff;
+  background: linear-gradient(to right, #ff4b4b 0%, #ff7676 53%, #4b6cff 50%, #76b9ff 100%);
   width: 100vw !important;
   height: 100vh !important;
 }
@@ -15,14 +15,14 @@ page {
   justify-content: center;
   align-items: center;
   height: 36rpx;
-  background: #2196F3;
+  background: white;
   box-shadow: 0 4rpx 12rpx rgba(0,0,0,0.1);
   z-index: 999;
 }
 
 /* 局数文本 */
 .set-selector text {
-  color: white;
+  color: red;
   font-size: 20rpx;
   margin-right: 0rpx;
 }
@@ -47,9 +47,11 @@ page {
 /* 容器布局 */
 .court-container {
   display: flex;
+  padding-left: 26rpx;
   flex-direction: row; /* 横向布局 */
   width: 100vw;
-  height: 50vh;
+  height: 61vh;
+  margin-top: 40rpx;
 }
 
 /* 返回按钮样式 */
@@ -58,8 +60,8 @@ page {
   top: 10rpx;
   left: 10rpx;
   z-index: 999;
-  width: 40rpx;
-  height: 40rpx;
+  width: 33rpx;
+  height: 33rpx;
   border-radius: 50%;
   background: rgba(65, 64, 64, 0.288);
   backdrop-filter: blur(10rpx);
@@ -69,16 +71,25 @@ page {
 }
 
 .back-btn .icon {
-  font-size: 33rpx;
+  font-size: 27rpx;
   color: white;
   transform: translateY(0rpx);
 }
 
 .team-name {
-  top: 10 px;
-  font-size: 24rpx;
-  color: #FF5722;
-  margin-bottom: 40rpx;
+  top: 15rpx;
+  font-size: 20rpx;
+  color: white;
+  margin-bottom: 20rpx;
+}
+
+.team-rotation {
+  padding-top: 30rpx;
+  display: flex;
+  flex-direction: row;
+  width: 50%;
+  height: 150rpx;
+  gap: 5rpx;
 }
 
 /* 排球场地布局 */
@@ -86,7 +97,7 @@ page {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 10rpx;
-  width: 30%;
+  width: 38%;
   padding: 10rpx;
   background: #4CAF50;
   border-radius: 10rpx;
@@ -95,40 +106,74 @@ page {
 
 .position {
   position: relative;
-  height: 50rpx;
+  height: 60rpx;
   background: #fff;
-  border-radius: 6rpx;
+  border-radius: 7rpx;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
   justify-content: center;
 }
 
+.pos-players {
+  font-size: 21rpx;
+}
+
 .pos-num {
   position: absolute;
-  bottom: 10rpx;
-  right: 10rpx;
+  bottom: 3rpx;
+  right: 4rpx;
   font-size: 15rpx;
   color: #666;
 }
 
 input {
   width: 80%;
-  text-align: center;
-  font-size: 25rpx;
+  text-align: center; 
+  font-size: 21rpx;
+}
+
+/* 容器布局 */
+.serve-container {
+  position: fixed;
+  bottom: 45rpx;
+  left: 46rpx;
+  right: 0;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 30rpx;
+}
+
+/* 图标样式 */
+.team-icon {
+  width: 55rpx;
+  height: 55rpx;
+  border-radius: 50%;
+  border: 4rpx solid transparent;
+  transition: all 0.3s;
+  display: block;
+  box-shadow: 0 4rpx 12rpx rgba(0,0,0,0.1);
+}
+
+/* 激活状态 */
+.serve-item.active .team-icon {
+  border-color: #4CAF50;
+  transform: scale(1.05);
 }
 
 /* 保存按钮 */
 .save-btn {
+  left:  25px;
   background: #2196F3;
   color: white;
-  margin: 40rpx;
+  margin: 3rpx;
 }
 
 .start-btn{
+  left:  25px;
   background: #4CAF50;
   color: white;
-  margin: 40rpx;
+  margin: 8rpx;
 }
 
 
