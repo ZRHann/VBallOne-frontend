@@ -4,6 +4,8 @@ Page({
     scoreA: 0,
     scoreB: 0,
     startY: 0,       // 改为记录 Y 轴起始位置
+    pauseChanceA: 2,
+    pauseChanceB: 2,
     currentTeam: null,
     isSliding: false,
     showTeamSelect: false,
@@ -14,6 +16,14 @@ Page({
     timeoutLogs: '' ,
     isToolbarExpanded: false, // 新增工具栏状态
     hintDirection: ''
+  },
+
+  onLoad() {
+    // 加载保存的游戏数据
+    const savedData = wx.getStorageSync('scoreBoardData');
+    if (savedData) {
+      this.setData(savedData);
+    }
   },
 
   // 触摸开始
@@ -70,7 +80,7 @@ Page({
     this.setData({
       [field]: newScore
     })
-    wx.vibrateShort()
+    wx.vibrateShort({type: 'light'})
   },
 
   // 切换工具栏状态
@@ -87,13 +97,11 @@ Page({
       scoreA: this.data['scoreB'],
       scoreB: temp
     })
-    dataset.scoreA = dataset.scoreB
-    dataset.scoreB =temp
   },
 
   // 点击暂停按钮
   handleShowTeamSelect() {
-    this.setData({ showTeamSelect: true });
+    this.setData({ showTeamSelect: true })
   },
 
   handleCloseTeamSelect() {
@@ -103,14 +111,27 @@ Page({
   // 选择队伍
   handleTeamSelect(e) {
     const team = e.currentTarget.dataset.team;
-    this.setData({ 
-      selectedTeam: team,
-      showTeamSelect: false,
-      showPause: true,
-      countdown: 30
-    });
-    this.startCountdown();
-    this.logTimeout(team);
+    const key = `pauseChance${team}`;
+    // 检查该队暂停次数
+    if (this.data[key] <= 0) {
+      wx.showToast({
+        title: `${team}队暂停次数已用完`,
+        icon: 'none',
+        duration: 2000
+      })
+      return
+    }
+    if (this.data[key] > 0){
+      this.setData({ 
+        selectedTeam: team,
+        showTeamSelect: false,
+        showPause: true,
+        countdown: 30,
+        [key]: this.data[key] - 1
+      });
+      this.startCountdown();
+      this.logTimeout(team);
+    }
   },
 
   // 记录暂停历史
@@ -160,6 +181,21 @@ Page({
     });
     this.data.timer = null;
   },
+
+  viewRound() {
+    // 保存当前数据
+    const saveData = {
+      scoreA: this.data.scoreA,
+      scoreB: this.data.scoreB,
+      pauseChanceA: this.data.pauseChanceA,
+      pauseChanceB: this.data.pauseChanceB,
+      timeoutLogs: this.data.timeoutLogs
+    };
+    wx.setStorageSync('scoreBoardData', saveData);
+    
+    wx.navigateBack();
+  },
+
 
   navigateBack() {
     wx.navigateBack({

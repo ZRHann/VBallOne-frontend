@@ -10,7 +10,7 @@
     <!-- 功能按钮 -->
     <view class="toolbar-buttons">
       <button class="toolbar-btn" bindtap="exchangePlace">⇄</button>
-      <button class="toolbar-btn" bindtap="resetScores">轮次</button>
+      <button class="toolbar-btn" bindtap="viewRound">轮次</button>
       <button class="toolbar-btn" bindtap="handleShowTeamSelect">暂停</button>
       <!-- 队伍选择浮层 -->
       <view wx:if="{{ showTeamSelect }}" class="team-select-layer">
@@ -20,12 +20,16 @@
             class="team-btn team-a" 
             bindtap="handleTeamSelect" 
             data-team="A"
-          >A队暂停</button>
+          > A队暂停
+            <text class="pause-chance">剩余：{{pauseChanceA}}次</text> 
+          </button>
           <button 
             class="team-btn team-b" 
             bindtap="handleTeamSelect" 
             data-team="B"
-          >B队暂停</button>
+          >B队暂停
+          <text class="pause-chance">剩余：{{pauseChanceB}}次</text> 
+          </button>
         </view>
         <view class="cancel-btn" bindtap="handleCloseTeamSelect">取消</view>
       </view>

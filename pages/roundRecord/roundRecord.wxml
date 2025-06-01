@@ -32,6 +32,11 @@
     <view class="court">
       <block wx:for="{{rotationA}}" wx:key="index">
         <view class="position" >
+          <image 
+            class="server" 
+            wx:if="{{item==1 && cur_serveteam == 'A'}}"
+            src="{{'/images/tabbar/server.png'}}" 
+          />
           <text class="pos-players">{{playersA[(serveA+item-1)%7-1]}}</text>
           <text class="pos-num">{{item}}</text>
         </view>
@@ -60,6 +65,11 @@
     <view class="court">
       <block wx:for="{{rotationB}}" wx:key="index">
         <view class="position">
+          <image 
+            class="server" 
+            wx:if="{{item==1 && cur_serveteam == 'B'}}"
+            src="{{'/images/tabbar/server.png'}}" 
+          />
           <text class="pos-players">{{playersB[(serveB+item-1)%7-1]}}</text>
           <text class="pos-num">{{item}}</text>
         </view>
@@ -71,26 +81,26 @@
 <view class="serve-container">
   <!-- A队 -->
   <view 
-    class="serve-item {{serveteam === 'A' ? 'active' : ''}}" 
-    bindtap="setServeTeam" 
+    class="serve-item {{fir_serveteam === 'A' ? 'active' : ''}}" 
+    bindtap="handleSelectServeTeam" 
     data-team="A"
   >
     <image 
       class="team-icon" 
-      src="{{serveteam === 'A' ? '/images/tabbar/serve_active.png' : '/images/tabbar/match.png'}}" 
+      src="{{fir_serveteam === 'A' ? '/images/tabbar/serve_active.png' : '/images/tabbar/match.png'}}" 
       mode="widthFix"
     />
   </view>
 
   <!-- B队 -->
   <view 
-    class="serve-item {{serveteam === 'B' ? 'active' : ''}}" 
-    bindtap="setServeTeam" 
+    class="serve-item {{fir_serveteam === 'B' ? 'active' : ''}}" 
+    bindtap="handleSelectServeTeam" 
     data-team="B"
   >
     <image 
       class="team-icon" 
-      src="{{serveteam === 'B' ? '/images/tabbar/serve_active.png' : '/images/tabbar/match.png'}}" 
+      src="{{fir_serveteam === 'B' ? '/images/tabbar/serve_active.png' : '/images/tabbar/match.png'}}" 
       mode="widthFix"
     />
   </view>
@@ -99,5 +109,8 @@
 <!-- 操作按钮 -->
 <view class="footer">
   <button class="save-btn" bindtap="saveData">保存当前局数据</button>
-  <button class="start-btn" bindtap="startGame">开始比赛</button>
+  <button class="start-btn" bindtap="startGame">
+    <text class="start-continue">{{isBegin? '继续比赛' : '开始比赛'}}
+    </text>
+  </button>
 </view>

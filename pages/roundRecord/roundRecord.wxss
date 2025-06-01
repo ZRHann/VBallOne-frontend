@@ -98,6 +98,7 @@ page {
   grid-template-columns: repeat(3, 1fr);
   gap: 10rpx;
   width: 38%;
+  height: 32vh;
   padding: 10rpx;
   background: #4CAF50;
   border-radius: 10rpx;
@@ -106,7 +107,7 @@ page {
 
 .position {
   position: relative;
-  height: 60rpx;
+  height: 50rpx;
   background: #fff;
   border-radius: 7rpx;
   display: flex;
@@ -133,10 +134,18 @@ input {
   font-size: 21rpx;
 }
 
-/* 容器布局 */
+.server{
+  width: 15rpx;
+  height: 15rpx;
+  position: absolute;
+  bottom: 34rpx;
+  right: 2rpx;
+}
+
+/* 发球方容器布局 */
 .serve-container {
   position: fixed;
-  bottom: 45rpx;
+  bottom: 18rpx;
   left: 46rpx;
   right: 0;
   display: flex;
@@ -146,8 +155,8 @@ input {
 
 /* 图标样式 */
 .team-icon {
-  width: 55rpx;
-  height: 55rpx;
+  width: 50rpx;
+  height: 50rpx;
   border-radius: 50%;
   border: 4rpx solid transparent;
   transition: all 0.3s;

@@ -1,15 +1,23 @@
 Page({
   data: {
     // 比赛信息
+    isBegin: false,
     currentSet: 1,
     maxSets: 3,
     rotationA: [4,3,2,5,6,1],
     playersA: ['', '', '', '', '', ''],
     rotationB: [4,3,2,5,6,1],
     playersB: ['', '', '', '', '', ''],
-    serveteam: null,
+    fir_serveteam: null,
+    cur_serveteam: null,
     serveA: 1,
-    serveB: 1
+    serveB: 1,
+    lastScoreA: 0,
+    lastScoreB: 0,
+    lastTimeoutLogsL: '',
+    lastPauseChanceA: 2,
+    lastPauseChanceB: 2,
+    hasSavedGame: false
   },
 
   // 保存到本地
@@ -19,19 +27,55 @@ Page({
   },
 
   onLoad() {
+    // 加载其他数据
     const saved = wx.getStorageSync('lineup');
     if (saved) this.setData(saved);
-    const savedTeam = wx.getStorageSync('currentServeTeam');
-    if (savedTeam) this.setData({ serveTeam: savedTeam });
+  },
+
+  onShow() {
+    // 检查是否有保存的游戏
+    const hasSavedGame = wx.getStorageSync('scoreBoardData') ? true : false;
+    this.setData({ hasSavedGame });
+    
+    // 显示保存的游戏数据（但不移除存储）
+    const scoreBoardData = wx.getStorageSync('scoreBoardData');
+    if (scoreBoardData) {
+      this.setData({
+        lastScoreA: scoreBoardData.scoreA,
+        lastScoreB: scoreBoardData.scoreB,
+        lastPauseChanceA: scoreBoardData.pauseChanceA,
+        lastPauseChanceB: scoreBoardData.pauseChanceB,
+        lastTimeoutLogs: scoreBoardData.timeoutLogs
+      });
+    }
   },
 
   // 设置发球队
   setServeTeam(e) {
     const team = e.currentTarget.dataset.team;
-    this.setData({ serveteam: team });
+    this.setData({ 
+      fir_serveteam: team,
+      cur_serveteam: team
+     });
     
     // 保存到本地存储
     wx.setStorageSync('currentServeTeam', team);
+  },
+
+  // 确定发球方
+  handleSelectServeTeam(e) {
+    const team = e.currentTarget.dataset.team;
+    wx.showModal({
+      title: '选择发球方',
+      content: '确定'+team+'队发球？',
+      confirmColor: '#ff4444',
+      success: (res) => {
+        if (res.confirm) {
+          this.setServeTeam(e);
+          wx.vibrateShort(); // 振动反馈
+        }
+      }
+    })
   },
 
   // 局数切换
@@ -59,6 +103,13 @@ Page({
   },
 
   startGame(){
+    const isBegin = this.data.isBegin
+    if(!isBegin){
+      this.setData({
+        isBegin: true
+      });
+      wx.removeStorageSync('scoreBoardData');
+    }  
     wx.navigateTo({
       url: '/pages/scoreBoard/scoreBoard'
     });

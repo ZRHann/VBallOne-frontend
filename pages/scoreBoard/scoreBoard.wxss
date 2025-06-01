@@ -142,9 +142,9 @@ page {
   margin-top: 20rpx;
   text-align: center;
   color: #666;
-  font-size: 20rpx;
+  font-size: 17rpx;
   padding: 0rpx;
-  border-top: 0rpx solid #eee;
+  margin-bottom: 0rpx;
 }
 
 /* 队伍选择浮层 */
@@ -176,6 +176,13 @@ page {
   width: 45%;
   font-size: 32rpx;
   border-radius: 12rpx;
+  font-size: 31rpx;
+}
+
+.pause-chance{
+  color: white;
+  border-radius: 10rpx;
+  font-size: 13rpx;
 }
 
 .team-a {
