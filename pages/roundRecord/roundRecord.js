@@ -8,15 +8,10 @@ Page({
     playersA: ['', '', '', '', '', ''],
     rotationB: [4,3,2,5,6,1],
     playersB: ['', '', '', '', '', ''],
-    fir_serveteam: null,        // 发球方
-    cur_serveteam: null,
+    fir_serveteam: '',        // 发球方
+    cur_serveteam: '',
     serveA: 1,
     serveB: 1,
-    lastScoreA: 0,        // 比分信息
-    lastScoreB: 0,
-    lastTimeoutLogsL: '',
-    lastPauseChanceA: 2,
-    lastPauseChanceB: 2,
     hasSavedGame: false
   },
 
@@ -41,11 +36,9 @@ Page({
     const scoreBoardData = wx.getStorageSync('scoreBoardData');
     if (scoreBoardData) {
       this.setData({
-        lastScoreA: scoreBoardData.scoreA,
-        lastScoreB: scoreBoardData.scoreB,
-        lastPauseChanceA: scoreBoardData.pauseChanceA,
-        lastPauseChanceB: scoreBoardData.pauseChanceB,
-        lastTimeoutLogs: scoreBoardData.timeoutLogs
+        cur_serveteam: scoreBoardData.cur_serveteam,
+        serveA: scoreBoardData.serveA,
+        serveB: scoreBoardData.serveB
       });
     }
   },
@@ -57,7 +50,6 @@ Page({
       fir_serveteam: team,
       cur_serveteam: team
      });
-    
     // 保存到本地存储
     wx.setStorageSync('currentServeTeam', team);
   },
@@ -65,17 +57,25 @@ Page({
   // 确定发球方
   handleSelectServeTeam(e) {
     const team = e.currentTarget.dataset.team;
-    wx.showModal({
-      title: '选择发球方',
-      content: '确定'+team+'队发球？',
-      confirmColor: '#ff4444',
-      success: (res) => {
-        if (res.confirm) {
-          this.setServeTeam(e);
-          wx.vibrateShort(); // 振动反馈
+    if (!this.data.isBegin){
+      wx.showModal({
+        title: '选择发球方',
+        content: '确定'+team+'队发球？',
+        confirmColor: '#ff4444',
+        success: (res) => {
+          if (res.confirm) {
+            this.setServeTeam(e);
+            wx.vibrateShort(); // 振动反馈
+          }
         }
-      }
-    })
+      })
+    } else{
+      wx.showModal({
+        title: '比赛已开始',
+        content: '无法修改开球方',
+        confirmColor: '#ff4444',
+      })
+    }
   },
 
   // 局数切换
@@ -136,7 +136,7 @@ Page({
       wx.removeStorageSync('scoreBoardData');
     }  
     wx.navigateTo({
-      url: `/pages/scoreBoard/scoreBoard?set=${this.data.currentSet}`
+      url: `/pages/scoreBoard/scoreBoard?set=${this.data.currentSet}`+`&cur_serveteam=${this.data.cur_serveteam}`
     });
   },
 

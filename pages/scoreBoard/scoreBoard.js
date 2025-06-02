@@ -19,11 +19,14 @@ Page({
     timeoutLogs: '' ,
     isToolbarExpanded: false, // 新增工具栏状态
     hintDirection: '',
-    cur_serveteam: ''
+    cur_serveteam: '',
+    serveA: 1,
+    serveB: 1
   },
 
   onLoad(options) {
     const setFromUrl = options.set ? parseInt(options.set) : 1;
+    const cur_serveteam = options.cur_serveteam || 'A';
     const savedData = wx.getStorageSync('scoreBoardData');
     if (savedData) {
       this.setData({
@@ -35,12 +38,12 @@ Page({
         set: setFromUrl
       });
     }
-    else{
+    if(options){
       this.setData({
-        set: setFromUrl
+        set: setFromUrl,
+        cur_serveteam: cur_serveteam
       })
     }
-    console.log("当前局数:", this.data.set, "来源:", savedData ? "存储" : "URL");
   },
 
   // 触摸开始
@@ -83,6 +86,7 @@ Page({
   // 分数更新方法
   updateScore(team, isIncrement) {
     const field = `score${team}`;
+    const last_serveteam = this.data.cur_serveteam;
     
     if (isIncrement) {
       // 加分
@@ -113,9 +117,11 @@ Page({
     this.setData({
       scoreList: [...this.data.scoreList],
       [field]: [...this.data[field]],
-      isExchange: (scoreA >= 8 || scoreB >= 8) && this.data.set === 3
+      isExchange: (scoreA >= 8 || scoreB >= 8) && this.data.set === 3,
+      serveA: (team != last_serveteam) && (team === 'A') ? (this.data.serveA % 6) +1 : this.data.serveA,
+      serveB: (team != last_serveteam) && (team === 'B') ? (this.data.serveB % 6) +1 : this.data.serveB ,
+      cur_serveteam: team,
     });
-    
     wx.vibrateShort({type: 'light'});
   },
 
@@ -213,7 +219,11 @@ Page({
     pauseChanceA: this.data.pauseChanceA,
     pauseChanceB: this.data.pauseChanceB,
     timeoutLogs: this.data.timeoutLogs,
-    set: this.data.set
+    set: this.data.set,
+    isExchange: this.data.isExchange,
+    cur_serveteam: this.data.cur_serveteam,
+    serveA: this.data.serveA,
+    serveB: this.data.serveB
   };
     wx.setStorageSync('scoreBoardData', saveData);
     wx.navigateBack();

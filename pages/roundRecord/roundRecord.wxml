@@ -37,7 +37,7 @@
             wx:if="{{item==1 && cur_serveteam == 'A'}}"
             src="{{'/images/tabbar/server.png'}}" 
           />
-          <text class="pos-players">{{playersA[(serveA+item-1)%7-1]}}</text>
+          <text class="pos-players">{{playersA[(serveA+item-2)%6]}}</text>
           <text class="pos-num">{{item}}</text>
         </view>
       </block>
@@ -70,7 +70,7 @@
             wx:if="{{item==1 && cur_serveteam == 'B'}}"
             src="{{'/images/tabbar/server.png'}}" 
           />
-          <text class="pos-players">{{playersB[(serveB+item-1)%7-1]}}</text>
+          <text class="pos-players">{{playersB[(serveA+item-2)%6]}}</text>
           <text class="pos-num">{{item}}</text>
         </view>
       </block>
