@@ -9,7 +9,6 @@
 
     <!-- 功能按钮 -->
     <view class="toolbar-buttons">
-      <button class="toolbar-btn" bindtap="exchangePlace">⇄</button>
       <button class="toolbar-btn" bindtap="viewRound">轮次</button>
       <button class="toolbar-btn" bindtap="handleShowTeamSelect">暂停</button>
       <!-- 队伍选择浮层 -->
@@ -48,7 +47,7 @@
     catchtouchend="handleTouchEnd"
     data-team="A"
   >
-    <text class="score">{{scoreA}}</text>
+    <text class="score">{{isExchange ? scoreB.length : scoreA.length}}</text>
   </view>
 
   <!-- 右侧蓝队 -->
@@ -59,7 +58,7 @@
     catchtouchend="handleTouchEnd"
     data-team="B"
   >
-    <text class="score">{{scoreB}}</text>
+    <text class="score">{{isExchange ? scoreA.length : scoreB.length}}</text>
   </view>
 </view>
 

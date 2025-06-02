@@ -1,29 +1,46 @@
 // scoreBoard.js
 Page({
   data: {
-    scoreA: 0,
-    scoreB: 0,
+    scoreList:[],
+    scoreA: [],
+    scoreB: [],
+    set: 3,
+    isExchange: false,
     startY: 0,       // 改为记录 Y 轴起始位置
     pauseChanceA: 2,
     pauseChanceB: 2,
-    currentTeam: null,
+    currentTeam: null,   // 积分操作
     isSliding: false,
     showTeamSelect: false,
     selectedTeam: null,
-    showPause: false,
+    showPause: false,   // 暂停操作
     countdown: 0,
     timer: null,
     timeoutLogs: '' ,
     isToolbarExpanded: false, // 新增工具栏状态
-    hintDirection: ''
+    hintDirection: '',
+    cur_serveteam: ''
   },
 
-  onLoad() {
-    // 加载保存的游戏数据
+  onLoad(options) {
+    const setFromUrl = options.set ? parseInt(options.set) : 1;
     const savedData = wx.getStorageSync('scoreBoardData');
     if (savedData) {
-      this.setData(savedData);
+      this.setData({
+        ...savedData,
+        // 确保数组存在
+        scoreList: savedData.scoreList || [],
+        scoreA: savedData.scoreA || [],
+        scoreB: savedData.scoreB || [],
+        set: setFromUrl
+      });
     }
+    else{
+      this.setData({
+        set: setFromUrl
+      })
+    }
+    console.log("当前局数:", this.data.set, "来源:", savedData ? "存储" : "URL");
   },
 
   // 触摸开始
@@ -55,32 +72,51 @@ Page({
     // 滑动距离不足时忽略
     if (Math.abs(deltaY) < threshold) return
 
-    const team = this.data.currentTeam
+    let team = this.data.currentTeam
     const isIncrement = deltaY < 0 // 上滑加分，下滑减分
 
     // 更新分数
-    if (team === 'A') {
-      this.updateScore('A', isIncrement)
-    } else {
-      this.updateScore('B', isIncrement)
-    }
+    if(this.data.isExchange) team = (this.data.currentTeam === 'A') ? 'B':'A'
+    this.updateScore(team, isIncrement);
   },
 
   // 分数更新方法
   updateScore(team, isIncrement) {
-    const field = `score${team}`
-    let newScore = this.data[field]
-
+    const field = `score${team}`;
+    
     if (isIncrement) {
-      newScore += 1
+      // 加分
+      
+      // 记录得分
+      this.data.scoreList.push(team);
+      this.data[field].push(this.data.scoreList.length - 1);
     } else {
-      newScore = Math.max(0, newScore - 1)
-    }
+        // 撤销该队最后一次得分
+        if (this.data[field].length > 0) {
+          const lastIndex = this.data[field].pop();
+          this.data.scoreList.splice(lastIndex, 1);
 
+          // 更新所有后续索引
+          for (let otherTeam of ['A', 'B']) {
+            const otherField = `score${otherTeam}`;
+            for (let i = 0; i < this.data[otherField].length; i++) {
+              if (this.data[otherField][i] > lastIndex) {
+                this.data[otherField][i] -= 1;
+              }
+            }
+          }
+        }
+    }
+    // 使用数组长度作为实际分数
+    const scoreA = this.data.scoreA.length;
+    const scoreB = this.data.scoreB.length;
     this.setData({
-      [field]: newScore
-    })
-    wx.vibrateShort({type: 'light'})
+      scoreList: [...this.data.scoreList],
+      [field]: [...this.data[field]],
+      isExchange: (scoreA >= 8 || scoreB >= 8) && this.data.set === 3
+    });
+    
+    wx.vibrateShort({type: 'light'});
   },
 
   // 切换工具栏状态
@@ -89,14 +125,6 @@ Page({
       isToolbarExpanded: !this.data.isToolbarExpanded
     })
     wx.vibrateShort({ type: 'light' })
-  },
-
-  exchangePlace(e) {
-    const temp = this.data['scoreA']
-    this.setData({
-      scoreA: this.data['scoreB'],
-      scoreB: temp
-    })
   },
 
   // 点击暂停按钮
@@ -136,14 +164,8 @@ Page({
 
   // 记录暂停历史
   logTimeout(team) {
-    const newLog = {
-      time: new Date().toLocaleTimeString(),
-      team: team,
-      duration: 30
-    };
-    this.setData({
-      timeoutLogs: [...this.data.timeoutLogs, newLog]
-    });
+    const newLog = `${new Date().toLocaleTimeString()} - ${team}队暂停\n${this.data.timeoutLogs}`;
+    this.setData({ timeoutLogs: newLog });
   },
 
   handleCancelPause() {
@@ -183,19 +205,19 @@ Page({
   },
 
   viewRound() {
-    // 保存当前数据
-    const saveData = {
-      scoreA: this.data.scoreA,
-      scoreB: this.data.scoreB,
-      pauseChanceA: this.data.pauseChanceA,
-      pauseChanceB: this.data.pauseChanceB,
-      timeoutLogs: this.data.timeoutLogs
-    };
+  // 保存当前数据
+  const saveData = {
+    scoreList: this.data.scoreList,
+    scoreA: this.data.scoreA,
+    scoreB: this.data.scoreB,
+    pauseChanceA: this.data.pauseChanceA,
+    pauseChanceB: this.data.pauseChanceB,
+    timeoutLogs: this.data.timeoutLogs,
+    set: this.data.set
+  };
     wx.setStorageSync('scoreBoardData', saveData);
-    
     wx.navigateBack();
   },
-
 
   navigateBack() {
     wx.navigateBack({

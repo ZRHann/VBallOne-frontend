@@ -4,15 +4,15 @@ Page({
     isBegin: false,
     currentSet: 1,
     maxSets: 3,
-    rotationA: [4,3,2,5,6,1],
+    rotationA: [4,3,2,5,6,1],     // 轮次信息
     playersA: ['', '', '', '', '', ''],
     rotationB: [4,3,2,5,6,1],
     playersB: ['', '', '', '', '', ''],
-    fir_serveteam: null,
+    fir_serveteam: null,        // 发球方
     cur_serveteam: null,
     serveA: 1,
     serveB: 1,
-    lastScoreA: 0,
+    lastScoreA: 0,        // 比分信息
     lastScoreB: 0,
     lastTimeoutLogsL: '',
     lastPauseChanceA: 2,
@@ -103,6 +103,31 @@ Page({
   },
 
   startGame(){
+    const fir_serveteam = this.data.fir_serveteam
+    if(fir_serveteam == null){
+      wx.showModal({
+        title: '请选择发球方',
+        confirmText: 'B队',
+        confirmColor: '#4b6cff',
+        cancelText: 'A队',
+        cancelColor: '#ff4b4b',
+        success: (res) => {
+          if (res.confirm) {
+            this.setData({
+              fir_serveteam: 'B',
+              cur_serveteam: 'B'
+            });
+          }
+          else {
+            this.setData({
+              fir_serveteam: 'A',
+              cur_serveteam: 'A'
+            });
+          }
+        }
+      });
+      return ;
+    }
     const isBegin = this.data.isBegin
     if(!isBegin){
       this.setData({
@@ -111,7 +136,7 @@ Page({
       wx.removeStorageSync('scoreBoardData');
     }  
     wx.navigateTo({
-      url: '/pages/scoreBoard/scoreBoard'
+      url: `/pages/scoreBoard/scoreBoard?set=${this.data.currentSet}`
     });
   },
 
