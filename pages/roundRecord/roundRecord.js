@@ -1,7 +1,7 @@
 Page({
   data: {
     // 比赛信息
-    isBegin: false,
+    isBegin: [false,false,false,false],
     currentSet: 1,
     maxSets: 3,
     rotationA: [4,3,2,5,6,1],     // 轮次信息
@@ -38,7 +38,8 @@ Page({
       this.setData({
         cur_serveteam: scoreBoardData.cur_serveteam,
         serveA: scoreBoardData.serveA,
-        serveB: scoreBoardData.serveB
+        serveB: scoreBoardData.serveB,
+        [`isBegin[${this.data.currentSet}]`]: scoreBoardData.isover ? false : true
       });
     }
   },
@@ -57,7 +58,7 @@ Page({
   // 确定发球方
   handleSelectServeTeam(e) {
     const team = e.currentTarget.dataset.team;
-    if (!this.data.isBegin){
+    if (!this.data.isBegin[this.data.currentSet]){
       wx.showModal({
         title: '选择发球方',
         content: '确定'+team+'队发球？',
@@ -128,12 +129,14 @@ Page({
       });
       return ;
     }
-    const isBegin = this.data.isBegin
+    const currentSet = this.data.currentSet
+    const isBegin = this.data.isBegin[currentSet]
     if(!isBegin){
       this.setData({
-        isBegin: true
+        [`isBegin[${currentSet}]`]: true
       });
       wx.removeStorageSync('scoreBoardData');
+      console.info(this.data.isBegin)
     }  
     wx.navigateTo({
       url: `/pages/scoreBoard/scoreBoard?set=${this.data.currentSet}`+`&cur_serveteam=${this.data.cur_serveteam}`

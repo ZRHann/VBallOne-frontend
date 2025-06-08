@@ -146,11 +146,11 @@ input {
 .serve-container {
   position: fixed;
   bottom: 18rpx;
-  left: 46rpx;
+  left: 30rpx;
   right: 0;
   display: flex;
   justify-content: space-between;
-  padding: 0 30rpx;
+  padding: 0 15rpx;
 }
 
 /* 图标样式 */

@@ -42,7 +42,6 @@
         </view>
       </block>
     </view>
-    
   </view>
 
   <!-- B队 -->
@@ -110,7 +109,8 @@
 <view class="footer">
   <button class="save-btn" bindtap="saveData">保存当前局数据</button>
   <button class="start-btn" bindtap="startGame">
-    <text class="start-continue">{{isBegin? '继续比赛' : '开始比赛'}}
+    <text class="start-continue">{{isBegin[currentSet]? '继续比赛' : '开始比赛'}}
     </text>
   </button>
 </view>
+

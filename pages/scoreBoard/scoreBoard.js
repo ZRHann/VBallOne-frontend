@@ -21,7 +21,8 @@ Page({
     hintDirection: '',
     cur_serveteam: '',
     serveA: 1,
-    serveB: 1
+    serveB: 1,
+    isover: false
   },
 
   onLoad(options) {
@@ -78,9 +79,25 @@ Page({
     let team = this.data.currentTeam
     const isIncrement = deltaY < 0 // 上滑加分，下滑减分
 
-    // 更新分数
-    if(this.data.isExchange) team = (this.data.currentTeam === 'A') ? 'B':'A'
-    this.updateScore(team, isIncrement);
+    if(!this.data.isover){
+      // 更新分数
+      if(this.data.isExchange) team = (this.data.currentTeam === 'A') ? 'B':'A'
+      this.updateScore(team, isIncrement);
+
+      const scoreA = this.data.scoreA.length
+      const scoreB = this.data.scoreB.length
+      let winscore = this.data.set == 3 ? 15 : 25
+      // 结束比赛
+      if((scoreA >= winscore || scoreB >=winscore) && Math.abs(scoreA-scoreB)>=2){
+        this.setData({
+          isover: true
+        })
+        wx.showModal({
+          title: `第${this.data.set}局结束`,
+          content:(scoreA>scoreB)? 'A队获胜':'B队获胜',
+        })
+      }
+    } 
   },
 
   // 分数更新方法
@@ -135,7 +152,17 @@ Page({
 
   // 点击暂停按钮
   handleShowTeamSelect() {
-    this.setData({ showTeamSelect: true })
+    if (!this.data.isover){
+      this.setData({ showTeamSelect: true })
+    }
+    else {
+      wx.showToast({
+        title: '该局比赛已结束',
+        icon: 'none',
+        duration: 2000
+      })
+    }
+    
   },
 
   handleCloseTeamSelect() {
@@ -223,13 +250,17 @@ Page({
     isExchange: this.data.isExchange,
     cur_serveteam: this.data.cur_serveteam,
     serveA: this.data.serveA,
-    serveB: this.data.serveB
+    serveB: this.data.serveB,
+    isover: this.data.isover
   };
     wx.setStorageSync('scoreBoardData', saveData);
     wx.navigateBack();
   },
 
   navigateBack() {
+    this.viewRound()
+    return
+
     wx.navigateBack({
       delta: 1 // 返回上一页
     })
