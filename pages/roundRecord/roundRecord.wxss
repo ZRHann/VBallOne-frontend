@@ -96,7 +96,7 @@ page {
 .court {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 10rpx;
+  gap: 8rpx;
   width: 38%;
   height: 32vh;
   padding: 10rpx;
@@ -114,10 +114,12 @@ page {
   flex-direction: row;
   align-items: center;
   justify-content: center;
+  z-index: 0;
 }
 
 .pos-players {
   font-size: 21rpx;
+  z-index: 0;
 }
 
 .pos-num {
@@ -134,11 +136,218 @@ input {
   font-size: 21rpx;
 }
 
+/* 换人记录下拉容器 */
+/* 网格排列容器 */
+.substitution-grid-container {
+  position: fixed;
+  bottom: 80rpx;
+  left: 0rpx;
+  right: 0;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 15rpx;
+  gap: 10rpx;
+}
+
+.substitution-container{
+  position: relative;
+  bottom: 0rpx;
+  left: -40rpx;
+  right: 1;
+  padding: 0 0rpx;
+  gap: 10rpx
+}
+
+.substitution-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5rpx;
+  background: #f5f5f5;
+  font-size: 18rpx;
+  width: 180rpx;
+  height: 22rpx;
+  margin-top: 0rpx;
+  margin-left: 128rpx;
+}
+
+.arrow-icon {
+  width: 30rpx;
+  height: 30rpx;
+}
+
+.substitution-content {
+  max-height: 0rpx;
+  max-width: 190rpx;
+  margin-left: 128rpx;
+  background: white;
+  overflow: hidden;
+  font-size: 10rpx;
+  transition: max-height 0.3s ease;
+}
+
+.substitution-content.open {
+  max-height: 250rpx; /* 根据内容自动扩展 */
+  width: 150rpx;
+  padding: 0 20rpx;
+  margin-left: 128rpx;
+  font-size: 15 rpx;
+}
+
+.record-item {
+  margin-left: 0rpx;
+  display: flex;
+  align-items: center;
+  padding: 20rpx 0;
+  border-bottom: 1rpx solid #f0f0f0;
+  height: 0rpx;
+  gap: 20rpx;
+}
+
+.record-detail {
+  margin-left: 0rpx;
+  font-size: 18rpx;
+}
+
+.delete-icon {
+  width: 22rpx;
+  height: 22rpx;
+  opacity: 1;
+}
+
+.empty-tip {
+  text-align: center;
+  padding: 10rpx;
+  color: #999;
+  font-size: 14rpx;
+}
+
+.add-btn {
+  width: 100%;
+  height: 32rpx;
+  background: #07c160;
+  color: white;
+  border-radius: 7rpx;
+  right: 7rpx;
+}
+
+/* 表单弹窗样式 */
+.form-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0,0,0,0.5);
+  display: none;
+  align-items: center;
+  justify-content: center;
+}
+
+.form-modal.show {
+  display: flex;
+  top: 10rpx;
+}
+
+.form-content {
+  width: 80%;
+  max-width: 300rpx;
+  background: white;
+  border-radius: 16rpx;
+  padding: 40rpx;
+  font-size: 18rpx;
+  box-sizing: border-box;
+}
+
+.form-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0rpx;
+  font-size: 17rpx;
+  width: 200rpx;
+  height: 10rpx;
+  gap: 50rpx;
+  color: rgb(50, 153, 223);
+}
+
+.close-change{
+  position: fixed;
+  width: 25rpx;
+  height: 25rpx;
+  margin-top: -25rpx;
+  margin-left: 220rpx;
+}
+
+.change-btn{
+  position: flex;
+  display: flex;
+  align-items: center;
+  font-size: 18rpx;
+}
+
+.form-header image {
+  width: 20rpx;
+  height: 20rpx;
+}
+
+.form-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 5rpx;
+}
+
+.form-label {
+  width: 50rpx;
+  font-size: 18rpx;
+  color: black;
+}
+
+.form-picker {
+  flex: 1;
+}
+
+.picker-view {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20rpx;
+  border: 1rpx solid #ddd;
+  border-radius: 8rpx;
+  height: 5rpx;
+  font-size: 20rpx;
+}
+
+.form-input {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10rpx;
+  border: 1rpx solid #ddd;
+  border-radius: 8rpx;
+  height: 5rpx;
+  font-size: 20rpx;
+}
+
+.picker-arrow {
+  width: 30rpx;
+  height: 30rpx;
+}
+
+.confirm-btn {
+  width: 100rpx;
+  height: 40rpx;
+  background: #07c160;
+  color: white;
+  border-radius: 8rpx;
+  margin-top: 20rpx;
+  font-size: 18rpx;
+}
+
 .server{
   width: 15rpx;
   height: 15rpx;
   position: absolute;
-  bottom: 34rpx;
+  bottom: 33rpx;
   right: 2rpx;
 }
 

@@ -5,14 +5,26 @@ Page({
     currentSet: 1,
     maxSets: 3,
     rotationA: [4,3,2,5,6,1],     // 轮次信息
-    playersA: ['', '', '', '', '', ''],
+    fir_playersA: ['', '', '', '', '', ''],
+    cur_playersA: ['', '', '', '', '', ''],
     rotationB: [4,3,2,5,6,1],
-    playersB: ['', '', '', '', '', ''],
+    fir_playersB: ['', '', '', '', '', ''],
+    cur_playersB: ['', '', '', '', '', ''],
     fir_serveteam: '',        // 发球方
     cur_serveteam: '',
     serveA: 1,
     serveB: 1,
-    hasSavedGame: false
+    hasSavedGame: false,
+    isFormShowA: false,
+    isFormShowB: false,
+    substitutionRecordsA:[],
+    substitutionRecordsB:[],
+    outPlayer: -1,
+    inPlayer: -1,
+    currentTeam: '',
+    changeIndex: -1,
+    isSubstitutionOpenA: false,
+    isSubstitutionOpenB: false
   },
 
   // 保存到本地
@@ -25,6 +37,10 @@ Page({
     // 加载其他数据
     const saved = wx.getStorageSync('lineup');
     if (saved) this.setData(saved);
+    const savedRecordsA = wx.getStorageSync('substitutionRecordsA');
+    const savedRecordsB = wx.getStorageSync('substitutionRecordsB');
+    if (savedRecordsA) this.setData({substitutionRecordsA: savedRecordsA});
+    if (savedRecordsB) this.setData({substitutionRecordsB: savedRecordsB});
   },
 
   onShow() {
@@ -42,6 +58,109 @@ Page({
         [`isBegin[${this.data.currentSet}]`]: scoreBoardData.isover ? false : true
       });
     }
+  },
+
+  // 切换换人记录展开状态
+  toggleSubstitutionList: function(e) {
+    const currentTeam = e.currentTarget.dataset.currentTeam;
+    const key = `isSubstitutionOpen${currentTeam}`;
+    this.setData({
+      currentTeam: currentTeam,
+      [key]: !this.data[key]
+    });
+  },
+
+  showAddForm: function(e){
+    const currentTeam = e.currentTarget.dataset.currentTeam;
+    const key =  `isFormShow${currentTeam}`;
+    const substitutionRecords = `substitutionRecords${currentTeam}`;
+    if(this.data[substitutionRecords].length == 6){
+      wx.showToast({
+        title: `换人次数已满`,
+        icon: 'error',
+        duration: 2000
+      });
+      return ;
+    }
+    this.setData({
+      currentTeam: currentTeam,
+      [key]: true,
+      outPlayer: null,
+      inPlayer: null,
+    });
+  },
+
+  hideAddForm(){
+    const currentTeam =this.data.currentTeam;
+    const key = `isFormShow${currentTeam}`;
+    this.setData({
+      [key]: false
+    });
+  },
+
+  outChange: function(e){
+    const index = e.detail.value;
+    const currentTeam = this.data.currentTeam;
+    const players = currentTeam == 'A' ? this.data.cur_playersA : this.data.cur_playersB;
+    this.setData({
+      outPlayer: players[index],
+      changeIndex: index,
+    });
+  },
+
+  inChange(e){
+    const inPlayer = e.detail.value;
+    this.setData({inPlayer: inPlayer});
+  },
+
+  addSubstitution(){
+    const { outPlayer, inPlayer, changeIndex} =this.data;
+
+    if(outPlayer == null || inPlayer == null){
+      wx.showToast ({
+        title: '请填写完整信息',
+        icon: 'error'
+      });
+      return ;
+    }
+
+    if (outPlayer === inPlayer) {
+      wx.showToast({ title: '换下和换上球员不能相同', icon: 'error' });
+      return;
+    }
+    const newRecord={
+      outPlayer,
+      inPlayer
+    };
+    const key = `substitutionRecords${this.data.currentTeam}`;
+    const isFormShow = `isFormShow${this.data.currentTeam}`;
+    this.setData({
+      [key]: [...this.data[key], newRecord],
+      [isFormShow]:false,
+      [`cur_players${this.data.currentTeam}[${changeIndex}]`]: inPlayer
+    });
+
+    if(this.data.currentTeam == 'A')wx.setStorageSync('substitutionRecordsA', this.data.substitutionRecordsA);
+    else wx.setStorageSync('substitutionRecordsB', this.data.substitutionRecordsB);
+  },
+
+  // 删除记录
+  deleteRecord: function(e) {
+    const index = e.currentTarget.dataset.index;
+    const currentTeam = e.currentTarget.dataset.currentTeam;
+    const key = `substitutionRecords${currentTeam}`;
+    wx.showModal({
+      title: '确认删除',
+      content: '确定要删除这条换人记录吗？',
+      success: (res) => {
+        if (res.confirm) {
+          const newRecords = [...this.data[key]];
+          newRecords.splice(index, 1);
+          this.setData({ [key]: newRecords });
+          wx.setStorageSync(key, newRecords);
+        }
+      }
+    });
   },
 
   // 设置发球队
@@ -97,15 +216,15 @@ Page({
   bindInput(e) {
     const { team, index } = e.currentTarget.dataset;
     const value = e.detail.value;
-    
     this.setData({
-      [`players${team}[${index}]`]: value.replace(/[^0-9]/g, '') // 只允许数字输入
+      [`fir_players${team}[${index}]`]: value.replace(/[^0-9]/g, ''), // 只允许数字输入
+      [`cur_players${team}[${index}]`]: value.replace(/[^0-9]/g, '')
     });
   },
 
   startGame(){
     const fir_serveteam = this.data.fir_serveteam
-    if(fir_serveteam == null){
+    if(fir_serveteam == ''){
       wx.showModal({
         title: '请选择发球方',
         confirmText: 'B队',
@@ -136,7 +255,6 @@ Page({
         [`isBegin[${currentSet}]`]: true
       });
       wx.removeStorageSync('scoreBoardData');
-      console.info(this.data.isBegin)
     }  
     wx.navigateTo({
       url: `/pages/scoreBoard/scoreBoard?set=${this.data.currentSet}`+`&cur_serveteam=${this.data.cur_serveteam}`

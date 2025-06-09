@@ -2,12 +2,14 @@
 <view class="set-selector">
   <text>当前局数：</text>
   <picker range="{{[1,2,3]}}" value="{{currentSet-1}}" bindchange="changeSet">
-    <text class="set-num">第{{currentSet}}局</text>
+    <view class="set-picker">
+      <text class="set-num">第{{currentSet}}局</text>
+    </view>
   </picker>
-</view>
 
-<view class="back-btn" bindtap="navigateBack">
+  <view class="back-btn" bindtap="navigateBack">
     <text class="icon">←</text>
+  </view>
 </view>
 
 <!-- 队伍轮次显示 -->
@@ -37,7 +39,7 @@
             wx:if="{{item==1 && cur_serveteam == 'A'}}"
             src="{{'/images/tabbar/server.png'}}" 
           />
-          <text class="pos-players">{{playersA[(serveA+item-2)%6]}}</text>
+          <text class="pos-players">{{cur_playersA[(serveA+item-2)%6]}}</text>
           <text class="pos-num">{{item}}</text>
         </view>
       </block>
@@ -51,7 +53,7 @@
       <block wx:for="{{rotationB}}" wx:key="index">
         <view class="position">
           <input 
-            value="{{playersB[item-1]}}" 
+            value="{{fir_playersB[item-1]}}" 
             placeholder="号码"
             bindinput="bindInput" 
             data-team="B" 
@@ -69,7 +71,7 @@
             wx:if="{{item==1 && cur_serveteam == 'B'}}"
             src="{{'/images/tabbar/server.png'}}" 
           />
-          <text class="pos-players">{{playersB[(serveA+item-2)%6]}}</text>
+          <text class="pos-players">{{cur_playersB[(serveA+item-2)%6]}}</text>
           <text class="pos-num">{{item}}</text>
         </view>
       </block>
@@ -113,4 +115,171 @@
     </text>
   </button>
 </view>
+
+<!-- 换人记录下拉区域 -->
+<view class="substitution-grid-container">
+  <!--A队-->
+  <view class="substitution-container">
+    <view class="substitution-header" bindtap="toggleSubstitutionList" data-current-Team='A'>
+      <text>换人记录 ({{substitutionRecordsA.length}})</text>
+      <image 
+        src="{{isSubstitutionOpenA ? '/images/tabbar/arrow-down.png' : '/images/tabbar/arrow-up.png'}}" 
+        class="arrow-icon"
+      ></image>
+    </view>
+
+    <!-- 下拉内容 -->
+    <view class="substitution-content {{isSubstitutionOpenA ? 'open' : ''}}">
+      <scroll-view 
+        scroll-y 
+        class="scroll-area"
+        style="height: {{isSubstitutionOpenA ? '150rpx' : '0'}}"
+      >
+        <block wx:for="{{substitutionRecordsA}}" wx:key="timestamp">
+          <view class="record-item">
+            <view class="record-detail">
+              <text>{{item.inPlayer}}↑   </text>
+              <text>{{item.outPlayer}}↓</text>
+            </view>
+            <image 
+              src="/images/tabbar/delete.png" 
+              class="delete-icon" 
+              bindtap="deleteRecord" 
+              data-index="{{index}}"
+              data-current-Team='A'
+            ></image>
+          </view>
+        </block>
+      
+        <view wx:if="{{substitutionRecordsA.length === 0}}" class="empty-tip">
+            暂无换人记录
+        </view>
+        </scroll-view>>
+      
+      <button class="add-btn" bindtap="showAddForm" data-current-Team='A'>+ 添加换人</button>
+    </view>
+  </view>
+
+  <!--B队-->
+  <view class="substitution-container">
+    <view class="substitution-header" bindtap="toggleSubstitutionList" data-current-Team='B'>
+      <text>换人记录 ({{substitutionRecordsB.length}})</text>
+      <image 
+        src="{{isSubstitutionOpenB ? '/images/tabbar/arrow-down.png' : '/images/tabbar/arrow-up.png'}}" 
+        class="arrow-icon"
+      ></image>
+    </view>
+
+    <!-- 下拉内容 -->
+    <view class="substitution-content {{isSubstitutionOpenB ? 'open' : ''}}">
+      <scroll-view 
+        scroll-y 
+        class="scroll-area"
+        style="height: {{isSubstitutionOpenB ? '150rpx' : '0'}}"
+      >
+        <block wx:for="{{substitutionRecordsB}}" wx:key="timestamp">
+          <view class="record-item">
+            <view class="record-detail">
+              <text>{{item.inPlayer}} ↑ </text>
+              <text>{{item.outPlayer}} ↓ </text>
+            </view>
+            <image 
+              src="/images/tabbar/delete.png" 
+              class="delete-icon" 
+              bindtap="deleteRecord" 
+              data-index="{{index}}"
+              data-current-Team='B'
+            ></image>
+          </view>
+        </block>
+        
+        <view wx:if="{{substitutionRecordsB.length === 0}}" class="empty-tip">
+          暂无换人记录
+        </view>
+      </scroll-view>>
+      
+      <button class="add-btn" bindtap="showAddForm" data-current-Team='B'>+ 添加换人</button>
+    </view>
+
+    <!-- 换人表单弹窗 -->
+    <view class="form-modal {{isFormShowA ? 'show' : ''}}">
+      <view class="form-content">
+        <image class="close-change" src="/images/tabbar/close.png" bindtap="hideAddForm"></image>
+        <!-- 队伍选择 -->
+        <view class="form-row">
+          <text class="form-label">A队</text>
+        </view>
+
+        <!-- 换下球员选择 -->
+        <view class="form-row">
+          <picker 
+            class="form-picker" 
+            range="{{cur_playersA}}" 
+            bindchange="outChange"
+          >
+            <view class="picker-view">
+              {{outPlayer || '请选择'}}
+            </view>
+          </picker>
+          <image src="/images/tabbar/arrow-down.png" class="picker-arrow"></image>
+        </view>
+        
+        <!-- 换上球员选择 -->
+        <view class="form-row">
+          <input 
+            type="number" 
+            placeholder="号码" 
+            class="form-input"
+            bindinput="inChange"
+            value="{{inPlayer}}"
+          />
+          <image src="/images/tabbar/arrow-up.png" class="picker-arrow"></image>
+        </view>
+        <button class="confirm-btn" bindtap="addSubstitution">确认换人</button>
+      </view>
+    </view>
+
+    <!-- 换人表单弹窗 -->
+    <view class="form-modal {{isFormShowB ? 'show' : ''}}">
+      <view class="form-content">
+        <image class="close-change" src="/images/tabbar/close.png" bindtap="hideAddForm"></image>
+        <!-- 队伍选择 -->
+        <view class="form-row">
+          <text class="form-label">B队</text>
+        </view>
+
+        <!-- 换下球员选择 -->
+        <view class="form-row">
+          <picker 
+            class="form-picker" 
+            range="{{cur_playersB}}" 
+            bindchange="outChange"
+          >
+            <view class="picker-view">
+              {{outPlayer || '请选择'}} 
+            </view>
+          </picker>
+          <image src="/images/tabbar/arrow-down.png" class="picker-arrow"></image>
+        </view>
+        
+        <!-- 换上球员选择 -->
+        <view class="form-row">
+          <input 
+            type="number" 
+            placeholder="号码" 
+            class="form-input"
+            bindinput="inChange"
+            value="{{inPlayer}}"
+          />
+          <image src="/images/tabbar/arrow-up.png" class="picker-arrow"></image>
+        </view>
+        
+        <button class="confirm-btn" bindtap="addSubstitution">确认换人</button>
+      </view>
+    </view>  
+  </view>
+</view>
+
+
+
 
