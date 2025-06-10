@@ -7,6 +7,7 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 40rpx;
+  gap: 30rpx;
 }
 
 .title {
@@ -17,21 +18,22 @@
 
 .status {
   font-size: 28rpx;
-  padding: 8rpx 16rpx;
+  padding: 0rpx 16rpx;
   border-radius: 8rpx;
+  align-content: center;
 }
 
-.status.pending {
+.status.NOT_STARTED {
   background: #ffe58f;
   color: #d48806;
 }
 
-.status.ongoing {
+.status.IN_PROGRESS {
   background: #b7eb8f;
   color: #389e0d;
 }
 
-.status.completed {
+.status.FINISHED {
   background: #ffccc7;
   color: #cf1322;
 }

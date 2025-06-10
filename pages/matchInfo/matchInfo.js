@@ -4,11 +4,7 @@ Page({
     matchName: '',
     matchLocation: '',
     match_date: '',
-    statusMapping: {
-      pending: '未开始',
-      ongoing: '进行中',
-      completed: '已结束'
-    }
+    match_status: ''
   },
 
   onLoad(options) {
@@ -16,12 +12,14 @@ Page({
     const name = decodeURIComponent(options.name);
     const location = decodeURIComponent(options.location);
     const date = decodeURIComponent(options.match_date);
+    const status = decodeURIComponent(options.status);
     // 更新页面数据
     this.setData({
       matchId: options.id,
       matchName: name,
       matchLocation: location,
-      match_date: date
+      match_date: date,
+      match_status: status,
     });
   },
 
@@ -45,6 +43,16 @@ Page({
 
   handleStartMatch(){
     // 需要添加权限认证
+    this.setData({
+      match_status: 'IN_PROGRESS'
+    });
+    wx.request({
+      url: `https://vballone.zrhan.top/api/matches/${this.data.match_Id}`,
+      method: 'PUT',
+      date:{
+        status: this.data.match_status
+      }
+    })
     wx.navigateTo({
       url: `/pages/roundRecord/roundRecord`
     });

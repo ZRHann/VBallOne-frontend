@@ -201,8 +201,32 @@ Page({
   // 局数切换
   changeSet(e) {
     const set = parseInt(e.detail.value) + 1;
-    this.setData({ currentSet: set });
-    this.loadSetData(set);
+    wx.showModal({
+      title: '确定切换？',
+      content: '确定切换？',
+      complete: (res) => {
+        if (res.cancel) {
+          return ;
+        }
+        if (res.confirm) {
+          wx.request({
+            url: 'url',
+            method: 'POST',
+            data:{
+              set: this.data.currentSet,
+              fir_playersA: this.data.fir_playersA,
+              fir_playersB: this.data.fir_playersB,
+              fir_serveteam: this.data.fir_serveteam,
+              substitutionRecordsA: this.data.substitutionRecordsA,
+              substitutionRecordsB: this.data.substitutionRecordsB
+            }
+          })
+          this.reset();
+          this.setData({ currentSet: set });
+          this.loadSetData(set);
+        }
+      }
+    })
   },
 
   // 加载对应局数据
@@ -270,16 +294,9 @@ Page({
 
   // 重置当前局
   reset() {
-    wx.showModal({
-      title: '确认重置？',
-      success: (res) => {
-        if (res.confirm) {
-          this.setData({
-            [`teamA.players`]: ['','','','','',''],
-            [`teamB.players`]: ['','','','','','']
-          });
-        }
-      }
-    })
+    this.setData({
+      [`teamA.players`]: ['','','','','',''],
+      [`teamB.players`]: ['','','','','','']
+    });
   }
 })

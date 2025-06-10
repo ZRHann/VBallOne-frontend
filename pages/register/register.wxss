@@ -15,13 +15,15 @@
   padding: 30rpx;
   border-radius: 16rpx;
   box-shadow: 0 4rpx 12rpx rgba(0,0,0,0.08);
+  border: 1rpx solid #e1e5eb;
+  transition: all 0.3s ease;
 }
 
 .submit-btn {
   margin-top: 60rpx;
   width: 100%;
-  height: 96rpx;
-  line-height: 96rpx;
+  height: 90rpx;
+  line-height: 65rpx;
   font-size: 34rpx;
 }
 

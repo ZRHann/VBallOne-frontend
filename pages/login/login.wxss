@@ -1,9 +1,20 @@
 /* 游客模式样式 */
 .guest-section {
-  margin-top: 60rpx;
+  margin-top: 30rpx;
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.form-item{
+  margin-bottom: 18rpx;
+  background: #fff;
+  padding: 25rpx;
+  border-radius: 16rpx;
+  box-shadow: 0 6rpx 18rpx rgba(0,0,0,0.08);
+  border: 1rpx solid #e1e5eb;
+  transition: all 0.3s ease;
+  font-size: 35rpx;
 }
 
 .divider {

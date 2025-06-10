@@ -16,7 +16,8 @@ Page({
     showPause: false,   // 暂停操作
     countdown: 0,
     timer: null,
-    timeoutLogs: '' ,
+    timeoutLogsA: [] ,
+    timeoutLogsB: [],
     isToolbarExpanded: false, // 新增工具栏状态
     hintDirection: '',
     cur_serveteam: '',
@@ -95,6 +96,18 @@ Page({
         wx.showModal({
           title: `第${this.data.set}局结束`,
           content:(scoreA>scoreB)? 'A队获胜':'B队获胜',
+        })
+        wx.request({
+          url: 'url',
+          method:'POST',
+          data:{
+            set: this.data.set,
+            scoreList: this.data.scoreList,
+            scoreA: this.data.scoreA.length,
+            scoreB: this.data.scoreB.length,
+            timeoutLogsA: this.data.timeoutLogsA,
+            timeoutLogsB: this.data.timeoutLogsB
+          }
         })
       }
     } 
@@ -197,8 +210,12 @@ Page({
 
   // 记录暂停历史
   logTimeout(team) {
-    const newLog = `${new Date().toLocaleTimeString()} - ${team}队暂停\n${this.data.timeoutLogs}`;
-    this.setData({ timeoutLogs: newLog });
+    const newLog = {
+      scoreA: this.data.scoreA.length,
+      scoreB: this.data.scoreB.length
+    } ;
+    const key = `timeoutLogs${team}`;
+    this.setData({ [key]: [...this.data[key], newRecord] });
   },
 
   handleCancelPause() {
@@ -245,7 +262,8 @@ Page({
     scoreB: this.data.scoreB,
     pauseChanceA: this.data.pauseChanceA,
     pauseChanceB: this.data.pauseChanceB,
-    timeoutLogs: this.data.timeoutLogs,
+    timeoutLogsA: this.data.timeoutLogsA,
+    timeoutLogsB: this.data.timeoutLogsB,
     set: this.data.set,
     isExchange: this.data.isExchange,
     cur_serveteam: this.data.cur_serveteam,

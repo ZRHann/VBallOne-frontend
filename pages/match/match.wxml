@@ -1,16 +1,41 @@
 <view class="container">
-  <view wx:for="{{matches}}" wx:key="id" class="match-card" bindtap="goToDetail" data-id="{{item.id}}" data-name="{{item.name}}" data-location="{{item.location}}" data-match_date="{{item.match_date}}">
-    <view class="status-badge {{item.status}}">
-      <text class="status-text">
-        {{item.status === 'pending' ? '未开始' : item.status === 'ongoing' ? '进行中' : '已结束'}}
-      </text>
+  <!-- 新增搜索框 -->
+  <view class="fixed-search">
+    <view class="search-bar">
+      <input 
+        placeholder="输入比赛名称或地点搜索" 
+        bindinput="onSearchInput" 
+        value="{{searchKeyword}}"
+      />
+      <view 
+        class="clear-icon" 
+        wx:if="{{searchKeyword}}"
+        bindtap="clearSearch"
+      >
+        <image src="/images/tabbar/close.png" class="icon-img" />
+      </view>
+      <image 
+        src="/images/tabbar/search.png" 
+        class="search-icon" 
+        bindtap="onSearch"
+      />
     </view>
-    <view class="name">{{item.name}}</view>
-    <view class="info">📍 {{item.location}}</view>
-    <view class="info">🕒 {{item.match_date}}</view>
   </view>
-
-  <button type="primary" bindtap="goToNewMatch">➕ 新增比赛</button>
-
-  <button type="primary" bindtap="goToScoreBoard">➕ 快速开始</button>
+  <!-- 比赛列表（可滚动区域） -->
+  <scroll-view scroll-y class="match-list">
+    <view wx:for="{{matches}}" wx:key="id" class="match-card" bindtap="goToDetail" data-id="{{item.id}}" data-name="{{item.name}}" data-location="{{item.location}}" data-match_date="{{item.match_date}}" data-status="{{item.status}}">
+      <view class="status-badge {{item.status}}">
+        <text class="status-text">
+          {{item.status === 'NOT_STARTED' ? '未开始' : item.status === 'IN_PROGRESS' ? '进行中' : '已结束'}}
+        </text>
+      </view>
+      <view class="name">{{item.name}}</view>
+      <view class="info">📍 {{item.location}}</view>
+      <view class="info">🕒 {{item.match_date}}</view>
+    </view>
+  </scroll-view>
+  <view class="fixed-buttons">
+    <button type="primary" bindtap="goToNewMatch">➕ 新增比赛</button>
+    <button type="primary" bindtap="goToScoreBoard">➕ 快速开始</button>
+  </view>
 </view>
