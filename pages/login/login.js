@@ -24,9 +24,7 @@ Page({
       success: (res) => {
         if (res.data.success) {
           wx.setStorageSync('session', {
-            username: res.data.username,
-            role: res.data.role,
-            avatarUrl: res.data.avatarUrl,
+            username: this.data.username,
             token: res.data.token
           });
           wx.switchTab({

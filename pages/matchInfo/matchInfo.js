@@ -1,6 +1,6 @@
 Page({
   data: {
-    matchId: '',
+    matchId: -1,
     matchName: '',
     matchLocation: '',
     match_date: '',
@@ -46,15 +46,17 @@ Page({
     this.setData({
       match_status: 'IN_PROGRESS'
     });
+    const matchId = this.data.matchId;
+    // 编码特殊字符（防止URL解析错误）
     wx.request({
-      url: `https://vballone.zrhan.top/api/matches/${this.data.match_Id}`,
+      url: `https://vballone.zrhan.top/api/matches/${matchId}`,
       method: 'PUT',
       date:{
         status: this.data.match_status
       }
     })
     wx.navigateTo({
-      url: `/pages/roundRecord/roundRecord`
+      url: `/pages/roundRecord/roundRecord?matchId=${this.data.matchId}`
     });
   }
 });

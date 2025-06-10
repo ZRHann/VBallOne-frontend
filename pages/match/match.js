@@ -8,7 +8,6 @@ Page({
   onLoad() {
     this.getMatches();
     const session = wx.getStorageSync('session') || {};
-    if (session) console.info(session.name);
   },
 
   getMatches() {
@@ -95,9 +94,22 @@ Page({
   },
 
   goToNewMatch() {
-    wx.navigateTo({
-      url: '/pages/newMatch/newMatch'
-    });
+    const session = wx.getStorageSync('session');
+    if (session.username) {
+      wx.navigateTo({
+        url: '/pages/newMatch/newMatch'
+      });
+    }
+    else{
+      wx.navigateTo({
+        url: '/pages/login/login',
+      })
+      wx.showToast({
+        title: "请先登录",
+        icon: "error",
+        duration: 1000
+      });
+    }
   },
 
   goToScoreBoard(){

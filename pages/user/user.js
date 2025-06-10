@@ -36,7 +36,7 @@ Page({
 
         // 有 token，请求后端验证
         wx.request({
-            url: 'https://vballone.zrhan.top/api/users/me',
+            url: 'https://vballone.zrhan.top/api/me',
             method: 'GET',
             header: getAuthHeader(), 
             success: (res) => {

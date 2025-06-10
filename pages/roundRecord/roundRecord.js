@@ -1,6 +1,7 @@
 Page({
   data: {
     // 比赛信息
+    matchId: -1,
     isBegin: [false,false,false,false],
     currentSet: 1,
     maxSets: 3,
@@ -33,9 +34,13 @@ Page({
     wx.showToast({ title: '保存成功' });
   },
 
-  onLoad() {
+  onLoad(options) {
     // 加载其他数据
     const saved = wx.getStorageSync('lineup');
+    const matchId = decodeURIComponent(options.matchId);
+    this.setData({
+      matchId: matchId
+    });
     if (saved) this.setData(saved);
     const savedRecordsA = wx.getStorageSync('substitutionRecordsA');
     const savedRecordsB = wx.getStorageSync('substitutionRecordsB');
@@ -201,6 +206,7 @@ Page({
   // 局数切换
   changeSet(e) {
     const set = parseInt(e.detail.value) + 1;
+    const matchId = this.data.matchId
     wx.showModal({
       title: '确定切换？',
       content: '确定切换？',
@@ -210,10 +216,10 @@ Page({
         }
         if (res.confirm) {
           wx.request({
-            url: 'url',
+            url: `https://vballone.zrhan.top/api/matches/${matchId}/sets`,
             method: 'POST',
             data:{
-              set: this.data.currentSet,
+              round: this.data.currentSet,
               fir_playersA: this.data.fir_playersA,
               fir_playersB: this.data.fir_playersB,
               fir_serveteam: this.data.fir_serveteam,
@@ -281,7 +287,7 @@ Page({
       wx.removeStorageSync('scoreBoardData');
     }  
     wx.navigateTo({
-      url: `/pages/scoreBoard/scoreBoard?set=${this.data.currentSet}`+`&cur_serveteam=${this.data.cur_serveteam}`
+      url: `/pages/scoreBoard/scoreBoard?set=${this.data.currentSet}`+`&cur_serveteam=${this.data.cur_serveteam}&matchId=${this.data.matchId}`
     });
   },
 

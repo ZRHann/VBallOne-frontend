@@ -1,6 +1,7 @@
 // scoreBoard.js
 Page({
   data: {
+    matchId: -1,
     scoreList:[],
     scoreA: [],
     scoreB: [],
@@ -29,6 +30,7 @@ Page({
   onLoad(options) {
     const setFromUrl = options.set ? parseInt(options.set) : 1;
     const cur_serveteam = options.cur_serveteam || 'A';
+    const matchId = options.matchId;
     const savedData = wx.getStorageSync('scoreBoardData');
     if (savedData) {
       this.setData({
@@ -43,7 +45,8 @@ Page({
     if(options){
       this.setData({
         set: setFromUrl,
-        cur_serveteam: cur_serveteam
+        cur_serveteam: cur_serveteam,
+        matchId: matchId
       })
     }
   },
@@ -98,15 +101,15 @@ Page({
           content:(scoreA>scoreB)? 'A队获胜':'B队获胜',
         })
         wx.request({
-          url: 'url',
+          url:  `https://vballone.zrhan.top/api/matches/${this.data.matchId}/sets`,
           method:'POST',
           data:{
-            set: this.data.set,
-            scoreList: this.data.scoreList,
+            round: this.data.set,
+            //scoreList: this.data.scoreList,
             scoreA: this.data.scoreA.length,
             scoreB: this.data.scoreB.length,
-            timeoutLogsA: this.data.timeoutLogsA,
-            timeoutLogsB: this.data.timeoutLogsB
+            //timeoutLogsA: this.data.timeoutLogsA,
+            //timeoutLogsB: this.data.timeoutLogsB
           }
         })
       }

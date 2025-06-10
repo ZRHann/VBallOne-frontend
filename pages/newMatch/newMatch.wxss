@@ -1,0 +1,10 @@
+.form-item {
+  margin-bottom: 40rpx;
+}
+
+.label {
+  display: block;
+  color: #666;
+  font-size: 32rpx;
+  margin-bottom: 20rpx;
+}
