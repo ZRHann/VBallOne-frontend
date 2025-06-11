@@ -1,10 +1,33 @@
+.container {
+  padding: 40rpx;
+}
+
+.form-card {
+  background: #fff;
+  border-radius: 16rpx;
+  padding: 40rpx;
+  box-shadow: 0 8rpx 12rpx rgba(0,0,0,0.1);
+  border: 1rpx solid black;
+}
+
 .form-item {
   margin-bottom: 40rpx;
+  box-shadow: 0 4rpx 12rpx rgba(0,0,0,0.1);
+}
+
+.input{
+  margin-bottom: 18rpx;
+  background: #fff;
+  padding: 25rpx;
+  border-radius: 16rpx;
+  border: 1rpx solid black;
+  transition: all 0.3s ease;
+  font-size: 35rpx;
 }
 
 .label {
   display: block;
-  color: #666;
+  color: black;
   font-size: 32rpx;
   margin-bottom: 20rpx;
 }

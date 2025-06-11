@@ -5,6 +5,10 @@ Page({
     password: ''
   },
 
+  onLoad(){
+    wx.removeStorageSync('session');
+  },
+
   onUsernameInput(e) {
     this.setData({ username: e.detail.value });
   },

@@ -12,7 +12,7 @@
   padding: 25rpx;
   border-radius: 16rpx;
   box-shadow: 0 6rpx 18rpx rgba(0,0,0,0.08);
-  border: 1rpx solid #e1e5eb;
+  border: 1rpx solid black;
   transition: all 0.3s ease;
   font-size: 35rpx;
 }

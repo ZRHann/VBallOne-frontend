@@ -131,7 +131,9 @@ Page({
         // 撤销该队最后一次得分
         if (this.data[field].length > 0) {
           const lastIndex = this.data[field].pop();
+          if (lastIndex != this.data.scoreList.length-1 && this.data.cur_serveteam ==team)  ;
           this.data.scoreList.splice(lastIndex, 1);
+          console.info(lastIndex);
 
           // 更新所有后续索引
           for (let otherTeam of ['A', 'B']) {

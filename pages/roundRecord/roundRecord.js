@@ -301,8 +301,24 @@ Page({
   // 重置当前局
   reset() {
     this.setData({
-      [`teamA.players`]: ['','','','','',''],
-      [`teamB.players`]: ['','','','','','']
+      fir_playersA: ['','','','','',''],
+      fir_playersB: ['','','','','',''],
+      cur_playersA: ['','','','','',''],
+      cur_playersB: ['','','','','',''],
+      fir_serveteam: '',        
+      cur_serveteam: '',
+      serveA: 1,
+      serveB: 1,
+      isFormShowA: false,
+      isFormShowB: false,
+      substitutionRecordsA:[],
+      substitutionRecordsB:[],
+      outPlayer: -1,
+      inPlayer: -1,
+      currentTeam: '',
+      changeIndex: -1,
+      isSubstitutionOpenA: false,
+      isSubstitutionOpenB: false
     });
   }
 })
