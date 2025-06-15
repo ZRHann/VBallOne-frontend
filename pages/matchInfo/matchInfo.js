@@ -1,3 +1,4 @@
+const getAuthHeader = require('../../utils/getAuthHeader');
 Page({
   data: {
     matchId: -1,
@@ -62,21 +63,33 @@ Page({
   },
 
   handleStartMatch(){
-    // 需要添加权限认证
     this.setData({
       match_status: 'IN_PROGRESS'
     });
     const matchId = this.data.matchId;
-    // 编码特殊字符（防止URL解析错误）
+    // 发送修改状态请求
     wx.request({
       url: `https://vballone.zrhan.top/api/matches/${matchId}`,
       method: 'PUT',
-      date:{
+      header: getAuthHeader(),
+      data: {
         status: this.data.match_status
+      },
+      success: res => {
+        const ok = res.statusCode === 200 || (res.data && res.data.success);
+        if (ok) {
+          wx.showToast({ title: '比赛已开始' });
+          // 跳转到记录局分页面
+          wx.navigateTo({
+            url: `/pages/roundRecord/roundRecord?matchId=${this.data.matchId}`
+          });
+        } else {
+          wx.showToast({ title: res.data.error || '操作失败', icon: 'none' });
+        }
+      },
+      fail: () => {
+        wx.showToast({ title: '网络错误', icon: 'none' });
       }
-    })
-    wx.navigateTo({
-      url: `/pages/roundRecord/roundRecord?matchId=${this.data.matchId}`
     });
   }
 });
