@@ -111,7 +111,7 @@
 <view class="footer">
   <button class="save-btn" bindtap="saveData">保存当前局数据</button>
   <button class="start-btn" bindtap="startGame">
-    <text class="start-continue">{{isBegin[currentSet]? '继续比赛' : '开始比赛'}}
+    <text class="start-continue">{{ '打开翻分板'}}
     </text>
   </button>
 </view>
