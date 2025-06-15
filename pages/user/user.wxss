@@ -4,14 +4,14 @@
 
 .user-info {
   display: flex;
-  position: fixed;
   align-items: center;
-  padding: 40rpx;
-  background: #fff;
-  border-radius: 0rpx;
-  width:  100%;
-  left: 0;
-  border-bottom: 2rpx solid  black;
+  padding: 50rpx 40rpx;
+  background: linear-gradient(135deg, #7db1ff 0%, #3d7dff 100%);
+  border-radius: 32rpx 32rpx 32rpx 32rpx;
+  box-shadow: 0 6rpx 12rpx rgba(0,0,0,0.15);
+  margin: 20rpx auto;
+  width: 92%;
+  color: #fff;
 }
 
 .avatar {
@@ -30,7 +30,6 @@
   font-size: 36rpx;
   font-weight: bold;
   margin-bottom: 10rpx;
-  margin-left: 30rpx;
 }
 
 .role {
@@ -39,8 +38,9 @@
 }
 
 .logout-btn {
-  margin-top: 1100rpx;
-  width: 60%;
+  margin: 60rpx auto 0;
+  width: 70%;
+  display: block;
 }
 
 .not-login {
@@ -64,4 +64,10 @@
 
 .login-btn {
   width: 70%;
+}
+
+.join-date {
+  font-size: 26rpx;
+  color: #e9f0ff;
+  margin-top: 6rpx;
 }

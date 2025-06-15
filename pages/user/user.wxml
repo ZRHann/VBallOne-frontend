@@ -2,8 +2,10 @@
   <!-- 已登录状态 -->
   <view wx:if="{{isLoggedIn}}">
     <view class="user-info">
+      <image class="avatar" src="{{avatarUrl || '/images/default-avatar.png'}}" mode="aspectFill"></image>
       <view class="info">
-        <text class="username">用户名：{{username}}</text>
+        <text class="username">{{username}}</text>
+        <text class="join-date">注册时间：{{joinDate}}</text>
       </view>
     </view>
 

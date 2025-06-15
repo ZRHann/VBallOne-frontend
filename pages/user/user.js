@@ -5,6 +5,7 @@ Page({
       username: '',
       role: '',
       avatarUrl: '',
+      joinDate: '',
       showGuestTips: false
     },
   
@@ -29,6 +30,7 @@ Page({
                 username: '',
                 role: '',
                 avatarUrl: '',
+                joinDate: '',
                 showGuestTips: true
             });
             return;
@@ -36,17 +38,19 @@ Page({
 
         // 有 token，请求后端验证
         wx.request({
-            url: 'https://vballone.zrhan.top/api/me',
+            url: 'https://vballone.zrhan.top/api/users/me',
             method: 'GET',
             header: getAuthHeader(), 
             success: (res) => {
                 let data = res.data;
                 if (data.success && data.user) {
+                    const joinDate = this.formatDate(data.user.createdAt);
                     this.setData({
                         isLoggedIn: true,
                         username: data.user.username,
                         role: session.role || '',        // role/头像仍需从缓存拿
                         avatarUrl: session.avatarUrl || '',
+                        joinDate,
                         showGuestTips: false
                     });
                 } else {
@@ -59,9 +63,19 @@ Page({
         });
     },
 
+    /**
+     * 格式化 ISO 时间为 YYYY-MM-DD
+     */
+    formatDate(isoStr) {
+        if (!isoStr) return '';
+        const date = new Date(isoStr);
+        if (isNaN(date.getTime())) return '';
+        const y = date.getFullYear();
+        const m = (date.getMonth() + 1).toString().padStart(2, '0');
+        const d = date.getDate().toString().padStart(2, '0');
+        return `${y}-${m}-${d}`;
+    },
 
-
-  
     // 跳转登录页
     navigateToLogin() {
         wx.navigateTo({
