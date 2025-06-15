@@ -57,34 +57,37 @@ Page({
   },
 
   // 保存逻辑
-  async handleSave() {
+  handleSave() {
     if (!this.validateForm()) return;
 
     this.setData({ isSaving: true });
-    
-    try {
-      const res = await wx.request({
-        url: `https://vballone.zrhan.top/api/matches/${this.data.id}`,
-        method: 'PUT',
-        header: getAuthHeader(),
-        data: {
-          name: this.data.name,
-          location: this.data.location,
-          match_date: `${this.data.date}T${this.data.time || '00:00'}:00Z` // ISO格式
-        }
-      });
 
-      if (res.statusCode === 200) {
-        wx.showToast({ title: '修改成功' });
-        setTimeout(() => {
-          wx.navigateBack();
-        }, 1500);
+    wx.request({
+      url: `https://vballone.zrhan.top/api/matches/${this.data.id}`,
+      method: 'PUT',
+      header: getAuthHeader(),
+      data: {
+        name: this.data.name,
+        location: this.data.location,
+        match_date: `${this.data.date}T${this.data.time || '00:00'}:00Z` // ISO格式
+      },
+      success: res => {
+        const ok = res.data && (res.data.success || res.statusCode === 200);
+        if (ok) {
+          wx.showToast({ title: '修改成功' });
+          setTimeout(() => {
+            wx.navigateBack();
+          }, 1200);
+        } else {
+          wx.showToast({ title: res.data.error || '修改失败', icon: 'none' });
+        }
+        this.setData({ isSaving: false });
+      },
+      fail: err => {
+        wx.showToast({ title: '网络错误', icon: 'none' });
+        this.setData({ isSaving: false });
       }
-    } catch (err) {
-      wx.showToast({ title: '保存失败', icon: 'none' });
-    } finally {
-      this.setData({ isSaving: false });
-    }
+    });
   },
 
   // 表单验证
