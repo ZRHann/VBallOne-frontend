@@ -140,7 +140,7 @@ input {
 /* 网格排列容器 */
 .substitution-grid-container {
   position: fixed;
-  bottom: 80rpx;
+  bottom: 110rpx;
   left: 0rpx;
   right: 0;
   display: flex;
@@ -187,7 +187,7 @@ input {
 }
 
 .substitution-content.open {
-  max-height: 250rpx; /* 根据内容自动扩展 */
+  max-height: 170rpx; /* 根据内容自动扩展 */
   width: 150rpx;
   padding: 0 20rpx;
   margin-left: 128rpx;
@@ -219,7 +219,7 @@ input {
   text-align: center;
   padding: 10rpx;
   color: #999;
-  font-size: 14rpx;
+  font-size: 19rpx;
 }
 
 .add-btn {
@@ -229,6 +229,7 @@ input {
   color: white;
   border-radius: 7rpx;
   right: 7rpx;
+  top: -30rpx;
 }
 
 /* 表单弹窗样式 */
@@ -341,6 +342,238 @@ input {
   border-radius: 8rpx;
   margin-top: 20rpx;
   font-size: 18rpx;
+}
+
+.pause-container {
+  position: fixed;
+  bottom: 0rpx;
+  left: 110rpx;
+  right: 0;
+  display: flex;
+  padding: 0 15rpx;
+  gap: 10rpx;
+  z-index: -1;
+}
+
+.pause-record {
+  position: relative;
+  padding: 0 0rpx;
+  gap: 10rpx
+}
+
+.pause-title {
+  display: flex;
+  align-items: center;
+  margin-bottom: 25px;
+  position: relative;
+}
+
+.pause-title h2 {
+  font-size: 22px;
+  font-weight: 600;
+  color: #333;
+  margin-left: 12px;
+}
+
+.pause-title::after {
+  content: "";
+  flex: 1;
+  height: 2px;
+  background: linear-gradient(to right, #e0e0e0, transparent);
+  margin-left: 15px;
+}
+
+.pause-title i {
+  color: #e53935;
+  font-size: 24px;
+}
+
+.pause-card {
+  display: flex;
+  background: linear-gradient(to right, #ff4b4b -100%, #ff7676 180%);
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 20px;
+  transition: transform 0.3s ease;
+}
+
+.pause-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.12);
+}
+
+.pause-label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 35px;
+  background: linear-gradient(to right, #ff4b4b -100%, #ff7676 300%);
+  padding: 15px 0;
+}
+
+.label-top, .label-bottom {
+  font-weight: 700;
+  color: white;
+  font-size: 20px;
+  line-height: 1.4;
+}
+
+.pause-detial{
+  display: flex;
+  flex-direction: column;
+}
+
+.score-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 10px 20px;
+}
+
+.set-info {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1px;
+  height: 18rpx;
+  font-size: 18rpx;
+  color: white;
+}
+
+.set-name {
+  font-size: 18px;
+  font-weight: 600;
+  color: white;
+  min-width: 60px;
+}
+
+.score-display {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.home-score, .away-score {
+  font-size: 24px;
+  color: white;
+  text-align: center;
+}
+
+.pause-container-b {
+  position: fixed;
+  bottom: 0rpx;
+  left: 485rpx;
+  right: 0;
+  display: flex;
+  padding: 0 15rpx;
+  gap: 10rpx;
+  z-index: -1;
+}
+
+.pause-record-b {
+  position: relative;
+  padding: 0 0rpx;
+  gap: 10rpx
+}
+
+.pause-title-b {
+  display: flex;
+  align-items: center;
+  margin-bottom: 25px;
+  position: relative;
+}
+
+.pause-title-b h2 {
+  font-size: 22px;
+  font-weight: 600;
+  color: #333;
+  margin-left: 12px;
+}
+
+.pause-title-b::after {
+  content: "";
+  flex: 1;
+  height: 2px;
+  background: linear-gradient(to right, #e0e0e0, transparent);
+  margin-left: 15px;
+}
+
+.pause-title-b i {
+  color: #e53935;
+  font-size: 24px;
+}
+
+.pause-card-b {
+  display: flex;
+  background: linear-gradient(to right, #4b6cff -100%, #76b9ff 180%);
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 20px;
+  transition: transform 0.3s ease;
+}
+
+.pause-card-b:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.12);
+}
+
+.pause-label-b {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 35px;
+  background: linear-gradient(to right, #4b6cff -200%, #76b9ff 500%);
+  padding: 15px 0;
+}
+
+.label-top-b, .label-bottom-b {
+  font-weight: 700;
+  color: white;
+  font-size: 20px;
+  line-height: 1.4;
+}
+
+.pause-detial-b{
+  display: flex;
+  flex-direction: column;
+}
+
+.score-container-b {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 10px 20px;
+}
+
+.set-info-b {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1px;
+  height: 18rpx;
+  font-size: 18rpx;
+  color: white;
+}
+
+.set-name-b {
+  font-size: 18px;
+  font-weight: 600;
+  color: white;
+  min-width: 60px;
+}
+
+.score-display-b {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.home-score-b, .away-score-b {
+  font-size: 22px;
+  color: white;
+  text-align: center;
 }
 
 .server{

@@ -2,9 +2,10 @@
 Page({
   data: {
     matchId: -1,
-    scoreList:[],
     scoreA: [],
     scoreB: [],
+    lastScoreA: 0,
+    lastScoreB: 0,
     set: 3,
     isExchange: false,
     startY: 0,       // 改为记录 Y 轴起始位置
@@ -21,6 +22,7 @@ Page({
     timeoutLogsB: [],
     isToolbarExpanded: false, // 新增工具栏状态
     hintDirection: '',
+    fir_serveteam: '',
     cur_serveteam: '',
     serveA: 1,
     serveB: 1,
@@ -30,16 +32,19 @@ Page({
   onLoad(options) {
     const setFromUrl = options.set ? parseInt(options.set) : 1;
     const cur_serveteam = options.cur_serveteam || 'A';
+    const fir_serveteam = options.fir_serveteam;
     const matchId = options.matchId;
     const savedData = wx.getStorageSync('scoreBoardData');
     if (savedData) {
       this.setData({
         ...savedData,
         // 确保数组存在
-        scoreList: savedData.scoreList || [],
+        fir_serveteam: fir_serveteam,
         scoreA: savedData.scoreA || [],
         scoreB: savedData.scoreB || [],
-        set: setFromUrl
+        set: setFromUrl,
+        timeoutLogsA: savedData.timeoutLogsA || [],
+        timeoutLogsB: savedData.timeoutLogsB || []
       });
     }
     if(options){
@@ -88,8 +93,8 @@ Page({
       if(this.data.isExchange) team = (this.data.currentTeam === 'A') ? 'B':'A'
       this.updateScore(team, isIncrement);
 
-      const scoreA = this.data.scoreA.length
-      const scoreB = this.data.scoreB.length
+      const scoreA = this.data.lastScoreA
+      const scoreB = this.data.lastScoreB
       let winscore = this.data.set == 3 ? 15 : 25
       // 结束比赛
       if((scoreA >= winscore || scoreB >=winscore) && Math.abs(scoreA-scoreB)>=2){
@@ -105,9 +110,8 @@ Page({
           method:'POST',
           data:{
             round: this.data.set,
-            //scoreList: this.data.scoreList,
-            scoreA: this.data.scoreA.length,
-            scoreB: this.data.scoreB.length,
+            scoreA: this.data.lastScoreA,
+            scoreB: this.data.lastScoreB,
             //timeoutLogsA: this.data.timeoutLogsA,
             //timeoutLogsB: this.data.timeoutLogsB
           }
@@ -119,43 +123,51 @@ Page({
   // 分数更新方法
   updateScore(team, isIncrement) {
     const field = `score${team}`;
+    const lastscore = `lastScore${team}`;
+    let newscore = this.data[lastscore];
+    const other = team == 'A'? 'scoreB' : 'scoreA';
     const last_serveteam = this.data.cur_serveteam;
-    
+    const scoreA = this.data.lastScoreA;
+    const scoreB = this.data.lastScoreB;
+    let lastindex = this.data[field].length-1;
+
     if (isIncrement) {
       // 加分
-      
       // 记录得分
-      this.data.scoreList.push(team);
-      this.data[field].push(this.data.scoreList.length - 1);
+      this.data[field].push(this.data[lastscore]+1);
+      this.data[other].push(0);
+      newscore = newscore + 1;
     } else {
         // 撤销该队最后一次得分
-        if (this.data[field].length > 0) {
-          const lastIndex = this.data[field].pop();
-          if (lastIndex != this.data.scoreList.length-1 && this.data.cur_serveteam ==team)  ;
-          this.data.scoreList.splice(lastIndex, 1);
-          console.info(lastIndex);
-
-          // 更新所有后续索引
-          for (let otherTeam of ['A', 'B']) {
-            const otherField = `score${otherTeam}`;
-            for (let i = 0; i < this.data[otherField].length; i++) {
-              if (this.data[otherField][i] > lastIndex) {
-                this.data[otherField][i] -= 1;
-              }
-            }
+        if (this.data[field][lastindex] != 0) {
+          this.data[field].pop();
+          this.data[other].pop();
+          newscore = newscore - 1;
+        }
+        else{
+          if (this.data[other][lastindex] != 0){
+            wx.showModal({
+              title: '',
+              content: '请根据得分顺序撤销得分',
+            });
+            return ;
+          }
+          else {
+            return ;
           }
         }
     }
-    // 使用数组长度作为实际分数
-    const scoreA = this.data.scoreA.length;
-    const scoreB = this.data.scoreB.length;
+    console.info(this.data.scoreA);
+    const lastTwoindex = this.data.scoreB.length -2;
+    lastindex = lastTwoindex +1;
     this.setData({
-      scoreList: [...this.data.scoreList],
       [field]: [...this.data[field]],
+      [other]: [...this.data[other]],
+      [lastscore]: newscore,
       isExchange: (scoreA >= 8 || scoreB >= 8) && this.data.set === 3,
-      serveA: (team != last_serveteam) && (team === 'A') ? (this.data.serveA % 6) +1 : this.data.serveA,
-      serveB: (team != last_serveteam) && (team === 'B') ? (this.data.serveB % 6) +1 : this.data.serveB ,
-      cur_serveteam: team,
+      serveA:isIncrement ? ((team !=last_serveteam && team == 'A') ? (this.data.serveA % 6) +1:this.data.serveA) : ((team == last_serveteam && team == 'A' && this.data.scoreA[lastindex] == 0) ? (this.data.serveA + 4)%6 +1  : this.data.serveA),
+      serveB: isIncrement ? ((team !=last_serveteam && team == 'B') ? (this.data.serveB % 6) +1:this.data.serveB) : ((team == last_serveteam && team == 'B' && this.data.scoreB[lastindex] == 0) ? (this.data.serveB + 4)%6 +1  : this.data.serveB),
+      cur_serveteam: this.data.scoreA[lastindex] == 0 ? (this.data.scoreB[lastindex] == 0 ? fir_serveteam : 'B' ): 'A' , 
     });
     wx.vibrateShort({type: 'light'});
   },
@@ -201,26 +213,23 @@ Page({
       return
     }
     if (this.data[key] > 0){
+      const newLog = {
+        id: 3-this.data[key] == 1 ? '1st': '2nd',
+        scoreA: this.data.scoreA.length,
+        scoreB: this.data.scoreB.length
+      };
+      const Logteam = `timeoutLogs${team}`;
+      const existlog = this.data[Logteam] || [];
       this.setData({ 
         selectedTeam: team,
         showTeamSelect: false,
         showPause: true,
         countdown: 30,
-        [key]: this.data[key] - 1
+        [key]: this.data[key] - 1,
+        [Logteam]: [...existlog, newLog]
       });
       this.startCountdown();
-      this.logTimeout(team);
     }
-  },
-
-  // 记录暂停历史
-  logTimeout(team) {
-    const newLog = {
-      scoreA: this.data.scoreA.length,
-      scoreB: this.data.scoreB.length
-    } ;
-    const key = `timeoutLogs${team}`;
-    this.setData({ [key]: [...this.data[key], newRecord] });
   },
 
   handleCancelPause() {
@@ -262,9 +271,10 @@ Page({
   viewRound() {
   // 保存当前数据
   const saveData = {
-    scoreList: this.data.scoreList,
     scoreA: this.data.scoreA,
     scoreB: this.data.scoreB,
+    lastScoreA: this.data.lastScoreA,
+    lastScoreB: this.data.lastScoreB,
     pauseChanceA: this.data.pauseChanceA,
     pauseChanceB: this.data.pauseChanceB,
     timeoutLogsA: this.data.timeoutLogsA,
@@ -283,11 +293,6 @@ Page({
   navigateBack() {
     this.viewRound()
     return
-
-    wx.navigateBack({
-      delta: 1 // 返回上一页
-    })
-    wx.vibrateShort({ type: 'light' }) // 可选震动反馈
   },
 
   // 页面卸载时清理

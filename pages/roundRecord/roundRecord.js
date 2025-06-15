@@ -25,7 +25,9 @@ Page({
     currentTeam: '',
     changeIndex: -1,
     isSubstitutionOpenA: false,
-    isSubstitutionOpenB: false
+    isSubstitutionOpenB: false,
+    pauseA: [],
+    pauseB: []
   },
 
   // 保存到本地
@@ -49,10 +51,6 @@ Page({
   },
 
   onShow() {
-    // 检查是否有保存的游戏
-    const hasSavedGame = wx.getStorageSync('scoreBoardData') ? true : false;
-    this.setData({ hasSavedGame });
-    
     // 显示保存的游戏数据（但不移除存储）
     const scoreBoardData = wx.getStorageSync('scoreBoardData');
     if (scoreBoardData) {
@@ -60,7 +58,9 @@ Page({
         cur_serveteam: scoreBoardData.cur_serveteam,
         serveA: scoreBoardData.serveA,
         serveB: scoreBoardData.serveB,
-        [`isBegin[${this.data.currentSet}]`]: scoreBoardData.isover ? false : true
+        [`isBegin[${this.data.currentSet}]`]: scoreBoardData.isover ? false : true,
+        pauseA: scoreBoardData.timeoutLogsA,
+        pauseB: scoreBoardData.timeoutLogsB
       });
     }
   },
@@ -287,7 +287,7 @@ Page({
       wx.removeStorageSync('scoreBoardData');
     }  
     wx.navigateTo({
-      url: `/pages/scoreBoard/scoreBoard?set=${this.data.currentSet}`+`&cur_serveteam=${this.data.cur_serveteam}&matchId=${this.data.matchId}`
+      url: `/pages/scoreBoard/scoreBoard?set=${this.data.currentSet}`+`&fir_serveteam=${this.data.fir_serveteam}&cur_serveteam=${this.data.cur_serveteam}&matchId=${this.data.matchId}`
     });
   },
 
@@ -318,7 +318,9 @@ Page({
       currentTeam: '',
       changeIndex: -1,
       isSubstitutionOpenA: false,
-      isSubstitutionOpenB: false
+      isSubstitutionOpenB: false,
+      pauseA: [],
+      pauseB: []
     });
   }
 })

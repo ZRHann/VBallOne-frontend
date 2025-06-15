@@ -64,8 +64,38 @@ page {
 
 .team-name {
   font-size: 48rpx;
-  color: rgba(255,255,255,0.9);
+  color: black;
   margin-bottom: 40rpx;
+}
+
+/* 记分表格 */
+.score-table-container {
+  position: fixed;
+  top: -2rpx;
+  left: 45rpx;
+  display: flex;
+  align-items: center;
+  background: rgba(255,255,255,0.0);
+  border-radius: 0rpx 0rpx;
+  transition: all 0.3s ease;
+  z-index: 999;
+}
+
+.table-row {
+  display: flex;
+  max-width: 15rpx;
+  height: 31rpx;
+}
+
+.cell {
+  flex: 1;
+  min-width: 16rpx;
+  height: 7rpx;
+  width: 10rpx;
+  text-align: center;
+  padding: 12rpx 5rpx;
+  font-size: 20rpx;
+  border: 1rpx solid black;
 }
 
 /* 工具栏容器 */
