@@ -176,17 +176,17 @@
     <view class="substitution-header" bindtap="toggleSubstitutionList" data-current-Team='A'>
       <text>换人记录 ({{substitutionRecordsA.length}})</text>
       <image 
-        src="{{isSubstitutionOpenA ? '/images/tabbar/arrow-down.png' : '/images/tabbar/arrow-up.png'}}" 
+        src="{{isSubstitutionOpen ? '/images/tabbar/arrow-down.png' : '/images/tabbar/arrow-up.png'}}" 
         class="arrow-icon"
       ></image>
     </view>
 
     <!-- 下拉内容 -->
-    <view class="substitution-content {{isSubstitutionOpenA ? 'open' : ''}}">
+    <view class="substitution-content {{isSubstitutionOpen ? 'open' : ''}}">
       <scroll-view 
         scroll-y 
         class="scroll-area"
-        style="height: {{isSubstitutionOpenA ? '150rpx' : '0'}}"
+        style="height: {{isSubstitutionOpen ? '150rpx' : '0'}}"
       >
         <block wx:for="{{substitutionRecordsA}}" wx:key="timestamp">
           <view class="record-item">
@@ -218,17 +218,17 @@
     <view class="substitution-header" bindtap="toggleSubstitutionList" data-current-Team='B'>
       <text>换人记录 ({{substitutionRecordsB.length}})</text>
       <image 
-        src="{{isSubstitutionOpenB ? '/images/tabbar/arrow-down.png' : '/images/tabbar/arrow-up.png'}}" 
+        src="{{isSubstitutionOpen ? '/images/tabbar/arrow-down.png' : '/images/tabbar/arrow-up.png'}}" 
         class="arrow-icon"
       ></image>
     </view>
 
     <!-- 下拉内容 -->
-    <view class="substitution-content {{isSubstitutionOpenB ? 'open' : ''}}">
+    <view class="substitution-content {{isSubstitutionOpen ? 'open' : ''}}">
       <scroll-view 
         scroll-y 
         class="scroll-area"
-        style="height: {{isSubstitutionOpenB ? '150rpx' : '0'}}"
+        style="height: {{isSubstitutionOpen ? '150rpx' : '0'}}"
       >
         <block wx:for="{{substitutionRecordsB}}" wx:key="timestamp">
           <view class="record-item">

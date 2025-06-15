@@ -72,7 +72,9 @@ page {
 .score-table-container {
   position: fixed;
   top: -2rpx;
-  left: 45rpx;
+  left: 47rpx;
+  height: 80rpx;
+  width:  600rpx;
   display: flex;
   align-items: center;
   background: rgba(255,255,255,0.0);
@@ -85,17 +87,31 @@ page {
   display: flex;
   max-width: 15rpx;
   height: 31rpx;
+  margin-left: 30rpx;
 }
 
 .cell {
-  flex: 1;
+  display: flex;
   min-width: 16rpx;
-  height: 7rpx;
+  height: 6rpx;
   width: 10rpx;
+  margin-top: 7.3rpx;
+  margin-left: -2rpx;
   text-align: center;
+  justify-content: center;
   padding: 12rpx 5rpx;
   font-size: 20rpx;
-  border: 1rpx solid black;
+  color: black;
+  border: 2rpx groove black;
+  line-height: 10rpx;
+}
+
+.cell.team-name{
+  left: 48rpx;
+  display: fixed;
+  position: fixed;
+  z-index: 2rpx;
+  background:rgb(248, 246, 246);
 }
 
 /* 工具栏容器 */

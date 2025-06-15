@@ -130,6 +130,8 @@ Page({
     const scoreA = this.data.lastScoreA;
     const scoreB = this.data.lastScoreB;
     let lastindex = this.data[field].length-1;
+    let serveA = this.data.serveA;
+    let serveB = this.data.serveB;
 
     if (isIncrement) {
       // 加分
@@ -137,8 +139,19 @@ Page({
       this.data[field].push(this.data[lastscore]+1);
       this.data[other].push(0);
       newscore = newscore + 1;
+      if(team !=last_serveteam ){
+        serveA = team == 'A' ? (this.data.serveA % 6) +1 : serveA;
+        serveB = team == 'B' ? (this.data.serveB % 6) +1 : serveB;
+      }
+      if(this.data.scoreA[lastindex] == 0){
+        serveA = team == 'A' ? (this.data.serveA + 4)%6 +1  : this.data.serveA
+        serveB = team == 'B' ? (this.data.serveB + 4)%6 +1  : this.data.serveB
+      }
     } else {
         // 撤销该队最后一次得分
+        if(this.data.scoreA.length == 0){ 
+          return ;
+        }
         if (this.data[field][lastindex] != 0) {
           this.data[field].pop();
           this.data[other].pop();
@@ -157,16 +170,18 @@ Page({
           }
         }
     }
-    console.info(this.data.scoreA);
-    const lastTwoindex = this.data.scoreB.length -2;
-    lastindex = lastTwoindex +1;
+    if (this.data.scoreA.length == 0) {
+      serveA = 1;
+      serveB = 1;
+    }
+
     this.setData({
       [field]: [...this.data[field]],
       [other]: [...this.data[other]],
       [lastscore]: newscore,
       isExchange: (scoreA >= 8 || scoreB >= 8) && this.data.set === 3,
-      serveA:isIncrement ? ((team !=last_serveteam && team == 'A') ? (this.data.serveA % 6) +1:this.data.serveA) : ((team == last_serveteam && team == 'A' && this.data.scoreA[lastindex] == 0 ) ? (this.data.serveA + 4)%6 +1  : this.data.serveA),
-      serveB: isIncrement ? ((team !=last_serveteam && team == 'B') ? (this.data.serveB % 6) +1:this.data.serveB) : ((team == last_serveteam && team == 'B' && this.data.scoreB[lastindex] == 0) ? (this.data.serveB + 4)%6 +1  : this.data.serveB),
+      serveA: serveA,
+      serveB: serveB,
       cur_serveteam: this.data.scoreA[lastindex] == 0 ? (this.data.scoreB[lastindex] == 0 ? fir_serveteam : 'B' ): 'A' , 
     });
     wx.vibrateShort({type: 'light'});
