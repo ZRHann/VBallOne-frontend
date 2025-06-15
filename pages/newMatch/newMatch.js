@@ -3,7 +3,8 @@ Page({
     data: {
       name: '',
       location: '',
-      match_date: '',
+      date: '',          // YYYY-MM-DD
+      time: '',          // HH:MM
       referee_username: ''
     },
   
@@ -15,21 +16,28 @@ Page({
     },
   
     createMatch() {
-      const { name, location, match_date, referee_username } = this.data;
+      const { name, location, date, time, referee_username } = this.data;
   
-      if (!name || !location || !match_date || !referee_username) {
+      if (!name || !location || !date || !time || !referee_username) {
         return wx.showToast({ title: '请填写完整', icon: 'none' });
       }
   
     wx.request({
         url: 'https://vballone.zrhan.top/api/matches',
         method: 'POST',
-        data: { name, location, match_date, referee_username },
+        data: { 
+          name, 
+          location, 
+          match_date: `${date}T${time}:00Z`, 
+          referee_username 
+        },
         header: getAuthHeader(),
         success: res => {
           if (res.data.success) {
             wx.showToast({ title: '创建成功' });
-            wx.navigateBack();
+            setTimeout(() => {
+              wx.navigateBack();
+            }, 1200);
           } else {
             wx.showToast({ title: res.data.error || '失败', icon: 'none' });
           }
@@ -38,6 +46,14 @@ Page({
           wx.showToast({ title: '网络错误', icon: 'none' });
         }
       });
+    },
+  
+    // picker 回调
+    onDateChange(e) {
+      this.setData({ date: e.detail.value });
+    },
+    onTimeChange(e) {
+      this.setData({ time: e.detail.value });
     }
   });
   

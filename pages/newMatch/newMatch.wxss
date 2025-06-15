@@ -31,3 +31,21 @@
   font-size: 32rpx;
   margin-bottom: 20rpx;
 }
+
+.picker {
+  margin-bottom: 18rpx;
+  background: #fff;
+  padding: 25rpx;
+  border-radius: 16rpx;
+  border: 1rpx solid black;
+  transition: all 0.3s ease;
+  font-size: 35rpx;
+}
+
+.picker.has-date {
+  color: #000;
+}
+
+.picker.no-date {
+  color: #999;
+}
