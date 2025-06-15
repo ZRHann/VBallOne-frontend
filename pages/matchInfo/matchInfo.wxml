@@ -17,7 +17,7 @@
     
     <view class="info-item">
       <text class="label">⏰ 时间</text>
-      <text class="value">{{match_date}}</text>
+      <text class="value">{{match_date_display}}</text>
     </view>
 
     <button 
