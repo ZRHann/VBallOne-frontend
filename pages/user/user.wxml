@@ -3,8 +3,7 @@
   <view wx:if="{{isLoggedIn}}">
     <view class="user-info">
       <view class="info">
-        <text class="username">{{username}}</text>
-        <text class="role">角色：{{role}}</text>
+        <text class="username">用户名：{{username}}</text>
       </view>
     </view>
 

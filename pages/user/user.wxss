@@ -4,11 +4,14 @@
 
 .user-info {
   display: flex;
+  position: fixed;
   align-items: center;
   padding: 40rpx;
   background: #fff;
-  border-radius: 16rpx;
-  box-shadow: 0 4rpx 12rpx rgba(0,0,0,0.1);
+  border-radius: 0rpx;
+  width:  100%;
+  left: 0;
+  border-bottom: 2rpx solid  black;
 }
 
 .avatar {
@@ -27,6 +30,7 @@
   font-size: 36rpx;
   font-weight: bold;
   margin-bottom: 10rpx;
+  margin-left: 30rpx;
 }
 
 .role {
@@ -35,7 +39,7 @@
 }
 
 .logout-btn {
-  margin-top: 60rpx;
+  margin-top: 1100rpx;
   width: 60%;
 }
 
