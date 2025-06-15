@@ -4,7 +4,8 @@ Page({
     matchName: '',
     matchLocation: '',
     match_date: '',
-    match_status: ''
+    match_status: '',
+    match_date_display: ''
   },
 
   onLoad(options) {
@@ -13,6 +14,8 @@ Page({
     const location = decodeURIComponent(options.location);
     const date = decodeURIComponent(options.match_date);
     const status = decodeURIComponent(options.status);
+    // 格式化日期时间
+    const displayDateTime = this.formatDateTime(date);
     // 更新页面数据
     this.setData({
       matchId: options.id,
@@ -20,7 +23,24 @@ Page({
       matchLocation: location,
       match_date: date,
       match_status: status,
+      match_date_display: displayDateTime,
     });
+  },
+
+  /**
+   * 将 ISO 日期字符串格式化为 "YYYY-MM-DD HH:mm"
+   * @param {string} isoStr
+   * @returns {string}
+   */
+  formatDateTime(isoStr) {
+    const date = new Date(isoStr);
+    if (isNaN(date.getTime())) return isoStr;
+    const y = date.getFullYear();
+    const m = (date.getMonth() + 1).toString().padStart(2, '0');
+    const d = date.getDate().toString().padStart(2, '0');
+    const hh = date.getHours().toString().padStart(2, '0');
+    const mm = date.getMinutes().toString().padStart(2, '0');
+    return `${y}-${m}-${d} ${hh}:${mm}`;
   },
 
   // 新增编辑处理方法

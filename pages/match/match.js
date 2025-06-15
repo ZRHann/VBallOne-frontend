@@ -5,6 +5,22 @@ Page({
 
   },
 
+  /**
+   * 将 ISO 日期字符串格式化为 "YYYY-MM-DD HH:mm"
+   * @param {string} isoStr
+   * @returns {string}
+   */
+  formatDateTime(isoStr) {
+    const date = new Date(isoStr);
+    if (isNaN(date.getTime())) return isoStr;
+    const y = date.getFullYear();
+    const m = (date.getMonth() + 1).toString().padStart(2, '0');
+    const d = date.getDate().toString().padStart(2, '0');
+    const hh = date.getHours().toString().padStart(2, '0');
+    const mm = date.getMinutes().toString().padStart(2, '0');
+    return `${y}-${m}-${d} ${hh}:${mm}`;
+  },
+
   onLoad() {
     this.getMatches();
     const session = wx.getStorageSync('session') || {};
@@ -19,8 +35,12 @@ Page({
         size: 10
       },
       success: res => {
+        const processed = res.data.map(item => ({
+          ...item,
+          match_date_display: this.formatDateTime(item.match_date)
+        }));
         this.setData({ 
-          matches: res.data
+          matches: processed
         });
       },
       fail: err => {
@@ -50,8 +70,12 @@ Page({
         q: this.data.searchKeyword,
       },
       success: res => {
+        const processed = res.data.map(item => ({
+          ...item,
+          match_date_display: this.formatDateTime(item.match_date)
+        }));
         this.setData({ 
-          matches: res.data,
+          matches: processed,
         });
         if(this.data.matches.length == 0){
           wx.showToast({

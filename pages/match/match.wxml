@@ -31,7 +31,7 @@
       </view>
       <view class="name">{{item.name}}</view>
       <view class="info">📍 {{item.location}}</view>
-      <view class="info">🕒 {{item.match_date}}</view>
+      <view class="info">🕒 {{item.match_date_display}}</view>
     </view>
   </scroll-view>
   <view class="fixed-buttons">
