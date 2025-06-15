@@ -1,4 +1,6 @@
 // scoreBoard.js
+import getAuthHeader from "../../utils/getAuthHeader";
+
 Page({
   data: {
     matchId: -1,
@@ -34,26 +36,17 @@ Page({
     const cur_serveteam = options.cur_serveteam || 'A';
     const fir_serveteam = options.fir_serveteam;
     const matchId = options.matchId;
-    const savedData = wx.getStorageSync('scoreBoardData');
-    if (savedData) {
-      this.setData({
-        ...savedData,
-        // 确保数组存在
-        fir_serveteam: fir_serveteam,
-        scoreA: savedData.scoreA || [],
-        scoreB: savedData.scoreB || [],
-        set: setFromUrl,
-        timeoutLogsA: savedData.timeoutLogsA || [],
-        timeoutLogsB: savedData.timeoutLogsB || []
-      });
-    }
     if(options){
       this.setData({
         set: setFromUrl,
         cur_serveteam: cur_serveteam,
+        fir_serveteam: fir_serveteam,
         matchId: matchId
       })
     }
+    this.loadBoardDataFromServer();
+    
+    
   },
 
   // 触摸开始
@@ -307,11 +300,50 @@ Page({
 
   navigateBack() {
     this.viewRound()
+    this.saveBoardDataToServer();
     return
   },
 
   // 页面卸载时清理
   onUnload() {
     this.clearTimer();
+  },
+
+  loadBoardDataFromServer(){
+    const matchId = this.data.matchId;
+    wx.request({
+      url: `https://vballone.zrhan.top/api/matches/${matchId}`,
+      method: 'GET',
+      header: getAuthHeader(),
+      success: (res) => {
+        const scoreBoardData = res.data.scoreBoardData;
+        if (scoreBoardData) {
+          wx.setStorageSync('scoreBoardData', scoreBoardData);
+          const savedData = wx.getStorageSync('scoreBoardData');
+          if (savedData) {
+            this.setData({
+              ...savedData,
+              // 确保数组存在
+              scoreA: savedData.scoreA || [],
+              scoreB: savedData.scoreB || [],
+              timeoutLogsA: savedData.timeoutLogsA || [],
+              timeoutLogsB: savedData.timeoutLogsB || []
+            });
+          }
+        }
+      }
+    })
+  },
+
+  saveBoardDataToServer(){
+    const matchId = this.data.matchId;
+    wx.request({
+      url: `https://vballone.zrhan.top/api/matches/${matchId}`,
+      method: 'PUT',
+      header: getAuthHeader(),
+      data: {
+        scoreBoardData: wx.getStorageSync('scoreBoardData')
+      }
+    })
   }
 })

@@ -67,7 +67,6 @@ Page({
   },
 
   handleStartMatch(){
-    // 需要添加权限认证
     this.setData({
       match_status: 'IN_PROGRESS'
     });
@@ -77,7 +76,7 @@ Page({
       url: `https://vballone.zrhan.top/api/matches/${matchId}`,
       method: 'PUT',
       header: getAuthHeader(),
-      date:{
+      data:{
         status: this.data.match_status
       }
     })
