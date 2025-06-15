@@ -49,7 +49,7 @@
       <text class="label">裁判</text>
       <input 
         class="input" 
-        value="{{date}}" 
+        value="{{referee_username}}" 
         placeholder="裁判用户名"
         bindinput="onInput"
         data-field="referee_username"

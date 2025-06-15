@@ -7,11 +7,28 @@ Page({
       time: '',          // HH:MM
       referee_username: ''
     },
-  
+    
+    onLoad() {  
+      this.fetchCurrentUser();
+    },
+
     onInput(e) {
       const field = e.currentTarget.dataset.field;
       this.setData({
         [field]: e.detail.value
+      });
+    },
+
+    fetchCurrentUser() {
+      wx.request({
+        url: 'https://vballone.zrhan.top/api/users/me',
+        method: 'GET',
+        header: getAuthHeader(),
+        success: res => {
+          if (res.data.success && res.data.user) {
+            this.setData({ referee_username: res.data.user.username });
+          }
+        }
       });
     },
   
