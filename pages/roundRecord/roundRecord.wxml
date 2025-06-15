@@ -71,7 +71,7 @@
             wx:if="{{item==1 && cur_serveteam == 'B'}}"
             src="{{'/images/tabbar/server.png'}}" 
           />
-          <text class="pos-players">{{cur_playersB[(serveA+item-2)%6]}}</text>
+          <text class="pos-players">{{cur_playersB[(serveB+item-2)%6]}}</text>
           <text class="pos-num">{{item}}</text>
         </view>
       </block>
@@ -114,6 +114,59 @@
     <text class="start-continue">{{isBegin[currentSet]? '继续比赛' : '开始比赛'}}
     </text>
   </button>
+</view>
+
+<!-- 记录区域 -->
+<!-- A队 -->
+<view class="pause-container">
+  <view class="pause-record"> 
+    <view class="pause-card">
+      <view wx:if="{{pauseA.length > 0}}" class="pause-label">
+        <text class="label-top">暂</text>
+        <text class="label-bottom">停</text>
+      </view>
+      <view class="pause-detial">
+        <block wx:for="{{pauseA}}" wx:key="index">
+            <view class="score-container">
+              <view class="set-info">
+                <text class="set-name">{{item.id}}</text>
+                <view class="score-display">
+                  <text class="home-score">{{item.scoreA}}</text>
+                  <text class="colon">:</text>
+                  <text class="away-score">{{item.scoreB}}</text>
+                </view>
+            </view>
+          </view>
+        </block>
+      </view>
+    </view>
+  </view>
+</view>
+
+<!-- B队 -->
+<view class="pause-container-b">
+  <view class="pause-record-b"> 
+    <view class="pause-card-b">
+      <view wx:if="{{pauseB.length > 0}}" class="pause-label-b">
+        <text class="label-top-b">暂</text>
+        <text class="label-bottom-b">停</text>
+      </view>
+      <view class="pause-detial-b">
+        <block wx:for="{{pauseB}}" wx:key="index">
+            <view class="score-container-b">
+              <view class="set-info-b">
+                <text class="set-name-b">{{item.id}}</text>
+                <view class="score-display-b">
+                  <text class="home-score-b">{{item.scoreA}}</text>
+                  <text class="colon-b">:</text>
+                  <text class="away-score-b">{{item.scoreB}}</text>
+                </view>
+            </view>
+          </view>
+        </block>
+      </view>
+    </view>
+  </view>
 </view>
 
 <!-- 换人记录下拉区域 -->
@@ -279,6 +332,9 @@
     </view>  
   </view>
 </view>
+
+
+
 
 
 

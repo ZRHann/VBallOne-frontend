@@ -1,5 +1,27 @@
 <!-- 原左右滑动布局不变，仅修改事件绑定 -->
 <view class="container">
+  <!-- A队得分行 -->
+  <scroll-view class="score-table-container" scroll-x>
+    <view class="table-row">
+      <view class="cell team-name">A</view>
+      <block wx:for="{{scoreA}}" wx:key="index">
+        <view class="cell ">
+          {{scoreA[index] == 0 ?  '' : scoreA[index]}}
+        </view>
+      </block>
+    </view>
+        
+    <!-- B队得分行 -->
+    <view class="table-row">
+      <view class="cell team-name">B</view>
+      <block wx:for="{{scoreB}}" wx:key="index">
+        <view class="cell ">
+          {{scoreB[index] == 0 ? '' : scoreB[index] }}
+        </view>
+      </block>
+    </view>
+  </scroll-view>
+
   <!-- 工具栏 -->
   <view class="toolbar {{isToolbarExpanded ? 'expanded' : ''}}">
     <!-- 触发按钮 -->
@@ -47,7 +69,7 @@
     catchtouchend="handleTouchEnd"
     data-team="A"
   >
-    <text class="score">{{isExchange ? scoreB.length : scoreA.length}}</text>
+    <text class="score">{{isExchange ? lastScoreB : lastScoreA}}</text>
   </view>
 
   <!-- 右侧蓝队 -->
@@ -58,7 +80,7 @@
     catchtouchend="handleTouchEnd"
     data-team="B"
   >
-    <text class="score">{{isExchange ? scoreA.length : scoreB.length}}</text>
+    <text class="score">{{isExchange ? lastScoreA : lastScoreB}}</text>
   </view>
 </view>
 
