@@ -151,5 +151,10 @@ Page({
     wx.navigateTo({
       url: '/pages/roundRecord/roundRecord'
     });
+  },
+
+  onPullDownRefresh() {
+    this.getMatches();
+    wx.stopPullDownRefresh();
   }
 });
