@@ -1,3 +1,4 @@
+const getAuthHeader = require('../../utils/getAuthHeader');
 Page({
   data: {
     matchId: -1,
@@ -75,6 +76,7 @@ Page({
     wx.request({
       url: `https://vballone.zrhan.top/api/matches/${matchId}`,
       method: 'PUT',
+      header: getAuthHeader(),
       date:{
         status: this.data.match_status
       }

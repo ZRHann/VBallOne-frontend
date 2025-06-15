@@ -1,3 +1,6 @@
+import getAuthHeader from "../../utils/getAuthHeader"; // 如路径不同请调整
+const baseURL = "https://vballone.zrhan.top";
+
 Page({
   data: {
     // 比赛信息
@@ -26,27 +29,34 @@ Page({
     changeIndex: -1,
     isSubstitutionOpen: false,
     pauseA: [],
-    pauseB: []
+    pauseB: [],
+    rounds: [] // 从后端拉下来的完整 rounds 数组
   },
 
   // 保存到本地
   saveData() {
     wx.setStorageSync('lineup', this.data);
+    this.saveRound();
     wx.showToast({ title: '保存成功' });
   },
 
   onLoad(options) {
     // 加载其他数据
-    const saved = wx.getStorageSync('lineup');
     const matchId = decodeURIComponent(options.matchId);
-    this.setData({
-      matchId: matchId
+    this.setData({ matchId });
+
+    // 拉取 rounds
+    wx.request({
+      url: `${baseURL}/api/matches/${matchId}`,
+      success: res => {
+        const rounds = res.data.rounds || [];
+        this.setData({ rounds });
+
+        // 如果首局已有数据则填充当前页面
+        const r = rounds.find(r => r.round === this.data.currentSet);
+        if (r) this.applyRound(r);
+      }
     });
-    if (saved) this.setData(saved);
-    const savedRecordsA = wx.getStorageSync('substitutionRecordsA');
-    const savedRecordsB = wx.getStorageSync('substitutionRecordsB');
-    if (savedRecordsA) this.setData({substitutionRecordsA: savedRecordsA});
-    if (savedRecordsB) this.setData({substitutionRecordsB: savedRecordsB});
   },
 
   onShow() {
@@ -144,8 +154,7 @@ Page({
       [`cur_players${this.data.currentTeam}[${changeIndex}]`]: inPlayer
     });
 
-    if(this.data.currentTeam == 'A')wx.setStorageSync('substitutionRecordsA', this.data.substitutionRecordsA);
-    else wx.setStorageSync('substitutionRecordsB', this.data.substitutionRecordsB);
+    this.saveRound();
   },
 
   // 删除记录
@@ -214,18 +223,7 @@ Page({
           return ;
         }
         if (res.confirm) {
-          wx.request({
-            url: `https://vballone.zrhan.top/api/matches/${matchId}/sets`,
-            method: 'POST',
-            data:{
-              round: this.data.currentSet,
-              fir_playersA: this.data.fir_playersA,
-              fir_playersB: this.data.fir_playersB,
-              fir_serveteam: this.data.fir_serveteam,
-              substitutionRecordsA: this.data.substitutionRecordsA,
-              substitutionRecordsB: this.data.substitutionRecordsB
-            }
-          })
+          this.saveRound();
           this.reset();
           this.setData({ currentSet: set });
           this.loadSetData(set);
@@ -285,6 +283,7 @@ Page({
       });
       wx.removeStorageSync('scoreBoardData');
     }  
+    this.saveRound();
     wx.navigateTo({
       url: `/pages/scoreBoard/scoreBoard?set=${this.data.currentSet}`+`&fir_serveteam=${this.data.fir_serveteam}&cur_serveteam=${this.data.cur_serveteam}&matchId=${this.data.matchId}`
     });
@@ -320,5 +319,58 @@ Page({
       pauseA: [],
       pauseB: []
     });
+  },
+
+  /**
+   * 根据后端 round 对象填充当前局数据
+   */
+  applyRound(roundObj){
+    this.setData({
+      fir_playersA: roundObj.lineup?.A || this.data.fir_playersA,
+      fir_playersB: roundObj.lineup?.B || this.data.fir_playersB,
+      cur_playersA: roundObj.currentPlayers?.A || this.data.cur_playersA,
+      cur_playersB: roundObj.currentPlayers?.B || this.data.cur_playersB,
+      fir_serveteam: roundObj.firstServe || '',
+      cur_serveteam: roundObj.curServeTeam || '',
+      serveA: roundObj.serveIndex?.A || 1,
+      serveB: roundObj.serveIndex?.B || 1,
+      substitutionRecordsA: roundObj.substitutions?.A || [],
+      substitutionRecordsB: roundObj.substitutions?.B || [],
+      pauseA: roundObj.timeouts?.A || [],
+      pauseB: roundObj.timeouts?.B || []
+    })
+  },
+
+  /** 构造当前局 payload */
+  buildRoundPayload(){
+    return {
+      round: this.data.currentSet,
+      finished: false,
+      firstServe: this.data.fir_serveteam,
+      curServeTeam: this.data.cur_serveteam,
+      serveIndex: {A: this.data.serveA, B: this.data.serveB},
+      lineup: {A: this.data.fir_playersA, B: this.data.fir_playersB},
+      currentPlayers: {A: this.data.cur_playersA, B: this.data.cur_playersB},
+      score: {A: [], B: []},
+      substitutions: {A: this.data.substitutionRecordsA, B: this.data.substitutionRecordsB},
+      timeouts: {A: this.data.pauseA, B: this.data.pauseB}
+    }
+  },
+
+  /** 保存当前局到后端 */
+  saveRound(){
+    const payload = this.buildRoundPayload();
+    // 更新本地 rounds 数组
+    let rounds = [...this.data.rounds];
+    const idx = rounds.findIndex(r=>r.round === payload.round);
+    if(idx>-1) rounds[idx] = payload; else rounds.push(payload);
+    // PUT 整个 rounds
+    wx.request({
+      url:`${baseURL}/api/matches/${this.data.matchId}`,
+      method:'PUT',
+      header: getAuthHeader(),
+      data:{ rounds },
+      success:()=>this.setData({ rounds })
+    })
   }
 })
