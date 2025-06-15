@@ -59,6 +59,7 @@
 
 /* 比赛列表（可滚动区域） */
 .match-list {
+  margin: -50rpx;
   overflow-y: auto; /* 允许垂直滚动 */
 }
 
@@ -108,11 +109,15 @@
 /* 状态角标容器 */
 .status-badge {
   position: absolute;
-  top: -12rpx;    /* 向上偏移一半高度 */
-  right: -12rpx;   /* 向右偏移一半宽度 */
-  padding: 8rpx 24rpx;
-  border-radius: 20rpx 20rpx 20rpx 4rpx; /* 特殊形状 */
-  transform: rotate(2deg); /* 微倾斜增加设计感 */
+  top: 20rpx;
+  right: 20rpx;
+  height: 40rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 20rpx;
+  border-radius: 18rpx;
+  font-size: 24rpx;
 }
 
 /* 状态文字样式 */
@@ -120,16 +125,19 @@
   font-size: 24rpx;
   font-weight: 500;
   letter-spacing: 1rpx;
+  height: 40rpx;
+  line-height: 14rpx; 
+  display: block;
 }
 
 /* 不同状态的颜色方案 */
-.status-tag.NOT_STARTED {
+.status-badge.NOT_STARTED {
   background: #fff7e6;
   color: #fa8c16;
   border: 1rpx solid #ffd591;
 }
 
-.status-tag.IN_PROGRESS {
+.status-badge.IN_PROGRESS {
   background: #f6ffed;
   color: #52c41a;
   border: 2rpx solid #b7eb8f;
@@ -141,17 +149,3 @@
   border: 2rpx solid #ffa39e;
 }
 
-/* 添加小三角装饰 */
-.status-badge::after {
-  content: '';
-  position: absolute;
-  right: -8rpx;
-  bottom: -8rpx;
-  width: 16rpx;
-  height: 16rpx;
-  background: inherit;
-  transform: rotate(45deg);
-  z-index: -1;
-  border-right: 2rpx solid inherit;
-  border-bottom: 2rpx solid inherit;
-}
