@@ -26,6 +26,17 @@ Page({
     const session = wx.getStorageSync('session') || {};
   },
 
+  /**
+   * 页面每次可见时都会触发，包括 navigateBack 返回
+   */
+  onShow() {
+    if (this.data.searchKeyword.trim()) {
+      this.onSearch();
+    } else {
+      this.getMatches();
+    }
+  },
+
   getMatches() {
     wx.request({
       url: 'https://vballone.zrhan.top/api/matches',
