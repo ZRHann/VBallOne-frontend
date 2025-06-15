@@ -117,14 +117,15 @@ Page({
   },
 
   goToDetail(e) {
-    const {id, name, location, match_date, status} = e.currentTarget.dataset;
+    const {id, name, location, match_date, status, referee} = e.currentTarget.dataset;
     // 编码特殊字符（防止URL解析错误）
     const encodedName = encodeURIComponent(name);
     const encodedLocation = encodeURIComponent(location);
     const encodedDate = encodeURIComponent(match_date);
     const encodeStatus = encodeURIComponent(status);
+    const encodeReferee = encodeURIComponent(referee);
     wx.navigateTo({
-      url: `/pages/matchInfo/matchInfo?id=${id}&name=${encodedName}&location=${encodedLocation}&match_date=${encodedDate}&status=${encodeStatus}`
+      url: `/pages/matchInfo/matchInfo?id=${id}&name=${encodedName}&location=${encodedLocation}&match_date=${encodedDate}&status=${encodeStatus}&referee=${encodeReferee}`
     });
   },
 

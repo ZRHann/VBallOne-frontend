@@ -23,7 +23,7 @@
   </view>
   <!-- 比赛列表（可滚动区域） -->
   <scroll-view scroll-y class="match-list">
-    <view wx:for="{{matches}}" wx:key="id" class="match-card" bindtap="goToDetail" data-id="{{item.id}}" data-name="{{item.name}}" data-location="{{item.location}}" data-match_date="{{item.match_date}}" data-status="{{item.status}}">
+    <view wx:for="{{matches}}" wx:key="id" class="match-card" bindtap="goToDetail" data-id="{{item.id}}" data-name="{{item.name}}" data-location="{{item.location}}" data-match_date="{{item.match_date}}" data-status="{{item.status}}" data-referee="{{item.referee}}">
       <view class="status-badge {{item.status}}">
         <text class="status-text">
           {{item.status === 'NOT_STARTED' ? '未开始' : item.status === 'IN_PROGRESS' ? '进行中' : '已结束'}}
@@ -36,6 +36,6 @@
   </scroll-view>
   <view class="fixed-buttons">
     <button type="primary" bindtap="goToNewMatch">➕ 新增比赛</button>
-    <button type="primary" bindtap="goToScoreBoard">➕ 快速开始</button>
+   <!-- <button type="primary" bindtap="goToScoreBoard">➕ 快速开始</button>  -->
   </view>
 </view>

@@ -43,6 +43,16 @@
       </picker>
     </view>
 
+    <view class="form-item">
+      <text class="label">裁判员</text>
+      <input 
+        class="input" 
+        value="{{referee}}" 
+        placeholder="请输入裁判用户名"
+        bindinput="onRefereeInput"
+      />
+    </view>
+
     <!-- 保存按钮 -->
     <button 
       class="save-btn" 

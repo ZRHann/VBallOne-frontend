@@ -27,6 +27,7 @@
       data-name="{{matchName}}"
       data-location="{{matchLocation}}"
       data-date="{{match_date}}"
+      data-referee="{{referee}}"
     >
       ✎ 修改
     </button>

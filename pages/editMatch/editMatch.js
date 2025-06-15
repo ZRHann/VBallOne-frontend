@@ -5,6 +5,7 @@ Page({
     id: '',          // 比赛ID
     name: '',        // 比赛名称
     location: '',    // 比赛地点
+    referee: '',    // 裁判员
     date: '',        // YYYY-MM-DD
     time: '',        // HH:MM
     isSaving: false, // 保存状态
@@ -36,7 +37,8 @@ Page({
       name: decodeURIComponent(options.name),
       location: decodeURIComponent(options.location),
       date: datePart,
-      time: timePart
+      time: timePart,
+      referee: decodeURIComponent(options.referee)
     });
   },
 
@@ -46,6 +48,10 @@ Page({
   },
   onLocationInput(e) {
     this.setData({ location: e.detail.value });
+  },
+
+  onRefereeInput(e) {
+    this.setData({ referee: e.detail.value });
   },
 
   // picker 回调
@@ -69,6 +75,7 @@ Page({
       data: {
         name: this.data.name,
         location: this.data.location,
+        referee: this.data.referee,
         match_date: `${this.data.date}T${this.data.time || '00:00'}:00Z` // ISO格式
       },
       success: res => {
@@ -103,6 +110,11 @@ Page({
     if (!this.data.time) {
       wx.showToast({ title: '请选择时间', icon: 'none' });
       return false;
+    }
+    if(!this.data.referee) {
+      wx.showToast({
+        title: '裁判员不能为空', icon: 'none'
+      });
     }
     return true;
   }
