@@ -165,7 +165,7 @@ Page({
       [other]: [...this.data[other]],
       [lastscore]: newscore,
       isExchange: (scoreA >= 8 || scoreB >= 8) && this.data.set === 3,
-      serveA:isIncrement ? ((team !=last_serveteam && team == 'A') ? (this.data.serveA % 6) +1:this.data.serveA) : ((team == last_serveteam && team == 'A' && this.data.scoreA[lastindex] == 0) ? (this.data.serveA + 4)%6 +1  : this.data.serveA),
+      serveA:isIncrement ? ((team !=last_serveteam && team == 'A') ? (this.data.serveA % 6) +1:this.data.serveA) : ((team == last_serveteam && team == 'A' && this.data.scoreA[lastindex] == 0 ) ? (this.data.serveA + 4)%6 +1  : this.data.serveA),
       serveB: isIncrement ? ((team !=last_serveteam && team == 'B') ? (this.data.serveB % 6) +1:this.data.serveB) : ((team == last_serveteam && team == 'B' && this.data.scoreB[lastindex] == 0) ? (this.data.serveB + 4)%6 +1  : this.data.serveB),
       cur_serveteam: this.data.scoreA[lastindex] == 0 ? (this.data.scoreB[lastindex] == 0 ? fir_serveteam : 'B' ): 'A' , 
     });

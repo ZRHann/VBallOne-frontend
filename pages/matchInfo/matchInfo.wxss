@@ -4,23 +4,30 @@
 
 .header {
   display: flex;
-  justify-content: space-between;
   align-items: center;
   margin-bottom: 40rpx;
-  gap: 30rpx;
+  gap: 8px;
+  border-radius:  18rpx;
 }
 
 .title {
   font-size: 40rpx;
   font-weight: bold;
   color: #333;
+  align-content: center;
 }
 
 .status {
+  display: inline-block;
+  position: fixed;
   font-size: 28rpx;
-  padding: 0rpx 16rpx;
-  border-radius: 8rpx;
-  align-content: center;
+  padding: 4px 8px;
+  border-radius: 18rpx;
+  height: 40rpx;
+  top: 160rpx;
+  right: 180rpx;
+  z-index: 2;
+  line-height: 15rpx;
 }
 
 .status.NOT_STARTED {
