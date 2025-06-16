@@ -53,13 +53,13 @@ Page({
   syncStorageToServer() {
     const roundRecordData = {};
     const keys = this.storageKeysToSync();
+
     keys.forEach((key) => {
       const value = wx.getStorageSync(key);
       if (value !== undefined && value !== '') {
         roundRecordData[key] = value;
       }
     });
-
     wx.request({
       url: `https://vballone.zrhan.top/api/matches/${this.data.matchId}`,
       method: 'PUT',
@@ -348,6 +348,7 @@ Page({
   },
 
   navigateBack() {
+    this.syncStorageToServer();
     wx.removeStorageSync('scoreBoardData');
     wx.removeStorageSync('lineup');
     wx.removeStorageSync('currentServeTeam');
@@ -383,6 +384,6 @@ Page({
   },
 
   onUnload() {
-    this.syncStorageToServer();
+    // this.syncStorageToServer();
   }
 })
