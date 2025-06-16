@@ -6,8 +6,8 @@ Page({
     canvasImage: null,
     sets: [
       { title: "第一局：", teamA: "A队", teamB: "B队" },
-      { title: "第二局：", teamA: "B队", teamB: "A队" },
-      { title: "第三局：", teamA: "B队", teamB: "A队" }
+      //{ title: "第二局：", teamA: "B队", teamB: "A队" },
+      //{ title: "第三局：", teamA: "B队", teamB: "A队" }
     ],
     lastScoreA: 0,
     lastScoreB: 0,
@@ -18,11 +18,9 @@ Page({
     scoreB:[],
     timeoutsA: [],
     timeoutsB: [],
-    substitution: [
-      {  teamA: {outPlayer: 1, inPlayer: 12}, teamB: {outPlayer: 1, inPlayer: 12} },
-      {  teamA: {outPlayer: 1, inPlayer: 12}, teamB: {outPlayer: 1, inPlayer: 12} },
-      {  teamA: {outPlayer: 1, inPlayer: 12}, teamB: {outPlayer: 1, inPlayer: 12} },
-    ]
+    substitutionA: [],
+    substitutionB: []
+      
   },
 
   onLoad(options){
@@ -42,10 +40,11 @@ Page({
       header: getAuthHeader(),
       success: (res) => {
         const scoreBoardData = res.data.scoreBoardData;
+        const lineup = res.data.roundRecordData.lineup;
+        console.info(lineup);
         if (scoreBoardData) {
           wx.setStorageSync('scoreBoardData', scoreBoardData);
           const savedData = wx.getStorageSync('scoreBoardData');
-          const lineup = wx. getStorageSync('lineup');
           console.info(savedData);
           if (savedData) {
             this.setData({
@@ -59,9 +58,14 @@ Page({
             });
           }
           if (lineup) {
+            wx.setStorageSync('lineup', lineup);
+            const Lineup = wx. getStorageSync('lineup');
+            console.info(Lineup);
             this.setData({
-              playersA: lineup.fir_playersA,
-              playersB: lineup.fir_playersB,
+              playersA: Lineup.fir_playersA,
+              playersB: Lineup.fir_playersB,
+              substitutionA: Lineup.substitutionRecordsA,
+              substitutionB: Lineup.substitutionRecordsB,
             });
           }
         }
@@ -153,8 +157,8 @@ Page({
       ctx.setTextAlign('center');
       ctx.fillText('换人', padding + colWidth/2, yPos + 70);
       
-      this.drawchangeGrid(ctx, padding + colWidth, yPos,this.data.substitution[setIndex].teamA);
-      this.drawchangeGrid(ctx, padding + colWidth*3, yPos,this.data.substitution[setIndex].teamB);
+      this.drawchangeGrid(ctx, padding + colWidth, yPos,this.data.substitutionA);
+      this.drawchangeGrid(ctx, padding + colWidth*3, yPos,this.data.substitutionB);
       
       // 绘制单元格边框
       ctx.strokeRect(padding, yPos, colWidth, 180);
@@ -229,20 +233,22 @@ Page({
             if (indexA < pointA.length) {
               ctx.setTextAlign('center');
               ctx.fillText(
-                pointA[indexA] == 0 ? " " : pointA[indexA++] , 
+                pointA[indexA] == 0 ? " " : pointA[indexA] , 
                 x + col * cellWidth + cellWidth/2, 
                 y + row * cellHeight + cellHeight/2 + 8 + 40*z
               );
+              indexA ++;
             }
           }
           else{
             if (indexB < pointB.length) {
               ctx.setTextAlign('center');
               ctx.fillText(
-                pointB[indexB] == 0 ? " " : pointB[indexB++] ,
+                pointB[indexB] == 0 ? " " : pointB[indexB] ,
                 x + col * cellWidth + cellWidth/2, 
                 y + row * cellHeight + cellHeight/2 + 8 + 40*z
               );
+              indexB++;
             }
           }
           
@@ -281,7 +287,6 @@ Page({
       // 绘制暂停标识列
       ctx.strokeRect(x, rowY, cellWidth, cellHeight);
       if (i < timeouts.length) {
-        console.info(timeouts.length);
         ctx.fillText(timeouts[i].id , x + cellWidth/6, rowY + cellHeight/2 + 5);
         ctx.fillText(timeouts[i].scoreA , x + cellWidth/2, rowY + cellHeight/2 + 5);
         ctx.fillText(':' , x + cellWidth/2+20, rowY + cellHeight/2 + 5);
@@ -301,10 +306,10 @@ Page({
       // 绘制暂停标识列
       ctx.strokeRect(x, rowY, cellWidth, cellHeight);
       if (i < substitution.length) {
-        ctx.fillText(substitution[i].outPlayer , x + cellWidth/6, rowY + cellHeight/2 + 5);
-        ctx.fillText('↓' , x + cellWidth/2, rowY + cellHeight/2 + 5);
+        ctx.fillText(substitution[i].outPlayer , x + cellWidth/4, rowY + cellHeight/2 + 5);
+        ctx.fillText('↓' , x + cellWidth/2-5, rowY + cellHeight/2 + 5);
         ctx.fillText(substitution[i].inPlayer , x + cellWidth/2+20, rowY + cellHeight/2 + 5);
-        ctx.fillText('↑', x + cellWidth-20, rowY + cellHeight/2 + 5);
+        ctx.fillText('↑', x + cellWidth-15, rowY + cellHeight/2 + 5);
       }
     }
   }
