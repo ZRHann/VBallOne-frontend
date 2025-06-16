@@ -22,6 +22,7 @@
           <input 
             value="{{fir_playersA[item-1]}}" 
             placeholder="号码"
+            placeholder-class="small-placeholder"
             bindinput="bindInput" 
             data-team="A" 
             data-index="{{item-1}}"
@@ -54,6 +55,7 @@
           <input 
             value="{{fir_playersB[item-1]}}" 
             placeholder="号码"
+            placeholder-class="small-placeholder"
             bindinput="bindInput" 
             data-team="B" 
             data-index="{{item-1}}"

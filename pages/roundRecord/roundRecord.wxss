@@ -627,6 +627,12 @@ input {
   margin: 8rpx;
 }
 
+/* placeholder 较小字号 */
+.small-placeholder{
+  font-size: 13rpx;
+  color: #999;
+}
+
 
 
 
