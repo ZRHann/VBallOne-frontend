@@ -91,6 +91,7 @@ Page({
         success: (res) => {
             if (res.confirm) {
             wx.removeStorageSync('session');
+            wx.removeStorageSync('scoreBoardData')
             this.checkLoginStatus();
             wx.showToast({ title: '已退出登录', icon: 'success' });
             }

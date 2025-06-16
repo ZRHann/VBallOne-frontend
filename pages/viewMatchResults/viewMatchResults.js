@@ -36,27 +36,37 @@ Page({
 
   getData(){
     const matchId = this.data.matchId;
-    const savedData = wx.getStorageSync('scoreBoardData');
-    const lineup = wx. getStorageSync('lineup');
-    console.info(savedData);
-    if (savedData) {
-      this.setData({
-        // 确保数组存在
-        scoreA: savedData.scoreA || [],
-        scoreB: savedData.scoreB || [],
-        lastScoreA: savedData.lastScoreA || 0,
-        lastScoreB: savedData.lastScoreB || 0,
-        timeoutsA: savedData.timeoutLogsA || [],
-        timeoutsB: savedData.timeoutLogsB || []
-      });
-    }
-    if (lineup) {
-      this.setData({
-        playersA: lineup.fir_playersA,
-        playersB: lineup.fir_playersB,
-      });
-    }
-    
+    wx.request({
+      url: `https://vballone.zrhan.top/api/matches/${matchId}`,
+      method: 'GET',
+      header: getAuthHeader(),
+      success: (res) => {
+        const scoreBoardData = res.data.scoreBoardData;
+        if (scoreBoardData) {
+          wx.setStorageSync('scoreBoardData', scoreBoardData);
+          const savedData = wx.getStorageSync('scoreBoardData');
+          const lineup = wx. getStorageSync('lineup');
+          console.info(savedData);
+          if (savedData) {
+            this.setData({
+              // 确保数组存在
+              scoreA: savedData.scoreA || [],
+              scoreB: savedData.scoreB || [],
+              lastScoreA: savedData.lastScoreA || 0,
+              lastScoreB: savedData.lastScoreB || 0,
+              timeoutsA: savedData.timeoutLogsA || [],
+              timeoutsB: savedData.timeoutLogsB || []
+            });
+          }
+          if (lineup) {
+            this.setData({
+              playersA: lineup.fir_playersA,
+              playersB: lineup.fir_playersB,
+            });
+          }
+        }
+      }
+    });
   },
 
   generateScoreSheet() {
@@ -152,7 +162,19 @@ Page({
       ctx.strokeRect(padding + colWidth*3, yPos, colWidth*2,180);
       yPos += 220; // 添加额外间距
     });
-    
+    // 绘制完成
+    ctx.draw(false, () => {
+      wx.canvasToTempFilePath({
+        canvasId: 'scoreSheetCanvas',
+        success: (res) => {
+          this.setData({ canvasImage: res.tempFilePath });
+        },
+        fail: (err) => {
+          console.error('生成图片失败', err);
+          wx.showToast({ title: '生成失败', icon: 'none' });
+        }
+      });
+    });
   },
   
   // 绘制站位网格 (2x3)
@@ -259,6 +281,7 @@ Page({
       // 绘制暂停标识列
       ctx.strokeRect(x, rowY, cellWidth, cellHeight);
       if (i < timeouts.length) {
+        console.info(timeouts.length);
         ctx.fillText(timeouts[i].id , x + cellWidth/6, rowY + cellHeight/2 + 5);
         ctx.fillText(timeouts[i].scoreA , x + cellWidth/2, rowY + cellHeight/2 + 5);
         ctx.fillText(':' , x + cellWidth/2+20, rowY + cellHeight/2 + 5);
