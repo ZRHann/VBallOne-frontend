@@ -38,5 +38,7 @@
 
   <!-- 操作按钮 -->
   <button class="action-btn" type="primary" bindtap="handleStartMatch">{{match_status== 'NOT_STARTED' ? '🏐 开始比赛' :'进入比赛'}}</button>
+  <button class="over-btn"  bindtap="handleover">结束比赛</button>
+  <button class="view-btn" type="primary" bindtap="handleview">查看比赛结果</button>
   
 </view>

@@ -1,0 +1,23 @@
+<!-- pages/scoreSheet/scoreSheet.wxml -->
+<view class="container">
+  <!-- 隐藏的画布 -->
+  <canvas 
+    style="width: 320px; height: 1200px; position: absolute; top: -9999px;" 
+    canvas-id="scoreSheetCanvas"
+  ></canvas>
+  
+  <!-- 显示生成的图片 -->
+  <scroll-view scroll-y style="height: 88vh; width: 100%;">
+    <image 
+      wx:if="{{canvasImage}}" 
+      src="{{canvasImage}}" 
+      mode="widthFix" 
+      style="width: 100%;"
+    ></image>
+  </scroll-view>
+  
+  <!-- 操作按钮 -->
+  <view class="button-group">
+    <button bindtap="generateScoreSheet" class="btn">重新生成</button>
+  </view>
+</view>

@@ -84,6 +84,18 @@
   width: 80%;
   line-height: 1.8;
 }
+.over-btn{
+  position: fixed;
+  bottom: 340rpx;
+  color: white;
+  background: red;
+}
+
+.view-btn {
+  flex:1;
+  position: fixed;
+  bottom: 240rpx;
+}
 
 /* 修改按钮样式 */
 .edit-btn {

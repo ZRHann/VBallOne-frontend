@@ -66,6 +66,40 @@ Page({
     });
   },
 
+  handleview(){
+    if (this.data.match_status == 'FINISHED'){
+      wx.navigateTo({
+        url: `/pages/viewMatchResults/viewMatchResults?matchId=${this.data.matchId}`
+      });
+    }
+    else{
+      wx.showToast({
+        title: '比赛未结束',
+        icon: 'none'
+      })
+    }
+    
+  },
+  
+  handleover(){
+    this.setData({
+      match_status: 'FINISHED'
+    });
+    const matchId = this.data.matchId;
+    // 编码特殊字符（防止URL解析错误）
+    wx.request({
+      url: `https://vballone.zrhan.top/api/matches/${matchId}`,
+      method: 'PUT',
+      header: getAuthHeader(),
+      data:{
+        status: this.data.match_status
+      }
+    })
+    wx.navigateTo({
+      url: `/pages/viewMatchResults/viewMatchResults?matchId=${this.data.matchId}`
+    });
+  },
+
   handleStartMatch(){
     this.setData({
       match_status: 'IN_PROGRESS'

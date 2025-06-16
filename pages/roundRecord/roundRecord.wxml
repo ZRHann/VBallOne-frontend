@@ -20,7 +20,7 @@
       <block wx:for="{{rotationA}}" wx:key="index">
         <view class="position">
           <input 
-            value="{{playersA[item-1]}}" 
+            value="{{fir_playersA[item-1]}}" 
             placeholder="号码"
             bindinput="bindInput" 
             data-team="A" 
