@@ -26,7 +26,8 @@ Page({
     inPlayer: -1,
     currentTeam: '',
     changeIndex: -1,
-    isSubstitutionOpen: false,
+    isSubstitutionOpenA: false,
+    isSubstitutionOpenB: false,
     pauseA: [],
     pauseB: []
   },
@@ -123,10 +124,9 @@ Page({
 
   // 切换换人记录展开状态
   toggleSubstitutionList: function(e) {
-    const currentTeam = e.currentTarget.dataset.currentTeam;
-    const key = 'isSubstitutionOpen';
+    const team = e.currentTarget.dataset.currentTeam;
+    const key = `isSubstitutionOpen${team}`;
     this.setData({
-      currentTeam: currentTeam,
       [key]: !this.data[key]
     });
   },
@@ -377,7 +377,8 @@ Page({
       inPlayer: -1,
       currentTeam: '',
       changeIndex: -1,
-      isSubstitutionOpen: false,
+      isSubstitutionOpenA: false,
+      isSubstitutionOpenB: false,
       pauseA: [],
       pauseB: []
     });

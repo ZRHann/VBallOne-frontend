@@ -145,6 +145,7 @@ input {
   right: 0;
   display: flex;
   justify-content: space-between;
+  align-items: flex-end;
   padding: 0 15rpx;
   gap: 10rpx;
 }
