@@ -20,6 +20,11 @@
       <text class="value">{{match_date_display}}</text>
     </view>
 
+    <view class="info-item">
+      <text class="label">👨‍⚖️ 裁判</text>
+      <text class="value">{{referee || '待指派'}}</text>
+    </view>
+
     <button 
       class="edit-btn"
       bindtap="handleEditMatch"
