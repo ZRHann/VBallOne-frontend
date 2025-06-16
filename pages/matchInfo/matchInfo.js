@@ -49,6 +49,15 @@ Page({
 
   // 新增编辑处理方法
   handleEditMatch(e) {
+    const session = wx.getStorageSync('session');
+    const username = session.username;
+    if(username != this.data.referee ){
+      wx.showToast({
+        title: '没有权限',
+        icon: 'none'
+      });
+      return ;
+    }
     // 权限验证
     const dataset = e.currentTarget.dataset;
     // 手动拼接参数
@@ -82,6 +91,15 @@ Page({
   },
   
   handleover(){
+    const session = wx.getStorageSync('session');
+    const username = session.username;
+    if(username != this.data.referee ){
+      wx.showToast({
+        title: '没有权限',
+        icon: 'none'
+      });
+      return ;
+    }
     this.setData({
       match_status: 'FINISHED'
     });
@@ -101,6 +119,16 @@ Page({
   },
 
   handleStartMatch(){
+    const session = wx.getStorageSync('session');
+    const username = session.username;
+    if(username != this.data.referee ){
+      wx.showToast({
+        title: '没有权限',
+        icon: 'none'
+      });
+      return ;
+    }
+
     this.setData({
       match_status: 'IN_PROGRESS'
     });
