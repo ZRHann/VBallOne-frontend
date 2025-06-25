@@ -35,6 +35,7 @@ Page({
   // 保存到本地
   saveData() {
     wx.setStorageSync('lineup', this.data);
+    this.syncStorageToServer();
     wx.showToast({ title: '保存成功' });
   },
 
@@ -271,21 +272,12 @@ Page({
           return ;
         }
         if (res.confirm) {
-          wx.request({
-            url: `https://vballone.zrhan.top/api/matches/${matchId}/sets`,
-            method: 'POST',
-            data:{
-              round: this.data.currentSet,
-              fir_playersA: this.data.fir_playersA,
-              fir_playersB: this.data.fir_playersB,
-              fir_serveteam: this.data.fir_serveteam,
-              substitutionRecordsA: this.data.substitutionRecordsA,
-              substitutionRecordsB: this.data.substitutionRecordsB
-            }
-          })
+          this.syncStorageToServer();
           this.reset();
           this.setData({ currentSet: set });
-          this.loadSetData(set);
+          //this.loadSetData(set);
+          this.saveData();
+          this.syncStorageToServer();
         }
       }
     })
@@ -295,6 +287,7 @@ Page({
   loadSetData(set) {
     const key = `set${set}`;
     const saved = wx.getStorageSync(key);
+    console.info(saved);
     if (saved) this.setData(saved);
   },
 
@@ -342,6 +335,7 @@ Page({
       });
       wx.removeStorageSync('scoreBoardData');
     }  
+    this.saveData();
     wx.navigateTo({
       url: `/pages/scoreBoard/scoreBoard?set=${this.data.currentSet}`+`&fir_serveteam=${this.data.fir_serveteam}&cur_serveteam=${this.data.cur_serveteam}&matchId=${this.data.matchId}`
     });

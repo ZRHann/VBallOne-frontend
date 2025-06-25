@@ -99,8 +99,9 @@ Page({
           content:(scoreA>scoreB)? 'A队获胜':'B队获胜',
         })
         wx.request({
-          url:  `https://vballone.zrhan.top/api/matches/${this.data.matchId}/sets`,
-          method:'POST',
+          url:  `https://vballone.zrhan.top/api/matches/${this.data.matchId}`,
+          method:'PUT',
+          header: getAuthHeader(),
           data:{
             round: this.data.set,
             scoreA: this.data.lastScoreA,
@@ -172,7 +173,7 @@ Page({
       [field]: [...this.data[field]],
       [other]: [...this.data[other]],
       [lastscore]: newscore,
-      isExchange: (scoreA >= 8 || scoreB >= 8) && this.data.set === 3,
+      isExchange: (scoreA >= 7 || scoreB >= 7) && this.data.set === 3,
       serveA: serveA,
       serveB: serveB,
       cur_serveteam: this.data.scoreA[lastindex] == 0 ? (this.data.scoreB[lastindex] == 0 ? fir_serveteam : 'B' ): 'A' , 
@@ -317,17 +318,27 @@ Page({
       header: getAuthHeader(),
       success: (res) => {
         const scoreBoardData = res.data.scoreBoardData;
-        if (scoreBoardData) {
+        console.info(res.data);
+        if (scoreBoardData.set == this.data.set) {
           wx.setStorageSync('scoreBoardData', scoreBoardData);
           const savedData = wx.getStorageSync('scoreBoardData');
           if (savedData) {
             this.setData({
-              ...savedData,
               // 确保数组存在
               scoreA: savedData.scoreA || [],
               scoreB: savedData.scoreB || [],
               timeoutLogsA: savedData.timeoutLogsA || [],
-              timeoutLogsB: savedData.timeoutLogsB || []
+              timeoutLogsB: savedData.timeoutLogsB || [],
+              lastScoreA: savedData.lastScoreA || 0,
+              lastScoreB: savedData.lastScoreB || 0,
+              isExchange: savedData.isExchange || false,
+              pauseChanceA: savedData.pauseChanceA || 2,
+              pauseChanceB: savedData.pauseChanceB || 2,
+              fir_serveteam: savedData.fir_serveteam || '',
+              cur_serveteam: savedData.cur_serveteam || '',
+              serveA: savedData.serveA || 1,
+              serveB: savedData.serveB || 1,
+              isover: savedData.isover || false
             });
           }
         }

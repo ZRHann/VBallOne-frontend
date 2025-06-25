@@ -1,10 +1,9 @@
 <!-- 局数选择 -->
 <view class="set-selector">
-  <picker range="{{[1,2,3]}}" value="{{currentSet-1}}" bindchange="changeSet">
-    <view class="set-picker">
-      <text class="set-num">第{{currentSet}}局</text>
-    </view>
-  </picker>
+  <view class="set-picker">
+    <text class="set-num">第{{currentSet}}局</text>
+  </view>
+
 
   <view class="back-btn" bindtap="navigateBack">
     <text class="icon">←</text>

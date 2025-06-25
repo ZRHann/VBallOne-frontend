@@ -1,6 +1,7 @@
 /* pages/editMatch/editMatch.wxss */
 .container {
   padding: 40rpx;
+  background: white;
 }
 
 .form-card {
@@ -12,6 +13,7 @@
 
 .form-item {
   margin-bottom: 40rpx;
+  background: white;
 }
 
 .label {

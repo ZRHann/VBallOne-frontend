@@ -75,7 +75,7 @@ Page({
       data: {
         name: this.data.name,
         location: this.data.location,
-        referee: this.data.referee,
+        referee_username: this.data.referee,
         match_date: `${this.data.date}T${this.data.time || '00:00'}:00Z` // ISO格式
       },
       success: res => {
