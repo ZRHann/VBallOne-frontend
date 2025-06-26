@@ -51,7 +51,6 @@ Page({
         }));
         processed.forEach((processed, index)=>{
           if(processed.id == this.data.matchId){
-            console.info(processed.match_date);
             this.setData({
               matchName: processed.name,
               matchLocation: processed.location,
@@ -82,7 +81,6 @@ Page({
     const d = date.getUTCDate().toString().padStart(2, '0');
     const hh = date.getUTCHours().toString().padStart(2, '0');
     const mm = date.getUTCMinutes().toString().padStart(2, '0');
-    console.info(isoStr,hh);
     return `${y}-${m}-${d} ${hh}:${mm}`;
   },
 
