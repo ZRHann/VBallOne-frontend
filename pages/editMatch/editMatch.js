@@ -65,9 +65,7 @@ Page({
   // 保存逻辑
   handleSave() {
     if (!this.validateForm()) return;
-
     this.setData({ isSaving: true });
-
     wx.request({
       url: `https://vballone.zrhan.top/api/matches/${this.data.id}`,
       method: 'PUT',

@@ -29,6 +29,44 @@ Page({
       match_date_display: displayDateTime,
       referee: referee
     });
+    this.getMatches();
+  },
+
+  onShow(){
+    this.getMatches();
+  },
+
+  getMatches() {
+    wx.request({
+      url: 'https://vballone.zrhan.top/api/matches',
+      method: 'GET',
+      data:{
+        page: 1,
+        size: 10
+      },
+      success: res => {
+        const processed = res.data.map(item => ({
+          ...item,
+          match_date_display: this.formatDateTime(item.match_date)
+        }));
+        processed.forEach((processed, index)=>{
+          if(processed.id == this.data.matchId){
+            console.info(processed.match_date);
+            this.setData({
+              matchName: processed.name,
+              matchLocation: processed.location,
+              match_date: processed.match_date,
+              match_status: processed.status,
+              match_date_display: processed.match_date_display,
+              referee: processed.referee
+            });
+          }
+        });
+      },
+      fail: err => {
+        wx.showToast({ title: '获取失败', icon: 'error' });
+      }
+    });
   },
 
   /**
@@ -39,11 +77,12 @@ Page({
   formatDateTime(isoStr) {
     const date = new Date(isoStr);
     if (isNaN(date.getTime())) return isoStr;
-    const y = date.getFullYear();
-    const m = (date.getMonth() + 1).toString().padStart(2, '0');
-    const d = date.getDate().toString().padStart(2, '0');
-    const hh = date.getHours().toString().padStart(2, '0');
-    const mm = date.getMinutes().toString().padStart(2, '0');
+    const y = date.getUTCFullYear();
+    const m = (date.getUTCMonth() + 1).toString().padStart(2, '0');
+    const d = date.getUTCDate().toString().padStart(2, '0');
+    const hh = date.getUTCHours().toString().padStart(2, '0');
+    const mm = date.getUTCMinutes().toString().padStart(2, '0');
+    console.info(isoStr,hh);
     return `${y}-${m}-${d} ${hh}:${mm}`;
   },
 

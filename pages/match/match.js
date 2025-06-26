@@ -2,8 +2,6 @@ Page({
   data: {
     matches: [],
     searchKeyword: '', // 搜索关键词
-    isEdit: false,
-    currentTarget: {}
   },
 
   /**
@@ -14,25 +12,17 @@ Page({
   formatDateTime(isoStr) {
     const date = new Date(isoStr);
     if (isNaN(date.getTime())) return isoStr;
-    const y = date.getFullYear();
-    const m = (date.getMonth() + 1).toString().padStart(2, '0');
-    const d = date.getDate().toString().padStart(2, '0');
-    const hh = date.getHours().toString().padStart(2, '0');
-    const mm = date.getMinutes().toString().padStart(2, '0');
+    const y = date.getUTCFullYear();
+    const m = (date.getUTCMonth() + 1).toString().padStart(2, '0');
+    const d = date.getUTCDate().toString().padStart(2, '0');
+    const hh = date.getUTCHours().toString().padStart(2, '0');
+    const mm = date.getUTCMinutes().toString().padStart(2, '0');
     return `${y}-${m}-${d} ${hh}:${mm}`;
   },
 
-  onLoad(options) {
+  onLoad() {
     this.getMatches();
     const session = wx.getStorageSync('session') || {};
-
-    if(options){
-      const isEdit = options.isEdit;
-      this.setData({isEdit: isEdit});
-      if(isEdit){
-        this.goBackToDetailFromEdit();
-      }
-    }
   },
 
   /**
@@ -127,23 +117,6 @@ Page({
 
   goToDetail(e) {
     const {id, name, location, match_date, status, referee} = e.currentTarget.dataset;
-    this.setData({currentTarget: e.currentTarget});
-    // 编码特殊字符（防止URL解析错误）
-    const encodedName = encodeURIComponent(name);
-    const encodedLocation = encodeURIComponent(location);
-    const encodedDate = encodeURIComponent(match_date);
-    const encodeStatus = encodeURIComponent(status);
-    const encodeReferee = encodeURIComponent(referee);
-    wx.navigateTo({
-      url: `/pages/matchInfo/matchInfo?id=${id}&name=${encodedName}&location=${encodedLocation}&match_date=${encodedDate}&status=${encodeStatus}&referee=${encodeReferee}`
-    });
-  },
-
-  goBackToDetailFromEdit(){
-    const {id, name, location, match_date, status, referee} = this.data.currentTarget.dataset;
-    this.setData({
-      isEdit: false
-    });
     // 编码特殊字符（防止URL解析错误）
     const encodedName = encodeURIComponent(name);
     const encodedLocation = encodeURIComponent(location);

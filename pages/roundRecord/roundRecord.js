@@ -275,20 +275,11 @@ Page({
           this.syncStorageToServer();
           this.reset();
           this.setData({ currentSet: set });
-          //this.loadSetData(set);
           this.saveData();
           this.syncStorageToServer();
         }
       }
     })
-  },
-
-  // 加载对应局数据
-  loadSetData(set) {
-    const key = `set${set}`;
-    const saved = wx.getStorageSync(key);
-    console.info(saved);
-    if (saved) this.setData(saved);
   },
 
   // 输入绑定
