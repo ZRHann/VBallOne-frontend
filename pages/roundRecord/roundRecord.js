@@ -347,6 +347,8 @@ Page({
     wx.removeStorageSync('scoreBoardData');
     wx.removeStorageSync('lineup');
     wx.removeStorageSync('currentServeTeam');
+    wx.removeStorageSync('substitutionRecordsA');
+    wx.removeStorageSync('substitutionRecordsB');
     wx.navigateBack({
       delta: 1 // 返回上一页
     })
