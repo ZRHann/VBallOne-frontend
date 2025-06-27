@@ -40,11 +40,9 @@ Page({
       success: (res) => {
         const scoreBoardData = res.data.scoreBoardData;
         const lineup = res.data.roundRecordData.lineup;
-        console.info(lineup);
         if (scoreBoardData) {
           wx.setStorageSync('scoreBoardData', scoreBoardData);
           const savedData = wx.getStorageSync('scoreBoardData');
-          console.info(savedData);
           if (savedData) {
             this.setData({
               // 确保数组存在
@@ -59,7 +57,6 @@ Page({
           if (lineup) {
             wx.setStorageSync('lineup', lineup);
             const Lineup = wx. getStorageSync('lineup');
-            console.info(Lineup);
             this.setData({
               playersA: Lineup.fir_playersA,
               playersB: Lineup.fir_playersB,
