@@ -36,6 +36,7 @@ Page({
     const cur_serveteam = options.cur_serveteam || 'A';
     const fir_serveteam = options.fir_serveteam;
     const matchId = options.matchId;
+    console.info(fir_serveteam);
     if(options){
       this.setData({
         set: setFromUrl,
@@ -137,14 +138,15 @@ Page({
         serveA = team == 'A' ? (this.data.serveA % 6) +1 : serveA;
         serveB = team == 'B' ? (this.data.serveB % 6) +1 : serveB;
       }
-      if(this.data.scoreA[lastindex] == 0){
-        serveA = team == 'A' ? (this.data.serveA + 4)%6 +1  : this.data.serveA
-        serveB = team == 'B' ? (this.data.serveB + 4)%6 +1  : this.data.serveB
-      }
+      lastindex = lastindex +1;
     } else {
         // 撤销该队最后一次得分
         if(this.data.scoreA.length == 0){ 
           return ;
+        }
+        if(this.data.scoreA[lastindex] == 0){
+          serveA = team == 'A' ? (this.data.serveA + 4)%6 +1  : this.data.serveA
+          serveB = team == 'B' ? (this.data.serveB + 4)%6 +1  : this.data.serveB
         }
         if (this.data[field][lastindex] != 0) {
           this.data[field].pop();
@@ -163,6 +165,7 @@ Page({
             return ;
           }
         }
+        lastindex = lastindex -1;
     }
     if (this.data.scoreA.length == 0) {
       serveA = 1;
@@ -176,7 +179,7 @@ Page({
       isExchange: (scoreA >= 7 || scoreB >= 7) && this.data.set === 3,
       serveA: serveA,
       serveB: serveB,
-      cur_serveteam: this.data.scoreA[lastindex] == 0 ? (this.data.scoreB[lastindex] == 0 ? fir_serveteam : 'B' ): 'A' , 
+      cur_serveteam: this.data.scoreA.length == 0 ? this.data.fir_serveteam : (this.data.scoreA[lastindex] == 0 ? 'B' : 'A') , 
     });
     wx.vibrateShort({type: 'light'});
   },
@@ -224,8 +227,8 @@ Page({
     if (this.data[key] > 0){
       const newLog = {
         id: 3-this.data[key] == 1 ? '1st': '2nd',
-        scoreA: this.data.scoreA.length,
-        scoreB: this.data.scoreB.length
+        scoreA: this.data.lastScoreA,
+        scoreB: this.data.lastScoreB
       };
       const Logteam = `timeoutLogs${team}`;
       const existlog = this.data[Logteam] || [];
@@ -292,19 +295,20 @@ Page({
     timeoutLogsB: this.data.timeoutLogsB,
     set: this.data.set,
     isExchange: this.data.isExchange,
+    fir_serveteam: this.data.fir_serveteam,
     cur_serveteam: this.data.cur_serveteam,
     serveA: this.data.serveA,
     serveB: this.data.serveB,
     isover: this.data.isover
   };
     wx.setStorageSync('scoreBoardData', saveData);
+    this.saveBoardDataToServer();
     wx.navigateBack();
   },
 
   // 返回
   navigateBack() {
-    this.viewRound()
-    this.saveBoardDataToServer();
+    this.viewRound();
     return
   },
 
@@ -322,7 +326,6 @@ Page({
       header: getAuthHeader(),
       success: (res) => {
         const scoreBoardData = res.data.scoreBoardData;
-        console.info(res.data);
         if (scoreBoardData.set == this.data.set) {
           wx.setStorageSync('scoreBoardData', scoreBoardData);
           const savedData = wx.getStorageSync('scoreBoardData');

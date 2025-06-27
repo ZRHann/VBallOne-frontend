@@ -78,10 +78,14 @@ Page({
       header: getAuthHeader(),
       success: (res) => {
         const roundRecordData = res.data.roundRecordData;
+        const scoreBoardData = res.data.scoreBoardData;
         if (roundRecordData) {
           Object.keys(roundRecordData).forEach((key) => {
             wx.setStorageSync(key, roundRecordData[key]);
           });
+        }
+        if(scoreBoardData) {
+          wx.setStorageSync('scoreBoardData', scoreBoardData);
         }
 
         const saved = wx.getStorageSync('lineup');
@@ -91,7 +95,6 @@ Page({
         if (savedRecordsA) this.setData({substitutionRecordsA: savedRecordsA});
         if (savedRecordsB) this.setData({substitutionRecordsB: savedRecordsB});
 
-        const scoreBoardData = wx.getStorageSync('scoreBoardData');
         if (scoreBoardData) {
           this.setData({
             cur_serveteam: scoreBoardData.cur_serveteam,
