@@ -4,14 +4,12 @@
     "pages/register/register",
     "pages/match/match",
     "pages/user/user",
-    "pages/index/index",
     "pages/matchInfo/matchInfo",
     "pages/newMatch/newMatch",
     "pages/editMatch/editMatch",
     "pages/scoreBoard/scoreBoard",
     "pages/roundRecord/roundRecord",
-    "pages/viewMatchResults/viewMatchResults",
-    "pages/logs/logs"
+    "pages/viewMatchResults/viewMatchResults"
   ],
   "tabBar": {
     "color": "#666",
