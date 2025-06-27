@@ -241,6 +241,7 @@ Page({
     }
   },
 
+  // 取消暂停
   handleCancelPause() {
     wx.showModal({
       title: '提前结束暂停',
@@ -277,6 +278,7 @@ Page({
     this.data.timer = null;
   },
 
+  // 查看轮次
   viewRound() {
   // 保存当前数据
   const saveData = {
@@ -299,6 +301,7 @@ Page({
     wx.navigateBack();
   },
 
+  // 返回
   navigateBack() {
     this.viewRound()
     this.saveBoardDataToServer();
@@ -310,6 +313,7 @@ Page({
     this.clearTimer();
   },
 
+  // 从服务器加载数据
   loadBoardDataFromServer(){
     const matchId = this.data.matchId;
     wx.request({

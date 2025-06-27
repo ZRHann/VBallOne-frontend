@@ -292,6 +292,7 @@ Page({
     });
   },
 
+  // 打开翻分板
   startGame(){
     const fir_serveteam = this.data.fir_serveteam
     if(fir_serveteam == ''){
@@ -332,6 +333,7 @@ Page({
     });
   },
 
+  // 返回
   navigateBack() {
     this.syncStorageToServer();
     wx.removeStorageSync('scoreBoardData');

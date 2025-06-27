@@ -12,6 +12,7 @@ Page({
       this.fetchCurrentUser();
     },
 
+    // 处理输入
     onInput(e) {
       const field = e.currentTarget.dataset.field;
       this.setData({
@@ -19,6 +20,7 @@ Page({
       });
     },
 
+    // 获取创建人账号信息
     fetchCurrentUser() {
       wx.request({
         url: 'https://vballone.zrhan.top/api/users/me',
@@ -31,7 +33,8 @@ Page({
         }
       });
     },
-  
+    
+    // 创建比赛
     createMatch() {
       const { name, location, date, time, referee_username } = this.data;
   

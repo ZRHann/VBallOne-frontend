@@ -32,10 +32,12 @@ Page({
     this.getMatches();
   },
 
+  // 刷新信息显示
   onShow(){
     this.getMatches();
   },
 
+  // 网络请求获取比赛信息
   getMatches() {
     wx.request({
       url: 'https://vballone.zrhan.top/api/matches',
@@ -112,6 +114,7 @@ Page({
     });
   },
 
+  // 查看比赛结果
   handleview(){
     if (this.data.match_status == 'FINISHED'){
       wx.navigateTo({
@@ -127,6 +130,7 @@ Page({
     
   },
   
+  // 处理结束比赛
   handleover(){
     const session = wx.getStorageSync('session');
     const username = session.username;
@@ -155,6 +159,7 @@ Page({
     });
   },
 
+  // 处理开始比赛
   handleStartMatch(){
     const session = wx.getStorageSync('session');
     const username = session.username;

@@ -3,6 +3,7 @@ Page({
     isLoading: false
   },
 
+  // 处理注册
   handleRegister(e) {
     const { username, password, confirmPassword} = e.detail.value;
 

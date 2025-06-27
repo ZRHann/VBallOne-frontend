@@ -6,8 +6,6 @@ Page({
     canvasImage: null,
     sets: [
       { title: "第一局：", teamA: "A队", teamB: "B队" },
-      //{ title: "第二局：", teamA: "B队", teamB: "A队" },
-      //{ title: "第三局：", teamA: "B队", teamB: "A队" }
     ],
     lastScoreA: 0,
     lastScoreB: 0,
@@ -32,6 +30,7 @@ Page({
     this.generateScoreSheet();
   },
 
+  // 获取比赛数据
   getData(){
     const matchId = this.data.matchId;
     wx.request({
@@ -73,6 +72,7 @@ Page({
     });
   },
 
+  // 生成记分表
   generateScoreSheet() {
     const ctx = wx.createCanvasContext('scoreSheetCanvas');
     const padding = 10;
@@ -211,6 +211,7 @@ Page({
     }
   },
   
+  // 画比分网格
   drawPointGrid(ctx, x, y, pointA, pointB) {
     const cellWidth = 20;
     const cellHeight = 18;
@@ -257,6 +258,7 @@ Page({
     }
   },
 
+  // 画暂停表
   drawPauseGrid(ctx, x, y, timeouts) {
     const cellHeight = 30; // 每行高度
     const cellWidth = 120;  // 每列宽度
@@ -276,25 +278,7 @@ Page({
     }
   },
 
-  drawPauseGrid(ctx, x, y, timeouts) {
-    const cellHeight = 30; // 每行高度
-    const cellWidth = 120;  // 每列宽度
-    
-    // 3. 绘制数据行
-    for (let i = 0; i < 2; i++) {
-      const rowY = y  + cellHeight * i;
-      
-      // 绘制暂停标识列
-      ctx.strokeRect(x, rowY, cellWidth, cellHeight);
-      if (i < timeouts.length) {
-        ctx.fillText(timeouts[i].id , x + cellWidth/6, rowY + cellHeight/2 + 5);
-        ctx.fillText(timeouts[i].scoreA , x + cellWidth/2, rowY + cellHeight/2 + 5);
-        ctx.fillText(':' , x + cellWidth/2+20, rowY + cellHeight/2 + 5);
-        ctx.fillText(timeouts[i].scoreB, x + cellWidth-20, rowY + cellHeight/2 + 5);
-      }
-    }
-  },
-
+  // 画换人表格
   drawchangeGrid(ctx, x, y, substitution) {
     const cellHeight = 30; // 每行高度
     const cellWidth = 120;  // 每列宽度
