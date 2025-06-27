@@ -36,6 +36,7 @@ Page({
     }
   },
 
+  // 拉去比赛信息
   getMatches() {
     wx.request({
       url: 'https://vballone.zrhan.top/api/matches',
@@ -59,6 +60,7 @@ Page({
     });
   },
 
+  // 处理搜索输入
   onSearchInput: function(e){
     const keyword = e.detail.value;
     this.setData({
@@ -66,6 +68,7 @@ Page({
     });
   },
 
+  // 获取搜索数据
   onSearch(){
     const keyword = this.data.searchKeyword.trim().toLowerCase();
     if(keyword == ''){
@@ -106,6 +109,7 @@ Page({
     this.setData({ matches: filtered});
   },
 
+  // 清除搜索
   clearSearch(){
     console.info(1);
     this.setData({
@@ -115,6 +119,7 @@ Page({
     wx.hideKeyboard();
   },
 
+  // 查看详细比赛信息
   goToDetail(e) {
     const {id, name, location, match_date, status, referee} = e.currentTarget.dataset;
     // 编码特殊字符（防止URL解析错误）
@@ -128,6 +133,7 @@ Page({
     });
   },
 
+  // 新建比赛信息
   goToNewMatch() {
     const session = wx.getStorageSync('session');
     if (session.username) {
@@ -147,12 +153,14 @@ Page({
     }
   },
 
+  // 前往轮次记录
   goToScoreBoard(){
     wx.navigateTo({
       url: '/pages/roundRecord/roundRecord'
     });
   },
 
+  // 下拉更新
   onPullDownRefresh() {
     this.getMatches();
     wx.stopPullDownRefresh();

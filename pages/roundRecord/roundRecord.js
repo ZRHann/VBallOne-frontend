@@ -132,6 +132,7 @@ Page({
     });
   },
 
+  // 添加换人记录
   showAddForm: function(e){
     const currentTeam = e.currentTarget.dataset.currentTeam;
     const key =  `isFormShow${currentTeam}`;
@@ -152,6 +153,7 @@ Page({
     });
   },
 
+  // 隐藏换人表单
   hideAddForm(){
     const currentTeam =this.data.currentTeam;
     const key = `isFormShow${currentTeam}`;
@@ -160,6 +162,7 @@ Page({
     });
   },
 
+  // 换下的队员
   outChange: function(e){
     const index = e.detail.value;
     const currentTeam = this.data.currentTeam;
@@ -170,11 +173,13 @@ Page({
     });
   },
 
+  // 换上场的队员
   inChange(e){
     const inPlayer = e.detail.value;
     this.setData({inPlayer: inPlayer});
   },
 
+  // 添加换人日志
   addSubstitution(){
     const { outPlayer, inPlayer, changeIndex} =this.data;
 
