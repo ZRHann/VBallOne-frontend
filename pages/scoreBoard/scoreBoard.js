@@ -36,7 +36,7 @@ Page({
     const cur_serveteam = options.cur_serveteam || 'A';
     const fir_serveteam = options.fir_serveteam;
     const matchId = options.matchId;
-    console.info(fir_serveteam);
+    
     if(options){
       this.setData({
         set: setFromUrl,

@@ -39,29 +39,18 @@ Page({
 
   // 网络请求获取比赛信息
   getMatches() {
+    const matchId = this.data.matchId
     wx.request({
-      url: 'https://vballone.zrhan.top/api/matches',
+      url: `https://vballone.zrhan.top/api/matches/${matchId}`,
       method: 'GET',
-      data:{
-        page: 1,
-        size: 10
-      },
       success: res => {
-        const processed = res.data.map(item => ({
-          ...item,
-          match_date_display: this.formatDateTime(item.match_date)
-        }));
-        processed.forEach((processed, index)=>{
-          if(processed.id == this.data.matchId){
-            this.setData({
-              matchName: processed.name,
-              matchLocation: processed.location,
-              match_date: processed.match_date,
-              match_status: processed.status,
-              match_date_display: processed.match_date_display,
-              referee: processed.referee
-            });
-          }
+        const match_date_display = this.formatDateTime(res.data.match_date);
+        this.setData({
+          matchName: res.data.name,
+          matchLocation: res.data.location,
+          match_date: res.data.match_date,
+          match_date_display: match_date_display,
+          referee: res.data.referee
         });
       },
       fail: err => {

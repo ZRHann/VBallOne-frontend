@@ -24,7 +24,7 @@
   padding: 4px 8px;
   border-radius: 18rpx;
   height: 40rpx;
-  top: 160rpx;
+  top: 166rpx;
   right: 180rpx;
   z-index: 2;
   line-height: 15rpx;
