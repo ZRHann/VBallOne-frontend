@@ -100,7 +100,6 @@ Page({
             cur_serveteam: scoreBoardData.cur_serveteam,
             serveA: scoreBoardData.serveA,
             serveB: scoreBoardData.serveB,
-            [`isBegin[${this.data.currentSet}]`]: scoreBoardData.isover ? false : true,
             pauseA: scoreBoardData.timeoutLogsA,
             pauseB: scoreBoardData.timeoutLogsB
           });
